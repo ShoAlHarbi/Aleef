@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { StyleSheet, Button, View, Text, TextInput, Image } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignUpScreen from './SignUpScreen';
 import index from './index';
 import LogInScreen from './LogInScreen';
+import Homepage from './Homepage';
 import { color } from 'react-native-reanimated';
 
 
@@ -22,21 +23,29 @@ function App() {
           headerStyle: {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
-
           },
         }} name="تسجيل جديد" component={SignUpScreen} />
-        <Stack.Screen
 
+        <Stack.Screen
           backgroundColor='#FFFCFC'
           options={{
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: '#FFFCFC',
-              shadowColor: '#FFFCFC',
+          headerShown: true,
+          headerStyle: {
+          backgroundColor: '#FFFCFC',
+          shadowColor: '#FFFCFC',
+          },
+      }} name="تسجيل الدخول" component={LogInScreen} />
 
-            },
-
-          }} name="تسجيل الدخول" component={LogInScreen} />
+      <Stack.Screen
+       backgroundColor='#FFFCFC'
+       options={{
+       headerShown: false,
+       headerStyle: {
+       backgroundColor: '#FFFCFC',
+      shadowColor: '#FFFCFC',
+      },
+      }} name="الصفحة الرئيسية" component={Homepage} />
+      
       </Stack.Navigator>
     </NavigationContainer>
   );
