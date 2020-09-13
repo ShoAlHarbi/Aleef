@@ -1,44 +1,53 @@
-// App.js
-
-import React from 'react';
+import * as React from 'react';
+import { StyleSheet, Button, View, Text, TextInput, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SignUpScreen from './SignUpScreen';
+import index from './index';
+import LogInScreen from './LogInScreen';
+import { color } from 'react-native-reanimated';
 
-import First from './screens/First';
-import signUp from './screens/signUp';
 
 const Stack = createStackNavigator();
 
-function NavStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: '#621FF7',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-    >
-      <Stack.Screen
-        name="First"
-        component={First}
-      />
-      <Stack.Screen
-        name="signUp"
-        component={signUp}
-      />
-    </Stack.Navigator>
-  );
-}
-
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
-      <NavStack />
+      <Stack.Navigator initialRouteName="index">
+        <Stack.Screen options={{
+          headerShown: false
+        }} name="مرحباً في أليف" component={index} />
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+
+          },
+        }} name="تسجيل جديد" component={SignUpScreen} />
+        <Stack.Screen
+
+          backgroundColor='#FFFCFC'
+          options={{
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#FFFCFC',
+              shadowColor: '#FFFCFC',
+
+            },
+
+          }} name="تسجيل الدخول" component={LogInScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFCFC',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default App;
