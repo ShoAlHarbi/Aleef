@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 
-export default function SignUpScreen() {
+export default function SignUpScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <View >
@@ -40,8 +40,9 @@ export default function SignUpScreen() {
                 secureTextEntry={true}
                 style={styles.inputField}
             />
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.textStyle}>تسجيل</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('الصفحة الرئيسية')} 
+             style={styles.button}>
+             <Text style={styles.textStyle}>تسجيل</Text>
             </TouchableOpacity>
 
 
