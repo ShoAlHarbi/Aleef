@@ -1,8 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
+import firebase from './firebase';
 
-export default function LogInScreen({ navigation }) {
+export default class LogInScreen extends Component {
+    constructor() {
+        super();
+        this.state = { 
+          email: '', 
+          password: '',
+          username: '', 
+          isLoading: false
+        }
+      }
+    
+      updateInputVal = (val, prop) => {
+        const state = this.state;
+        state[prop] = val;
+        this.setState(state);
+      }
+    
+      userLogin = () => {
+        if(this.state.email === '' || this.state.password === '') {
+          Alert.alert('الرجاء تعبئة جميع الخانات')
+        } else {
+          this.setState({
+            isLoading: true,
+          })
+          firebase
+          .auth()
+          .signInWithEmailAndPassword(this.state.email, this.state.password)
+          .then((res) => {
+            console.log(res)
+            console.log('تم تسجيل الخروج بنجاح')
+            this.setState({
+              isLoading: false,
+              email: '', 
+              password: ''
+            })
+            this.props.navigation.navigate('الصفحة الرئيسية')
+          })
+          .catch(error => this.setState({ errorMessage: error.message }))
+        }
+      }
+    
+      render() {
+        if(this.state.isLoading){
+          return(
+            <View style={styles.preloader}>
+              <ActivityIndicator size="large" color="#9E9E9E"/>
+            </View>
+          )
+        }   
+    
     return (
         <View style={styles.container}>
             <Image
@@ -10,23 +60,30 @@ export default function LogInScreen({ navigation }) {
                 source={require('./assets/AleefLogo.png')}
             />
             <TextInput
-                placeholder="اسم المستخدم"
+                placeholder="الايميل"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}
+                value={this.state.email}
+                onChangeText={(val) => this.updateInputVal(val, 'email')}
+       
             />
             <TextInput
                 placeholder="كلمة المرور"
                 placeholderTextColor="#a3a3a3"
-                secureTextEntry={true}
                 style={styles.inputField}
+                value={this.state.password}
+                onChangeText={(val) => this.updateInputVal(val, 'password')}
+                maxLength={15}
+                secureTextEntry={true}
             />
-            <TouchableOpacity onPress={() => navigation.navigate('الصفحة الرئيسية')} 
+            <TouchableOpacity onPress={() => this.userLogin()}
               style={styles.button}>
               <Text style={styles.textStyle}>تسجيل دخول</Text>
             </TouchableOpacity>
 
         </View>
     );
+}
 }
 
 const styles = StyleSheet.create({

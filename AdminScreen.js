@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import firebase from './firebase';
 
-export default class Homepage extends Component {
+export default class AdminScreen extends Component {
         constructor() {
           super();
           this.state = { 

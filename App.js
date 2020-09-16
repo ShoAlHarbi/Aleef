@@ -18,6 +18,7 @@ function App() {
         <Stack.Screen options={{
           headerShown: false
         }} name="مرحباً في أليف" component={index} />
+        
         <Stack.Screen options={{
           headerShown: true,
           headerStyle: {
