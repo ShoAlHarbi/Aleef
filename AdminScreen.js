@@ -27,7 +27,7 @@ export default class AdminScreen extends Component {
                         style={{ width: 130, height: 130, marginBottom:260, }}
                         source={require('./assets/AleefLogo.png')}
                     />
-                    <View><Text style={styles.text}> {this.state.displayName} مرحباً</Text></View>
+                    <View><Text style={styles.text}> {this.state.displayName}مرحباً في لوحة التحكم </Text></View>
                     <TouchableOpacity onPress={() => this.signOut()}
                        style={styles.button}>
                        <Text style={styles.textStyle}>تسجيل الخروج</Text>

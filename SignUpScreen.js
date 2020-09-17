@@ -14,8 +14,8 @@ export default class SignUpScreen extends Component {
           password: '',
           confirmPassord:'',
           isLoading: false,
-          userid: ''
-        }
+          userid: '',
+        }        
       }
       
   updateInputVal = (val, prop) => {
@@ -31,6 +31,7 @@ export default class SignUpScreen extends Component {
 
     const Usernameexpression = /^[a-zA-Z0-9]+$/; 
     const Usernamecheck = Usernameexpression.test(this.state.username); 
+
 
     if(this.state.email === '' || this.state.password === '' || this.state.username === ''|| this.state.name === '' || this.state.confirmPassord === '') {
       Alert.alert('يجب تعبئة جميع الحقول')
@@ -69,9 +70,10 @@ export default class SignUpScreen extends Component {
       }
       )
       .catch((error) => {
-        console.log(error.message)
-        this.setState({formErrorMsg: 'البريد الإلكتروني مسجل مسبقًا، قم بتسجيل الدخول'})
-        //this.setState({errorMsgVisibilty: 'flex'})
+        Alert.alert("البريد الإلكتروني مسجل مسبقا، قم بتسجيل الدخول")
+        this.setState({
+          isLoading: false,
+        })
       })   
     }
   }

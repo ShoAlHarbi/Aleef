@@ -7,6 +7,7 @@ import index from './index';
 import LogInScreen from './LogInScreen';
 import Homepage from './Homepage';
 import { color } from 'react-native-reanimated';
+import AdminScreen from './AdminScreen';
 
 
 const Stack = createStackNavigator();
@@ -46,6 +47,17 @@ function App() {
       shadowColor: '#FFFCFC',
       },
       }} name="الصفحة الرئيسية" component={Homepage} />
+
+
+      <Stack.Screen
+       backgroundColor='#FFFCFC'
+       options={{
+       headerShown: false,
+       headerStyle: {
+       backgroundColor: '#FFFCFC',
+      shadowColor: '#FFFCFC',
+      },
+      }} name="لوحة التحكم" component={AdminScreen} />
       
       </Stack.Navigator>
     </NavigationContainer>
