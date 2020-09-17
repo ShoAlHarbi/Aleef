@@ -29,8 +29,8 @@ export default class SignUpScreen extends Component {
     const Emailexpression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     const Emailcheck = Emailexpression.test(String(this.state.email).toLowerCase()); 
 
-    const Usernameexpression = /^A-Za-z0-9/; 
-    const Usernamecheck = Usernameexpression.test(String(this.state.username).toLowerCase()); 
+    const Usernameexpression = /^[a-zA-Z0-9]+$/; 
+    const Usernamecheck = Usernameexpression.test(this.state.username); 
 
     if(this.state.email === '' || this.state.password === '' || this.state.username === ''|| this.state.name === '' || this.state.confirmPassord === '') {
       Alert.alert('يجب تعبئة جميع الحقول')
@@ -47,11 +47,10 @@ export default class SignUpScreen extends Component {
       this.setState({
         isLoading: true,
       })
-
+      
       firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-//---
       .then( (data) => {
       firebase.auth().onAuthStateChanged( user => {
         if (user) {
@@ -72,7 +71,7 @@ export default class SignUpScreen extends Component {
       .catch((error) => {
         console.log(error.message)
         this.setState({formErrorMsg: 'البريد الإلكتروني مسجل مسبقًا، قم بتسجيل الدخول'})
-        this.setState({errorMsgVisibilty: 'flex'})
+        //this.setState({errorMsgVisibilty: 'flex'})
       })   
     }
   }
