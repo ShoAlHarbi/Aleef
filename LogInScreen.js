@@ -25,7 +25,7 @@ export default class LogInScreen extends Component {
         const Emailcheck = Emailexpression.test(String(this.state.email).toLowerCase()); 
        
         if(this.state.email === '' || this.state.password === '') {
-          Alert.alert('الرجاء تعبئة جميع الخانات')
+          Alert.alert('الرجاء تعبئة جميع الحقول')
         } else if (Emailcheck === false){
           Alert.alert('الرجاء ادخال البريد الإلكتروني بصيغة صحيحة')
         } else {

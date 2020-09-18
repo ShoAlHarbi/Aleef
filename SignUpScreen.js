@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
 import firebase from './firebase';
 
-
 export default class SignUpScreen extends Component {
     constructor() {
         super();
@@ -31,7 +30,6 @@ export default class SignUpScreen extends Component {
 
     const Usernameexpression = /^[a-zA-Z0-9]+$/; 
     const Usernamecheck = Usernameexpression.test(this.state.username); 
-
 
     if(this.state.email === '' || this.state.password === '' || this.state.username === ''|| this.state.name === '' || this.state.confirmPassord === '') {
       Alert.alert('يجب تعبئة جميع الحقول')
@@ -70,9 +68,18 @@ export default class SignUpScreen extends Component {
       }
       )
       .catch((error) => {
-        Alert.alert("البريد الإلكتروني مسجل مسبقا، قم بتسجيل الدخول")
-        this.setState({
-          isLoading: false,
+       //Here is change:
+        //--------------------------------------------------------------
+        firebase.database().ref("account").orderByChild("username").equalTo(this.state.username).once("value",snapshot => {
+          if (snapshot.exists()){
+          Alert.alert('اسم المستخدم مسجل مسبقا،يرجى اختيار اسم اخر')}
+          else {
+            Alert.alert("البريد الإلكتروني مسجل مسبقا، قم بتسجيل الدخول")
+          } 
+          });
+          this.setState({
+            isLoading: false,
+        //-------------------------------------------------------------
         })
       })   
     }
@@ -138,7 +145,6 @@ export default class SignUpScreen extends Component {
              style={styles.button}>
              <Text style={styles.textStyle}>تسجيل</Text>
             </TouchableOpacity>
-
 
         </View>
     );
