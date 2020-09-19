@@ -103,7 +103,7 @@ export default class SignUpScreen extends Component {
             </View>
 
             <TextInput
-                placeholder="* الاسم"
+                placeholder="*الاسم"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}
                 value={this.state.displayName}
@@ -111,14 +111,14 @@ export default class SignUpScreen extends Component {
                 maxLength={20} 
             />
             <TextInput
-                placeholder="* اسم المستخدم"
+                placeholder="*اسم المستخدم"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}value={this.state.username}
                 onChangeText={(val) => this.updateInputVal(val, 'username')}
                 maxLength={10} 
             />
             <TextInput
-                placeholder="* البريد الالكتروني"
+                placeholder="*البريد الإلكتروني"
                 placeholderTextColor="#a3a3a3"
                 keyboardType='email-address'
                 style={styles.inputField}
@@ -126,7 +126,7 @@ export default class SignUpScreen extends Component {
                 onChangeText={(val) => this.updateInputVal(val, 'email')}
             />
             <TextInput
-                placeholder="كلمة المرور *"
+                placeholder="*كلمة المرور"
                 placeholderTextColor="#a3a3a3"
                 secureTextEntry={true}
                 style={styles.inputField}
@@ -134,7 +134,7 @@ export default class SignUpScreen extends Component {
                 onChangeText={(val) => this.updateInputVal(val, 'password')}
             />
             <TextInput
-                placeholder="تأكيد كلمة المرور *"
+                placeholder="*تأكيد كلمة المرور"
                 placeholderTextColor="#a3a3a3"
                 secureTextEntry={true}
                 style={styles.inputField}
