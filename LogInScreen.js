@@ -79,7 +79,7 @@ export default class LogInScreen extends Component {
                 source={require('./assets/AleefLogo.png')}
             />
             <TextInput
-                placeholder="* البريد الإلكتروني"
+                placeholder="*البريد الإلكتروني"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}
                 value={this.state.email}
@@ -87,7 +87,7 @@ export default class LogInScreen extends Component {
        
             />
             <TextInput
-                placeholder="كلمة المرور *"
+                placeholder="*كلمة المرور"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}
                 value={this.state.password}
