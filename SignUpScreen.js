@@ -31,7 +31,7 @@ export default class SignUpScreen extends Component {
     const Usernameexpression = /^[a-zA-Z0-9]+$/; 
     const Usernamecheck = Usernameexpression.test(this.state.username); 
 
-    if(this.state.email === '' || this.state.password === '' || this.state.username === ''|| this.state.name === '' || this.state.confirmPassord === '') {
+    if(this.state.email === '' || this.state.password === '' || this.state.username === ''|| this.state.displayName === '' || this.state.confirmPassord === '') {
       Alert.alert('يجب تعبئة جميع الحقول')
     } else if (Usernamecheck === false) {
       Alert.alert('يجب أن يحتوي اسم المستخدم على حروف أو حروف وأرقام انجليزية فقط')
@@ -103,7 +103,7 @@ export default class SignUpScreen extends Component {
             </View>
 
             <TextInput
-                placeholder="الاسم"
+                placeholder="* الاسم"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}
                 value={this.state.displayName}
@@ -111,14 +111,14 @@ export default class SignUpScreen extends Component {
                 maxLength={20} 
             />
             <TextInput
-                placeholder="اسم المستخدم"
+                placeholder="* اسم المستخدم"
                 placeholderTextColor="#a3a3a3"
                 style={styles.inputField}value={this.state.username}
                 onChangeText={(val) => this.updateInputVal(val, 'username')}
                 maxLength={10} 
             />
             <TextInput
-                placeholder="البريد الالكتروني"
+                placeholder="* البريد الالكتروني"
                 placeholderTextColor="#a3a3a3"
                 keyboardType='email-address'
                 style={styles.inputField}
@@ -126,7 +126,7 @@ export default class SignUpScreen extends Component {
                 onChangeText={(val) => this.updateInputVal(val, 'email')}
             />
             <TextInput
-                placeholder="كلمة المرور"
+                placeholder="كلمة المرور *"
                 placeholderTextColor="#a3a3a3"
                 secureTextEntry={true}
                 style={styles.inputField}
@@ -134,7 +134,7 @@ export default class SignUpScreen extends Component {
                 onChangeText={(val) => this.updateInputVal(val, 'password')}
             />
             <TextInput
-                placeholder="تأكيد كلمة المرور"
+                placeholder="تأكيد كلمة المرور *"
                 placeholderTextColor="#a3a3a3"
                 secureTextEntry={true}
                 style={styles.inputField}
