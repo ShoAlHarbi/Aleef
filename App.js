@@ -8,6 +8,7 @@ import LogInScreen from './LogInScreen';
 import Homepage from './Homepage';
 import { color } from 'react-native-reanimated';
 import AdminScreen from './AdminScreen';
+import forgetPassword from './forgetPassword'
 
 
 const Stack = createStackNavigator();
@@ -58,9 +59,17 @@ function App() {
       shadowColor: '#FFFCFC',
       },
       }} name="لوحة التحكم" component={AdminScreen} />
-      
+
+          <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="نسيت كلمة المرور" component={forgetPassword} />  
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 const styles = StyleSheet.create({
