@@ -25,13 +25,9 @@ export default class LogInScreen extends Component {
     const Emailcheck = Emailexpression.test(String(this.state.email).toLowerCase());
 
     if (this.state.email === '' || this.state.password === '') {
-      Alert.alert('', 'الرجاء تعبئة جميع الحقول',
-        [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-      )
+      Alert.alert('', 'الرجاء تعبئة جميع الحقول',[{ text: 'حسناً'}])
     } else if (Emailcheck === false) {
-      Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',
-        [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-      )
+      Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
     } else {
       this.setState({
         isLoading: true,
@@ -58,9 +54,7 @@ export default class LogInScreen extends Component {
         //.catch(error => this.setState({ errorMessage: error.message }))
         //-------------------------
         .catch((error) => {
-          Alert.alert('', "البريد الإلكتروني أو كلمة المرور خاطئة",
-            [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-          )
+          Alert.alert('', "البريد الإلكتروني أو كلمة المرور خاطئة",[{ text: 'حسناً'}])
           this.setState({
             isLoading: false,
           })
@@ -68,7 +62,9 @@ export default class LogInScreen extends Component {
       //-------------------------------
     }
   }
-
+   //Forget password 
+   ForgetPassword = () => this.props.navigation.navigate('نسيت كلمة المرور')
+   //----------------
   render() {
     if (this.state.isLoading) {
       return (
@@ -110,7 +106,11 @@ export default class LogInScreen extends Component {
           style={styles.button}>
           <Text style={styles.textStyle}>تسجيل دخول</Text>
         </TouchableOpacity>
-
+      
+        <TouchableOpacity onPress={()=> this.ForgetPassword()}
+            style={styles.button2}>
+            <Text style={styles.textStyle2}>نسيت كلمة المرور؟</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -130,17 +130,27 @@ const styles = StyleSheet.create({
     width: 250,
     alignItems: "center",
     marginTop: 40,
-    marginBottom: 85,
+    marginBottom: 15,
     borderRadius: 20,
 
   },
-
+  button2: {
+    backgroundColor: '#FFFCFC',
+    padding: 10,
+    width: 250,
+    alignItems: "center",
+    marginBottom: 100,
+    borderRadius: 20,
+  },
   textStyle: {
     color: 'white',
     fontSize: 17,
     fontWeight: 'bold',
   },
-
+  textStyle2: {
+    color: '#5F5F5F',
+    fontSize: 17,
+  },
   inputField: {
     borderWidth: .5,
     width: 250,
