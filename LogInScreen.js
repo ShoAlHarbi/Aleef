@@ -95,6 +95,11 @@ export default class LogInScreen extends Component {
                 maxLength={15}
                 secureTextEntry={true}
             />
+
+            <View>
+            <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
+            </View>
+
             <TouchableOpacity onPress={() => this.userLogin()}
               style={styles.button}>
               <Text style={styles.textStyle}>تسجيل دخول</Text>
@@ -140,5 +145,10 @@ const styles = StyleSheet.create({
         padding: 2,
         margin: 5,
 
-    }
+    },
+    mandatoryTextStyle: {
+      color: 'red',
+      fontSize: 13,
+      marginTop: 5,
+  },
 });
