@@ -31,21 +31,13 @@ export default class SignUpScreen extends Component {
     const Passcheck = strongPass.test(this.state.password);
 
     if (this.state.email === '' || this.state.password.trim() === '' || this.state.displayName.trim() === '' || this.state.confirmPassord.trim() === '') {
-      Alert.alert('', 'يجب تعبئة جميع الحقول',
-        [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-      )
+      Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])
     } else if (Emailcheck === false) {
-      Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',
-        [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-      )
+      Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
     } else if (Passcheck === false) {
-      Alert.alert('', 'يجب ان تتكون كلمة المرور من 8 خانات أو أكثر وحرف انجليزي كبير وحرف انجليزي صغير على الأقل',
-        [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-      )
+      Alert.alert('', 'يجب ان تتكون كلمة المرور من 8 خانات أو أكثر وحرف انجليزي كبير وحرف انجليزي صغير على الأقل',[{ text: 'حسناً'}])
     } else if (this.state.password !== this.state.confirmPassord) {
-      Alert.alert('', 'كلمتا المرور غير متطابقتان. الرجاء إعادة الإدخال',
-        [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }],
-      )
+      Alert.alert('', 'كلمتا المرور غير متطابقتان. الرجاء إعادة الإدخال',[{ text: 'حسناً'}])
     }
     else {
       this.setState({
@@ -74,8 +66,7 @@ export default class SignUpScreen extends Component {
         .catch((error) => {
           firebase.database().ref("account").orderByChild("Email").equalTo(this.state.email).once("value", snapshot => {
             if (snapshot.exists()) {
-              Alert.alert('', 'البريد الإلكتروني مسجل مسبقاً، قم بتسجيل الدخول',
-                [{ text: 'حسناً', onPress: () => { console.log('Ok pressed.') } }])
+              Alert.alert('', 'البريد الإلكتروني مسجل مسبقاً، قم بتسجيل الدخول',[{ text: 'حسناً'}])
             }
           });
           this.setState({
