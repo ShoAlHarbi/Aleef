@@ -2,12 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import firebase from './firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 export default class Homepage extends Component {
         constructor() {
           super();
           this.state = { 
-            uid: ''
+            uid: '',
+            displayName: ''
           }
         }
         signOut = () => {
@@ -16,35 +19,48 @@ export default class Homepage extends Component {
             })
             .catch(error => this.setState({ errorMessage: error.message }))
           }  
+          AdoptionOffers = () => this.props.navigation.navigate('عروض التبني')
         render(){
             this.state = { 
-                displayName: firebase.auth().currentUser.displayName,
+              displayName: firebase.auth().currentUser.displayName,
                 uid: firebase.auth().currentUser.uid
               }  
               return (
                 <View style={styles.container}>
-                    <Image
-                        style={{ width: 130, height: 130, marginBottom:260, }}
-                        source={require('./assets/AleefLogo.png')}
-                    />
-                    <View><Text style={styles.text}> {this.state.displayName} مرحباً</Text></View>
-                    <TouchableOpacity onPress={() => this.signOut()}
+                  <View style={styles.container2}>
+                  <View><TouchableOpacity  onPress={() => this.signOut()} style={styles.button2}>
+                      <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#5F5F5F"}/>
+                    </TouchableOpacity>
+                  </View>
+                  <View><Image
+                        style={{ width: 50, height: 50,marginBottom:100, marginRight:160,}}
+                        source={require('./assets/AleefLogoCat.png')}/>
+                  </View>
+                  </View>
+
+                    <TouchableOpacity onPress={() => this.AdoptionOffers()}
                        style={styles.button}>
-                       <Text style={styles.textStyle}>تسجيل الخروج</Text>
+                    <Text style={styles.textStyle}>عروض التبني</Text>
                     </TouchableOpacity>
                 </View>
             );
         } 
         }
-    
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#FFFCFC',
         alignItems: 'center',
         justifyContent: 'center',
+        flex: 1,
     },
+    container2: {
+      backgroundColor: '#FFFCFC',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
+      flexDirection: 'row'
+  },
     textStyle:{
         color: 'white',
         fontSize: 17,
@@ -61,9 +77,15 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 150,
         alignItems: "center",
-        marginTop: 40,
-        marginBottom: 150,
+        marginTop: 10,
+        marginBottom: 400,
         borderRadius: 20,
 
-    }
+    },
+    button2: {
+      padding: 8,
+      width: 140,
+      marginLeft: 55,
+      marginBottom:100
+  }
 });
