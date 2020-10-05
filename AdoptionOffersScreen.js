@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 import firebase from './firebase';
 
 var AdoptionPostsData= [];
+var userName='';
 export default class AdoptionOffersScreen extends Component {
         constructor(props) {
           super(props);
@@ -30,16 +31,19 @@ export default class AdoptionOffersScreen extends Component {
                 var AniAge= post[postInfo].AnimalAge; 
                 var AniCity= post[postInfo].City; 
                 var AniPic= post[postInfo].PetPicture; 
+                var UserName = post[postInfo].uName; 
                 //----------------Adoption Posts Array-----------------------
                 AdoptionPostsData[i]={
+                  User: userName,
                   AnimalType: AniType,
                   AnimalSex: AniSex,
                   AnimalAge: AniAge,
                   AnimalCity: AniCity,
-                  AnimalPic: AniPic
-                }
+                  AnimalPic: AniPic,
+                  Name: UserName
+                }  
               }         
-            });
+            });         
             return AdoptionPostsData.map(element => {
               return (
                 <View style={{ marginBottom:30}}>
@@ -47,6 +51,7 @@ export default class AdoptionOffersScreen extends Component {
                   <View>
                   <Image style={{ width: 280, height: 180 }}
                     source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                   <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>

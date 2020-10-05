@@ -4,8 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import uuid from 'react-native-uuid';
 import firebase from './firebase'
-
 console.disableYellowBox = true;
+var Name='';
 export default class AdoptionUpload extends Component {
   constructor() {
     super();
@@ -14,10 +14,10 @@ export default class AdoptionUpload extends Component {
       AnimalSex: '',
       AnimalAge:'',
       City:'',
+     
       userId:'',
       userID: firebase.auth().currentUser.uid,
       UserName: '',
-      userName: firebase.auth().currentUser.displayName,
       PetImage: null,
       uploading: false,
     }
@@ -110,18 +110,20 @@ export default class AdoptionUpload extends Component {
     );
   };
 
-
   PublishAdoptionPost = () => {
-    firebase.database().ref('AdoptionPosts/').push().set(
-       {
-        AnimalType: this.state.AnimalType,
-        AnimalSex: this.state.AnimalSex,
-        AnimalAge: this.state.AnimalAge,
-        City: this.state.City,
-        PetPicture: this.state.PetImage,
-        userId: this.state.userID,
-        UserName: this.state.userName
-       })
+    firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
+     Name= snapshot.val().name
+     firebase.database().ref('AdoptionPosts/').push().set(
+      {
+       AnimalType: this.state.AnimalType,
+       AnimalSex: this.state.AnimalSex,
+       AnimalAge: this.state.AnimalAge,
+       City: this.state.City,
+       PetPicture: this.state.PetImage,
+       userId: this.state.userID,
+       uName: Name
+      })
+     })
     }
 
   render(){ 
