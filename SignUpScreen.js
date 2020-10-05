@@ -30,7 +30,7 @@ export default class SignUpScreen extends Component {
     const strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
     const Passcheck = strongPass.test(this.state.password);
 
-    if (this.state.email === '' || this.state.password.trim() === '' || this.state.displayName.trim() === '' || this.state.confirmPassord.trim() === '') {
+    if (this.state.email.trim() === '' || this.state.password.trim() === '' || this.state.displayName.trim() === '' || this.state.confirmPassord.trim() === '') {
       Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])
     } else if (Emailcheck === false) {
       Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
