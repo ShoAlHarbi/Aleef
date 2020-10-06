@@ -44,10 +44,11 @@ export default class AdoptionOffersScreen extends Component {
                 }  
               }         
             });         
+
+             
             return AdoptionPostsData.map(element => {
               return (
                 <View style={{ marginBottom:30}}>
-                  <ScrollView>
                   <View>
                   <Image style={{ width: 280, height: 180 }}
                     source={{uri: element.AnimalPic}}/>
@@ -57,7 +58,6 @@ export default class AdoptionOffersScreen extends Component {
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                   <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                 </View>
-                </ScrollView>
                 </View>
                 
               );
@@ -65,8 +65,8 @@ export default class AdoptionOffersScreen extends Component {
         }
         render(){ 
               return (
-                <View style={styles.container}>
-                   <ScrollView>
+                <ScrollView>
+                <View style={styles.container}>                   
                   <View style={styles.container2}>
                   <View><Image
                         style={{ width: 50, height: 50,marginBottom:10, marginTop:10 }}
@@ -77,9 +77,9 @@ export default class AdoptionOffersScreen extends Component {
                        style={styles.button}>
                     <Text style={styles.textStyle}>رفع منشور التبني</Text>
                     </TouchableOpacity>
-                    {this.readPostData()}
-                    </ScrollView>
+                  {this.readPostData()}
                 </View>
+                </ScrollView>
             );
         } 
         }
