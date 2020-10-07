@@ -43,8 +43,8 @@ export default class AdoptionOffersScreen extends Component {
             return AdoptionPostsData.map(element => {
               return (
                 <View style={{ marginBottom:30}}>
-                  <View>
-                  <Image style={{ width: 280, height: 180 }}
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12 }}
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
     text:{
         color:'black',
         fontSize: 17,
-        
+        marginRight:12,
+        marginBottom:5,
     },
 
     button: {
@@ -118,6 +119,19 @@ const styles = StyleSheet.create({
       width: 115,
       marginLeft: 80,
       marginBottom:200
+  },
+  Post:{
+  backgroundColor:'white',
+    shadowColor: "#000",
+    shadowOffset: {
+	  width: 0,
+   	height: 1,
+    },
+  shadowOpacity: 0.22,
+  shadowRadius: 2.22,
+  elevation: 3,
+  borderRadius: 15,
+  width:310
   }
 });
 
