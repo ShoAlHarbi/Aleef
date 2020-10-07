@@ -20,6 +20,7 @@ export default class Homepage extends Component {
             .catch(error => this.setState({ errorMessage: error.message }))
           }  
           AdoptionOffers = () => this.props.navigation.navigate('عروض التبني')
+         SellingOffers = () => this.props.navigation.navigate('عروض البيع')
         render(){
             this.state = { 
               displayName: firebase.auth().currentUser.displayName,
@@ -37,11 +38,18 @@ export default class Homepage extends Component {
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
-
-                    <TouchableOpacity onPress={() => this.AdoptionOffers()}
+                   <View style={styles.container3}>
+                   <TouchableOpacity onPress={() => this.AdoptionOffers()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>عروض التبني</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => this.SellingOffers()}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>عروض البيع</Text>
+                    </TouchableOpacity>
+                   </View>
+                
                 </View>
             );
         } 
@@ -61,6 +69,14 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row'
   },
+  container3: {
+    backgroundColor: '#FFFCFC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    marginBottom: 200,
+},
     textStyle:{
         color: 'white',
         fontSize: 17,
@@ -78,7 +94,7 @@ const styles = StyleSheet.create({
         width: 150,
         alignItems: "center",
         marginTop: 10,
-        marginBottom: 400,
+        marginBottom: 80,
         borderRadius: 20,
 
     },
@@ -86,6 +102,6 @@ const styles = StyleSheet.create({
       padding: 8,
       width: 140,
       marginLeft: 55,
-      marginBottom:100
+      marginBottom: 100,
   }
 });

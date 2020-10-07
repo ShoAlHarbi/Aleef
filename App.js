@@ -9,10 +9,10 @@ import Homepage from './Homepage';
 import { color } from 'react-native-reanimated';
 import AdminScreen from './AdminScreen';
 import forgetPassword from './forgetPassword'
+import AdoptionOffers from './AdoptionOffersScreen'
 import AdoptionUpload from './AdoptionUpload'
-import AdoptionOffersScreen from './AdoptionOffersScreen';
-
-
+import SellingOffers from './SellingOffersScreen'
+import SellingUpload from './SellingUpload'
 const Stack = createStackNavigator();
 
 function App() {
@@ -51,7 +51,6 @@ function App() {
       },
       }} name="الصفحة الرئيسية" component={Homepage} />
 
-
       <Stack.Screen
        backgroundColor='#FFFCFC'
        options={{
@@ -69,24 +68,39 @@ function App() {
             shadowColor: '#FFFCFC',
           },
         }} name="نسيت كلمة المرور" component={forgetPassword} />  
-
-          <Stack.Screen options={{
+  
+        <Stack.Screen options={{
           headerShown: true,
           headerStyle: {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="رفع منشور التبني" component={AdoptionUpload} />
+        }} name="عروض التبني" component={AdoptionOffers} />  
 
-<Stack.Screen options={{
+         <Stack.Screen options={{
           headerShown: true,
           headerStyle: {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="عروض التبني" component={AdoptionOffersScreen} />
+        }} name="رفع منشور التبني" component={AdoptionUpload} />  
 
-      </Stack.Navigator>   
+         <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="عروض البيع" component={SellingOffers} /> 
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="رفع منشور البيع" component={SellingUpload} /> 
+      </Stack.Navigator>
+      
     </NavigationContainer>
 
   );
