@@ -8,12 +8,8 @@ var userName='';
 export default class AdoptionOffersScreen extends Component {
         constructor(props) {
           super(props);
-          this.state = { 
-            uid: '',
-            displayName: '',
-            AnimalType: '',
-            counter: 0,
-          }
+          //this.state = { 
+          //}
         }
 
         AdoptionUpload = () => this.props.navigation.navigate('رفع منشور التبني')
@@ -47,7 +43,6 @@ export default class AdoptionOffersScreen extends Component {
             return AdoptionPostsData.map(element => {
               return (
                 <View style={{ marginBottom:30}}>
-                  <ScrollView>
                   <View>
                   <Image style={{ width: 280, height: 180 }}
                     source={{uri: element.AnimalPic}}/>
@@ -57,7 +52,6 @@ export default class AdoptionOffersScreen extends Component {
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                   <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                 </View>
-                </ScrollView>
                 </View>
                 
               );
@@ -65,8 +59,8 @@ export default class AdoptionOffersScreen extends Component {
         }
         render(){ 
               return (
+                <ScrollView style={{ backgroundColor:'#FFFCFC' }}>
                 <View style={styles.container}>
-                   <ScrollView>
                   <View style={styles.container2}>
                   <View><Image
                         style={{ width: 50, height: 50,marginBottom:10, marginTop:10 }}
@@ -77,9 +71,9 @@ export default class AdoptionOffersScreen extends Component {
                        style={styles.button}>
                     <Text style={styles.textStyle}>رفع منشور التبني</Text>
                     </TouchableOpacity>
-                    {this.readPostData()}
-                    </ScrollView>
+                    {this.readPostData()} 
                 </View>
+                </ScrollView>
             );
         } 
         }
@@ -126,3 +120,4 @@ const styles = StyleSheet.create({
       marginBottom:200
   }
 });
+
