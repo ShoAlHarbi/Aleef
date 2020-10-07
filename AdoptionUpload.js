@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, View, TextInput, StyleSheet , Text ,TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Image, View, TextInput, StyleSheet , Text ,TouchableOpacity, ActivityIndicator,Alert} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import uuid from 'react-native-uuid';
@@ -111,6 +111,14 @@ export default class AdoptionUpload extends Component {
   };
 
   PublishAdoptionPost = () => {
+        //-------------------new--------------------------
+        if (this.state.AnimalType.trim() === '' || this.state.AnimalSex.trim() === '' || this.state.AnimalAge.trim() === '' || this.state.City.trim() === '') {
+          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
+          else if (this.state.PetImage === null){
+            Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
+          }
+       else{
+      //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
      Name= snapshot.val().name
      firebase.database().ref('AdoptionPosts/').push().set(
@@ -124,6 +132,8 @@ export default class AdoptionUpload extends Component {
        uName: Name
       })
      })
+     this.props.navigation.navigate('عروض التبني') //-------------------- new
+    } //-------------------- else 
     }
 
   render(){ 

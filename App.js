@@ -9,6 +9,8 @@ import Homepage from './Homepage';
 import { color } from 'react-native-reanimated';
 import AdminScreen from './AdminScreen';
 import forgetPassword from './forgetPassword'
+import AdoptionUpload from './AdoptionUpload'
+import AdoptionOffersScreen from './AdoptionOffersScreen';
 
 
 const Stack = createStackNavigator();
@@ -67,7 +69,24 @@ function App() {
             shadowColor: '#FFFCFC',
           },
         }} name="نسيت كلمة المرور" component={forgetPassword} />  
-      </Stack.Navigator>
+
+          <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="رفع منشور التبني" component={AdoptionUpload} />
+
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="عروض التبني" component={AdoptionOffersScreen} />
+
+      </Stack.Navigator>   
     </NavigationContainer>
 
   );
