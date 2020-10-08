@@ -39,16 +39,27 @@ export default class Homepage extends Component {
                   </View>
                   </View>
                    <View style={styles.container3}>
-                   <TouchableOpacity onPress={() => this.AdoptionOffers()}
-                       style={styles.button}>
-                    <Text style={styles.textStyle}>عروض التبني</Text>
-                    </TouchableOpacity>
+                    <View/>
+                  
 
                     <TouchableOpacity onPress={() => this.SellingOffers()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>عروض البيع</Text>
                     </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => this.AdoptionOffers()}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>عروض التبني</Text>
+                    </TouchableOpacity>
+                    
                    </View>
+
+                   <View>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('جميع المحادثات')}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>المحادثات</Text>
+                    </TouchableOpacity>
+                    </View>
                 
                 </View>
             );

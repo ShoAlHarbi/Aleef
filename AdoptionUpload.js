@@ -132,7 +132,9 @@ export default class AdoptionUpload extends Component {
        uName: Name
       })
      })
-     this.props.navigation.navigate('عروض التبني') //-------------------- new
+     this.props.navigation.navigate('عروض التبني',{
+       offerorID: this.state.userID
+     }) //-------------------- new
     } //-------------------- else 
     }
 

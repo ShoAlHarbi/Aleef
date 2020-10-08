@@ -13,6 +13,10 @@ import AdoptionOffers from './AdoptionOffersScreen'
 import AdoptionUpload from './AdoptionUpload'
 import SellingOffers from './SellingOffersScreen'
 import SellingUpload from './SellingUpload'
+import chatScreen from './chatScreen';
+import allChatsScreen from './allChatsScreen';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faComments} from '@fortawesome/free-solid-svg-icons';
 const Stack = createStackNavigator();
 
 function App() {
@@ -99,6 +103,24 @@ function App() {
             shadowColor: '#FFFCFC',
           },
         }} name="رفع منشور البيع" component={SellingUpload} /> 
+
+        <Stack.Screen options={({route})=>({
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+         title: route.params.name 
+        })} name="صفحة المحادثة" component={chatScreen} />
+
+        <Stack.Screen options={({route})=>({
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        //  title: route.params.thread.name 
+        })} name="جميع المحادثات" component={allChatsScreen} />
       </Stack.Navigator>
       
     </NavigationContainer>

@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import firebase from './firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faComments} from '@fortawesome/free-solid-svg-icons';
 
 var SellingPostsData= [];
 var userName='';
@@ -13,6 +15,12 @@ export default class SellingOffersScreen extends Component {
         }
 
         SellingUpload = () => this.props.navigation.navigate('رفع منشور البيع')
+        onPressChatIcon = (offerorID, Name) => {
+          this.props.navigation.navigate('صفحة المحادثة',{
+            offerorID: offerorID,
+            name: Name
+          })
+        }
 
         readPostData =() => {
             var ref = firebase.database().ref("SellingPosts");
@@ -28,7 +36,8 @@ export default class SellingOffersScreen extends Component {
                 var AniCity= post[postInfo].City; 
                 var AniPic= post[postInfo].PetPicture; 
                 var petPrice= post[postInfo].price; 
-                var UserName = post[postInfo].uName; 
+                var UserName = post[postInfo].uName;
+                var offerorID = post[postInfo].userId;  
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
                   User: userName,
@@ -38,7 +47,8 @@ export default class SellingOffersScreen extends Component {
                   AnimalCity: AniCity,
                   AnimalPic: AniPic,
                   AnimalPrice: petPrice,
-                  Name: UserName
+                  Name: UserName,
+                  offerorID: offerorID
                 }  
               }         
             });         
@@ -54,7 +64,13 @@ export default class SellingOffersScreen extends Component {
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                   <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                   <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال"}</Text>
+                  <TouchableOpacity 
+                  style={styles.iconStyle}
+                  onPress={()=> this.onPressChatIcon(element.offerorID, element.Name)}>
+                  <FontAwesomeIcon icon={ faComments }size={36} color={"#69C4C6"}/>
+                </TouchableOpacity>
                 </View>
+             
                 </View>
                 
               );
@@ -135,6 +151,10 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderRadius: 15,
     width:310
+    },
+    iconStyle: {
+      padding:20,
+      left: 30
     }
 });
 
