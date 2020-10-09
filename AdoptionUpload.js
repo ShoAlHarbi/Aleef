@@ -112,8 +112,17 @@ export default class AdoptionUpload extends Component {
 
   PublishAdoptionPost = () => {
         //-------------------new--------------------------
+        const ArabicExpression = /^[\u0621-\u064A\040/\s/g]+$/ //Arabic letters and space only for type,sex,age and city.
+        const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
+        const AnimalSexcheck = ArabicExpression.test(this.state.AnimalSex.trim());
+        const AnimalAgecheck = ArabicExpression.test(this.state.AnimalAge.trim());
+        const Citycheck = ArabicExpression.test(this.state.City.trim());
+
         if (this.state.AnimalType.trim() === '' || this.state.AnimalSex.trim() === '' || this.state.AnimalAge.trim() === '' || this.state.City.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
+          else if (AnimalTypecheck === false  || AnimalSexcheck === false  || Citycheck === false || AnimalAgecheck === false){
+            Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
+          }  
          else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
           }
@@ -164,7 +173,7 @@ export default class AdoptionUpload extends Component {
           onChangeText={(val) => this.updateInputVal(val, 'AnimalSex')}
         />
           <TextInput
-          placeholder="*عمر الحيوان"
+          placeholder="*عمر الحيوان (مثال: ستة أشهر)"
           placeholderTextColor="#a3a3a3"
           style={styles.inputField}
           value={this.state.AnimalAge}
