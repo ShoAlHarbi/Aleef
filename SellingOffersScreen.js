@@ -67,7 +67,7 @@ export default class SellingOffersScreen extends Component {
                   <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                   <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                  <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال"}</Text>
+                  <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
                   <TouchableOpacity 
                   style={styles.iconStyle}
                   onPress={()=> this.onPressChatIcon(element.offerorID, element.Name)}>
