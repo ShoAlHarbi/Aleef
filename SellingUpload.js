@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, View, TextInput, StyleSheet , Text ,TouchableOpacity, ActivityIndicator,Alert} from 'react-native';
+import { Image, View, TextInput, StyleSheet , Text ,TouchableOpacity, ActivityIndicator,Alert, ScrollView} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import uuid from 'react-native-uuid';
@@ -90,7 +90,7 @@ export default class SellingUpload extends Component {
       <View
         style={{
           marginTop: 30,
-          width: 250,
+          width: 220,
           borderRadius: 3,
           elevation: 2,
         }}>
@@ -104,7 +104,7 @@ export default class SellingUpload extends Component {
             shadowRadius: 5,
             overflow: 'hidden',
           }}>
-          <Image source={{ uri: PetImage }} style={{ width: 100, height: 100 }} />
+          <Image source={{ uri: PetImage }} style={{width: 220, height: 180 }} />
         </View>
       </View>
     );
@@ -140,10 +140,11 @@ export default class SellingUpload extends Component {
   render(){ 
     let { PetImage } = this.state;
       return (
+        <ScrollView style={{ backgroundColor:'#FFFCFC' }}>
         <View style={styles.container}>
 
         <Image
-        style={{ width: 50, height: 50,marginBottom:10,marginTop:5,}}
+        style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
         source={require('./assets/AleefLogoCat.png')}/>
 
           <TextInput
@@ -194,6 +195,7 @@ export default class SellingUpload extends Component {
          <Text style={styles.textStyle}>نشر</Text>
          </TouchableOpacity>
         </View>
+        </ScrollView>
     );
 } 
 }
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
     width: 150,
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 50,
     borderRadius: 20,
 },
 textStyle: {

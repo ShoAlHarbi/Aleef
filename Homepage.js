@@ -20,7 +20,8 @@ export default class Homepage extends Component {
             .catch(error => this.setState({ errorMessage: error.message }))
           }  
           AdoptionOffers = () => this.props.navigation.navigate('عروض التبني')
-         SellingOffers = () => this.props.navigation.navigate('عروض البيع')
+          SellingOffers = () => this.props.navigation.navigate('عروض البيع')
+          AllChats = () => this.props.navigation.navigate('جميع المحادثات')
         render(){
             this.state = { 
               displayName: firebase.auth().currentUser.displayName,
@@ -33,33 +34,27 @@ export default class Homepage extends Component {
                       <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#5F5F5F"}/>
                     </TouchableOpacity>
                   </View>
-                  <View><Image
-                        style={{ width: 50, height: 50,marginBottom:100, marginRight:160,}}
-                        source={require('./assets/AleefLogoCat.png')}/>
+                  <Image style={{ width: 65, height: 70,marginTop:50, marginRight:195,}}
+                   source={require('./assets/AleefLogoCat.png')}/>   
                   </View>
-                  </View>
+
                    <View style={styles.container3}>
-                    <View/>
-                  
+                   <TouchableOpacity onPress={() => this.AdoptionOffers()}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>عروض التبني</Text>
+                    </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.SellingOffers()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>عروض البيع</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this.AdoptionOffers()}
-                       style={styles.button}>
-                    <Text style={styles.textStyle}>عروض التبني</Text>
-                    </TouchableOpacity>
                     
-                   </View>
-
-                   <View>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('جميع المحادثات')}
                        style={styles.button}>
                     <Text style={styles.textStyle}>المحادثات</Text>
                     </TouchableOpacity>
-                    </View>
+
+                   </View>
                 
                 </View>
             );
@@ -78,15 +73,18 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       flex: 1,
-      flexDirection: 'row'
+      flexDirection: 'row',
+      marginBottom:50,
   },
   container3: {
     backgroundColor: '#FFFCFC',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+    width:200,
     flexDirection: 'column',
-    marginBottom: 200,
+    marginBottom: 100,
+    padding:150,
 },
     textStyle:{
         color: 'white',
@@ -111,8 +109,10 @@ const styles = StyleSheet.create({
     },
     button2: {
       padding: 8,
-      width: 140,
-      marginLeft: 55,
-      marginBottom: 100,
+      width: 125,
+      marginLeft: 160,
+      marginTop:50
   }
 });
+
+

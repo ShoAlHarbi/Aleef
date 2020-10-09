@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
@@ -10,8 +10,12 @@ var userName='';
 export default class SellingOffersScreen extends Component {
         constructor(props) {
           super(props);
-          //this.state = { 
-          //}
+          this.state = { 
+            refreshing: false,
+          }
+        }
+        _onRefresh = () => {
+          setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
         SellingUpload = () => this.props.navigation.navigate('رفع منشور البيع')
@@ -74,21 +78,28 @@ export default class SellingOffersScreen extends Component {
                 </View>
                 
               );
-            });
+            }).reverse();
         }
         render(){ 
               return (
-                <ScrollView style={{ backgroundColor:'#FFFCFC' }}>
+                <ScrollView style={{ backgroundColor:'#FFFCFC' }}
+                refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh}
+                />
+                }
+                >
                 <View style={styles.container}>
                   <View style={styles.container2}>
                   <View><Image
-                        style={{ width: 50, height: 50,marginBottom:10, marginTop:10 }}
+                        style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
                     <TouchableOpacity onPress={() => this.SellingUpload()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>رفع منشور البيع</Text>
+                    <Text style={styles.textStyle}>اضافة منشور البيع</Text>
                     </TouchableOpacity>
                     {this.readPostData()} 
                 </View>
@@ -157,4 +168,3 @@ const styles = StyleSheet.create({
       left: 30
     }
 });
-
