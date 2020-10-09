@@ -110,10 +110,15 @@ export default class SellingUpload extends Component {
     );
   };
 
-  PublishAdoptionPost = () => {
+  PublishSellingPost = () => {
         //-------------------new--------------------------
-        if (this.state.AnimalType.trim() === '' || this.state.AnimalSex.trim() === '' || this.state.AnimalAge.trim() === '' || this.state.City.trim() === '') {
+        const Priceexpression = /^[0-9\b]+$/
+        const Pricecheck = Priceexpression.test(this.state.Price.trim());
+        if (this.state.AnimalType.trim() === '' || this.state.AnimalSex.trim() === '' || this.state.AnimalAge.trim() === '' || this.state.City.trim() === '' || this.state.Price.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
+            else if (Pricecheck === false){
+            Alert.alert('', 'يجب أن يكون السعر عدد صحيح مكون من 0-9',[{ text: 'حسناً'}])
+          } 
           else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
           }
@@ -123,19 +128,22 @@ export default class SellingUpload extends Component {
      Name= snapshot.val().name
      firebase.database().ref('SellingPosts/').push().set(
       {
-       AnimalType: this.state.AnimalType,
-       AnimalSex: this.state.AnimalSex,
-       AnimalAge: this.state.AnimalAge,
-       City: this.state.City,
+       AnimalType: this.state.AnimalType.trim(),
+       AnimalSex: this.state.AnimalSex.trim(),
+       AnimalAge: this.state.AnimalAge.trim(),
+       City: this.state.City.trim(),
        PetPicture: this.state.PetImage,
        userId: this.state.userID,
-       price: this.state.Price,
+       price: this.state.Price.trim(),
        uName: Name
       })
      })
      this.props.navigation.navigate('عروض البيع') //-------------------- new
+     //
+    Alert.alert('', 'تم رفع المنشور بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
     } //-------------------- else 
-    }
+  
+  }
 
   render(){ 
     let { PetImage } = this.state;
@@ -176,11 +184,12 @@ export default class SellingUpload extends Component {
           onChangeText={(val) => this.updateInputVal(val, 'City')}
         />
         <TextInput
-          placeholder="*السعر"
+          placeholder="*السعر (ريال سعودي)"
           placeholderTextColor="#a3a3a3"
           style={styles.inputField}
           value={this.state.Price}
           onChangeText={(val) => this.updateInputVal(val, 'Price')}
+          keyboardType = 'numeric'
         />
                     <TouchableOpacity onPress={() => this.SelectImage()}
                        style={styles.buttonUploadPhoto}>
@@ -190,7 +199,7 @@ export default class SellingUpload extends Component {
                     {this.RenderUploading()}
 
         <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
-        <TouchableOpacity onPress={()=> this.PublishAdoptionPost()}
+        <TouchableOpacity onPress={()=> this.PublishSellingPost()}
          style={styles.button}>
          <Text style={styles.textStyle}>نشر</Text>
          </TouchableOpacity>

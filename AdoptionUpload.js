@@ -114,7 +114,7 @@ export default class AdoptionUpload extends Component {
         //-------------------new--------------------------
         if (this.state.AnimalType.trim() === '' || this.state.AnimalSex.trim() === '' || this.state.AnimalAge.trim() === '' || this.state.City.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
-          else if (this.state.PetImage === null){
+         else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
           }
        else{
@@ -123,10 +123,10 @@ export default class AdoptionUpload extends Component {
      Name= snapshot.val().name
      firebase.database().ref('AdoptionPosts/').push().set(
       {
-       AnimalType: this.state.AnimalType,
-       AnimalSex: this.state.AnimalSex,
-       AnimalAge: this.state.AnimalAge,
-       City: this.state.City,
+       AnimalType: this.state.AnimalType.trim(),
+       AnimalSex: this.state.AnimalSex.trim(),
+       AnimalAge: this.state.AnimalAge.trim(),
+       City: this.state.City.trim(),
        PetPicture: this.state.PetImage,
        userId: this.state.userID,
        uName: Name
@@ -135,6 +135,7 @@ export default class AdoptionUpload extends Component {
      this.props.navigation.navigate('عروض التبني',{
        offerorID: this.state.userID
      }) //-------------------- new
+     Alert.alert('', 'تم رفع المنشور بنجاح. الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
     } //-------------------- else 
     }
 
