@@ -6,8 +6,9 @@ import { GiftedChat,
 import firebase from './firebase';
 import { IconButton } from 'react-native-paper';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import 'firebase/firestore'; 
 
-export default function RoomScreen({ route }) {
+export default function chatScreen({ route }) {
   const { thread } = route.params;
   const [myName, setMyName] =useState('')
   const currenUID = firebase.auth().currentUser.uid
@@ -205,6 +206,7 @@ export default function RoomScreen({ route }) {
   }
 
   return (
+    <View style={{ backgroundColor: "#FFFCFC", flex: 1 }}>
     <GiftedChat
       messages={messages}
       onSend={newMessage => handleSend(newMessage)}
@@ -219,7 +221,7 @@ export default function RoomScreen({ route }) {
       alignItems
       scrollToBottomComponent={scrollToBottomComponent}
       renderSystemMessage={renderSystemMessage}
-    />
+    /></View>
   );
 }
 
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
   },
   sendingContainer: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center', 
   },
   bottomComponentContainer: {
     justifyContent: 'center',

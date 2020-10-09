@@ -3,9 +3,11 @@ import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { List, Divider } from 'react-native-paper';
 // import firestore from '@react-native-firebase/firestore';
 import firebase from './firebase';
+import 'firebase/firestore'; 
+import { faAlignRight } from '@fortawesome/free-solid-svg-icons';
 // import Loading from '../components/Loading';
 
-export default function HomeScreen({ navigation }) {
+export default function allChatsScreen({ navigation }) {
 
   const [threads, setThreads] = useState([]);
 
@@ -51,13 +53,13 @@ export default function HomeScreen({ navigation }) {
         keyExtractor={item => item._id}
         ItemSeparatorComponent={() => <Divider />}
         renderItem={({ item }) => (
-          <TouchableOpacity
+          <TouchableOpacity style={styles.onechat}
             onPress={() => navigation.navigate('صفحة المحادثة', 
             { thread: item,
               name:item.name,
             offerorID: item.toID})}
           >
-            <List.Item
+            <List.Item 
               title={item.name}
               description={item.latestMessage.text}
               titleNumberOfLines={1}
@@ -74,13 +76,19 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f5f5f5',
-    flex: 1
+    backgroundColor: '#FFFCFC',
+    flex: 1, 
   },
   listTitle: {
-    fontSize: 22
+    fontSize: 18, 
   },
   listDescription: {
     fontSize: 16
+  }, 
+  onechat: {
+    borderWidth: 1,
+    marginTop: 4, 
+    borderColor: '#F0F0F0', 
+    backgroundColor: '#FBFBFB', 
   }
 });
