@@ -112,7 +112,9 @@ export default class AdoptionUpload extends Component {
 
   PublishAdoptionPost = () => {
         //-------------------new--------------------------
-        const ArabicExpression = /^[\u0621-\u064A\040/\s/g]+$/ //Arabic letters and space only for type,sex,age and city.
+         //Previous regex: /^[\u0621-\u064A\040/\s/g]+$/ problem with g
+                
+        const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
         const AnimalSexcheck = ArabicExpression.test(this.state.AnimalSex.trim());
         const AnimalAgecheck = ArabicExpression.test(this.state.AnimalAge.trim());
