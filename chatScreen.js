@@ -206,7 +206,7 @@ export default function chatScreen({ route }) {
   }
 
   return (
-    <View style={{ backgroundColor: "#FFFCFC", flex: 1 }}>
+    <View style={{ backgroundColor: "#f5f9f9", flex: 1 }}>
     <GiftedChat
       messages={messages}
       onSend={newMessage => handleSend(newMessage)}
@@ -215,6 +215,7 @@ export default function chatScreen({ route }) {
         _id: currenUID,
         to: offerorID,
       }}
+
       scrollToBottom
       renderBubble={renderBubble}
       renderSend={renderSend}

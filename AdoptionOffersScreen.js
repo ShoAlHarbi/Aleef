@@ -53,8 +53,27 @@ export default class AdoptionOffersScreen extends Component {
                   offerorID: offerorID
                 }  
               }         
-            });         
+            }); 
+           
             return AdoptionPostsData.map(element => {
+              if(element.offerorID == firebase.auth().currentUser.uid){
+                return (
+                  <View style={{ marginBottom:30}}>
+                    <View style={styles.Post}>
+                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                      source={{uri: element.AnimalPic}}/>
+                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                
+                  </View>
+                  </View>
+                  
+                );
+              }
+              else{
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
@@ -76,7 +95,7 @@ export default class AdoptionOffersScreen extends Component {
                 </View>
                 </View>
                 
-              );
+              );}
             }).reverse();
         }
         render(){ 
