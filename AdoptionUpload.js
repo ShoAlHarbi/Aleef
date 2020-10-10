@@ -144,7 +144,7 @@ export default class AdoptionUpload extends Component {
      this.props.navigation.navigate('عروض التبني',{
        offerorID: this.state.userID
      }) //-------------------- new
-     Alert.alert('', 'تم رفع المنشور بنجاح. الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+     Alert.alert('', 'تمت اضافة العرض بنجاح. الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
     } //-------------------- else 
     }
 
@@ -193,7 +193,7 @@ export default class AdoptionUpload extends Component {
                     {this.RenderImage()}
                     {this.RenderUploading()}
 
-        <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
+        <Text style={styles.mandatoryTextStyle}>جميع الحقول المسبوقة برمز النجمة (*) مطلوبة.</Text>
         <TouchableOpacity onPress={()=> this.PublishAdoptionPost()}
          style={styles.button}>
          <Text style={styles.textStyle}>نشر</Text>

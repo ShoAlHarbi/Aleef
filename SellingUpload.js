@@ -152,7 +152,7 @@ export default class SellingUpload extends Component {
      })
      this.props.navigation.navigate('عروض البيع') //-------------------- new
      //
-    Alert.alert('', 'تم رفع المنشور بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
+    Alert.alert('', 'تم رفع العرض بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
     } //-------------------- else 
   
   }
@@ -210,7 +210,7 @@ export default class SellingUpload extends Component {
                     {this.RenderImage()}
                     {this.RenderUploading()}
 
-        <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
+        <Text style={styles.mandatoryTextStyle}>جميع الحقول المسبوقة برمز النجمة (*) مطلوبة.</Text>
         <TouchableOpacity onPress={()=> this.PublishSellingPost()}
          style={styles.button}>
          <Text style={styles.textStyle}>نشر</Text>

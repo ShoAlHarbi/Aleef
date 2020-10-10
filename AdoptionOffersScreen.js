@@ -4,13 +4,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshCon
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-
 
 
 var AdoptionPostsData= [];
-var userName='';
-// var offerorID = '';
+
 export default class AdoptionOffersScreen extends Component {
         constructor(props) {
           super(props);
@@ -23,7 +20,7 @@ export default class AdoptionOffersScreen extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-        AdoptionUpload = () => this.props.navigation.navigate('رفع منشور التبني')
+        AdoptionUpload = () => this.props.navigation.navigate('اضافة عرض تبني')
         onPressChatIcon = (offerorID , Name) => {
           this.props.navigation.navigate('صفحة المحادثة',{
             offerorID: offerorID,
@@ -47,7 +44,6 @@ export default class AdoptionOffersScreen extends Component {
                 var offerorID = post[postInfo].userId;  
                 //----------------Adoption Posts Array-----------------------
                 AdoptionPostsData[i]={
-                  User: userName,
                   AnimalType: AniType,
                   AnimalSex: AniSex,
                   AnimalAge: AniAge,
@@ -62,7 +58,7 @@ export default class AdoptionOffersScreen extends Component {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12 }}
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
@@ -104,7 +100,7 @@ export default class AdoptionOffersScreen extends Component {
                     style={{alignContent: "center"}}
                     onPress={() => this.AdoptionUpload()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>رفع منشور التبني</Text>
+                    <Text style={styles.textStyle}>اضافة عرض تبني</Text>
                     </TouchableOpacity>
                     {this.readPostData()} 
                 </View>

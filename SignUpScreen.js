@@ -56,7 +56,6 @@ export default class SignUpScreen extends Component {
                   name: this.state.displayName.trim(),
                   Email: this.state.email,
                 })
-
               this.props.navigation.navigate('الصفحة الرئيسية')
             }
           });
@@ -126,7 +125,7 @@ export default class SignUpScreen extends Component {
         />
 
         <View>
-          <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
+          <Text style={styles.mandatoryTextStyle}>جميع الحقول المسبوقة برمز النجمة (*) مطلوبة.</Text>
         </View>
 
         <TouchableOpacity onPress={() => this.registerUser()}

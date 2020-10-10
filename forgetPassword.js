@@ -42,7 +42,7 @@ export default class ForgetPassword extends Component {
           onChangeText={(val) => this.updateInputVal(val, 'email')}
          />
           <View>
-          <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
+          <Text style={styles.mandatoryTextStyle}>جميع الحقول المسبوقة برمز النجمة (*) مطلوبة.</Text>
           </View>
           <TouchableOpacity onPress={() => this.sendEmail()} 
            style={styles.button}>

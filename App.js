@@ -87,7 +87,7 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="رفع منشور التبني" component={AdoptionUpload} />  
+        }} name="اضافة عرض تبني" component={AdoptionUpload} />  
 
          <Stack.Screen options={{
           headerShown: true,
@@ -102,7 +102,7 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="رفع منشور البيع" component={SellingUpload} /> 
+        }} name="اضافة عرض بيع" component={SellingUpload} /> 
 
         <Stack.Screen options={({route})=>({
           headerShown: true,

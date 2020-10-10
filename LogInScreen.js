@@ -9,11 +9,10 @@ export default class LogInScreen extends Component {
     this.state = {
       email: '',
       password: '',
-      username: '',
-      isLoading: false
+      isLoading: false,
+      displayName: '',
     }
   }
-
   updateInputVal = (val, prop) => {
     const state = this.state;
     state[prop] = val;
@@ -36,6 +35,7 @@ export default class LogInScreen extends Component {
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((res) => {
+          this.state.displayName = firebase.auth().currentUser.displayName
           console.log(res)
           console.log('تم تسجيل الدخول بنجاح')
           this.setState({
@@ -99,7 +99,7 @@ export default class LogInScreen extends Component {
         />
 
         <View>
-          <Text style={styles.mandatoryTextStyle}>جميع الحقول المتبوعة برمز النجمة (*) مطلوبة.</Text>
+          <Text style={styles.mandatoryTextStyle}>جميع الحقول المسبوقة برمز النجمة (*) مطلوبة.</Text>
         </View>
 
         <TouchableOpacity onPress={() => this.userLogin()}

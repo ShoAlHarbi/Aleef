@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 
 var SellingPostsData= [];
-var userName='';
 export default class SellingOffersScreen extends Component {
         constructor(props) {
           super(props);
@@ -18,7 +17,7 @@ export default class SellingOffersScreen extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-        SellingUpload = () => this.props.navigation.navigate('رفع منشور البيع')
+        SellingUpload = () => this.props.navigation.navigate('اضافة عرض بيع')
         onPressChatIcon = (offerorID, Name) => {
           this.props.navigation.navigate('صفحة المحادثة',{
             offerorID: offerorID,
@@ -44,7 +43,6 @@ export default class SellingOffersScreen extends Component {
                 var offerorID = post[postInfo].userId;  
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
-                  User: userName,
                   AnimalType: AniType,
                   AnimalSex: AniSex,
                   AnimalAge: AniAge,
@@ -99,7 +97,7 @@ export default class SellingOffersScreen extends Component {
                   </View>
                     <TouchableOpacity onPress={() => this.SellingUpload()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>اضافة منشور البيع</Text>
+                    <Text style={styles.textStyle}>اضافة عرض بيع</Text>
                     </TouchableOpacity>
                     {this.readPostData()} 
                 </View>
