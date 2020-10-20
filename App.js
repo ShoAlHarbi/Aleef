@@ -13,6 +13,8 @@ import AdoptionOffers from './AdoptionOffersScreen'
 import AdoptionUpload from './AdoptionUpload'
 import SellingOffers from './SellingOffersScreen'
 import SellingUpload from './SellingUpload'
+import MissingPetPosts from './MissingPetPosts'
+import MissingPetUpload from './MissingPetUpload'
 import chatScreen from './chatScreen';
 import allChatsScreen from './allChatsScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -121,6 +123,22 @@ function App() {
           },
         //  title: route.params.thread.name 
         })} name="جميع المحادثات" component={allChatsScreen} />
+
+        <Stack.Screen options={({route})=>({
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        })} name="الإبلاغ عن حيوان مفقود" component={MissingPetPosts} />
+
+         <Stack.Screen options={({route})=>({
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        })} name="اضافة بلاغ" component={MissingPetUpload} />
       </Stack.Navigator>
       
     </NavigationContainer>

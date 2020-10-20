@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
@@ -22,6 +22,7 @@ export default class Homepage extends Component {
           AdoptionOffers = () => this.props.navigation.navigate('عروض التبني')
           SellingOffers = () => this.props.navigation.navigate('عروض البيع')
           AllChats = () => this.props.navigation.navigate('جميع المحادثات')
+          MissingPetPosts = () => this.props.navigation.navigate('الإبلاغ عن حيوان مفقود')
         render(){
             this.state = { 
               displayName: firebase.auth().currentUser.displayName,
@@ -49,6 +50,11 @@ export default class Homepage extends Component {
                     <Text style={styles.textStyle}>عروض البيع</Text>
                     </TouchableOpacity>
                     
+                    <TouchableOpacity onPress={() => this.MissingPetPosts()}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>الإبلاغ عن حيوان مفقود</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('جميع المحادثات')}
                        style={styles.button}>
                     <Text style={styles.textStyle}>المحادثات</Text>
@@ -100,10 +106,10 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#69C4C6',
         padding: 10,
-        width: 150,
+        width: 185,
         alignItems: "center",
-        marginTop: 10,
-        marginBottom: 80,
+        marginTop: 5,
+        marginBottom: 60,
         borderRadius: 20,
 
     },
