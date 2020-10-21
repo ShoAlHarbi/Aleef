@@ -5,7 +5,7 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 
-export default class SellingOffersScreen extends Component {
+export default class MissingPetPosts extends Component {
         constructor(props) {
           super(props);
           this.state = { 

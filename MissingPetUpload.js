@@ -6,12 +6,17 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase'
 import MapView,{ Marker } from 'react-native-maps';
 import { RadioButton } from 'react-native-paper';
+import {PermissionsAndroid} from 'react-native';
+
 console.disableYellowBox = true;
 var Name='';
-export default class AdoptionUpload extends Component {
+export default class MissingPetUpload extends Component {
   constructor() {
     super();
-    this.state = {     
+    this.state = {  
+      marker: 
+      {latitude:  24.774265,
+        longitude: 46.738586},   
       userId:'',
       userID: firebase.auth().currentUser.uid,
       UserName: '',
@@ -23,7 +28,6 @@ export default class AdoptionUpload extends Component {
         latitudeDelta: 8,
         longitudeDelta: 15
       }
-    
     }
   }
 
@@ -36,6 +40,7 @@ export default class AdoptionUpload extends Component {
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permission.askAsync(Permission.LOCATION);
   }
 
 
@@ -120,7 +125,6 @@ export default class AdoptionUpload extends Component {
                 
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
-        const Citycheck = ArabicExpression.test(this.state.City.trim());
 
         if (this.state.AnimalType.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
@@ -173,10 +177,22 @@ export default class AdoptionUpload extends Component {
                     {this.RenderUploading()}
                     <Text style={{color: '#5F5F5F', fontSize: 16, marginBottom:10, marginTop:10}}>*تحديد موقع اخر مشاهدة للحيوان</Text>
                         <MapView style={styles.mapStyle} 
-                         region={this.state.region}
+                         initialRegion={this.state.region}
                          provider="google"
+                         showsUserLocation={true}
+                         showsMyLocationButton={true}
+                         zoomControlEnabled={true}
+                         moveOnMarkerPress={true}
+                         onMapReady={() => {
+                          PermissionsAndroid.request(
+                            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                          )
+                        }}
+                        onPress={(e) => this.setState({ marker: e.nativeEvent.coordinate })}
                        >
-                         <Marker coordinate={{ latitude:  24.774265,longitude: 46.738586}}/>
+                        <Marker coordinate={this.state.marker} 
+                         onPress={e => console.log(e.nativeEvent)}
+                         />
                        </MapView>
                        
         <Text style={styles.mandatoryTextStyle}>جميع الحقول المسبوقة برمز النجمة (*) مطلوبة.</Text>
