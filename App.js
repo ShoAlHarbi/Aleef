@@ -15,6 +15,7 @@ import SellingOffers from './SellingOffersScreen'
 import SellingUpload from './SellingUpload'
 import MissingPetPosts from './MissingPetPosts'
 import MissingPetUpload from './MissingPetUpload'
+import AdoptionAdminScreen from './AdoptionAdminScreen'
 import chatScreen from './chatScreen';
 import allChatsScreen from './allChatsScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -81,7 +82,15 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="عروض التبني" component={AdoptionOffers} />  
+        }} name="عروض التبني" component={AdoptionOffers} /> 
+
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="جميع عروض التبني" component={AdoptionAdminScreen} /> 
 
          <Stack.Screen options={{
           headerShown: true,
