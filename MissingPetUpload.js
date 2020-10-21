@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Image, View, TextInput, StyleSheet , Text ,TouchableOpacity, ActivityIndicator,Alert, ScrollView} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
 import uuid from 'react-native-uuid';
 import firebase from './firebase'
 import MapView,{ Marker } from 'react-native-maps';
@@ -13,10 +12,17 @@ var Name='';
 export default class MissingPetUpload extends Component {
   constructor() {
     super();
-    this.state = {  
-      marker: 
-      {latitude:  24.774265,
-        longitude: 46.738586},   
+    this.state = { 
+      userID: firebase.auth().currentUser.uid, 
+      AnimalType:'',
+      latitude:'',
+      longitude:'',
+      PetImage: null,
+      uploading: false,
+      //--------------------
+      marker:
+      {latitude: -82.8187050,
+      longitude: 34.5320631},   
       userId:'',
       userID: firebase.auth().currentUser.uid,
       UserName: '',
@@ -27,7 +33,7 @@ export default class MissingPetUpload extends Component {
         longitude: 46.738586,
         latitudeDelta: 8,
         longitudeDelta: 15
-      }
+      },
     }
   }
 
@@ -40,7 +46,6 @@ export default class MissingPetUpload extends Component {
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    await Permission.askAsync(Permission.LOCATION);
   }
 
 
@@ -128,12 +133,12 @@ export default class MissingPetUpload extends Component {
 
         if (this.state.AnimalType.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
-          else if (AnimalTypecheck === false){
+        /*  else if (AnimalTypecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
-          }  
-         else if (this.state.PetImage === null){
+          } */ 
+        /* else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
-          }
+          }*/
        else{
       //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
@@ -141,10 +146,11 @@ export default class MissingPetUpload extends Component {
      firebase.database().ref('MissingPetPosts/').push().set(
       {
        AnimalType: this.state.AnimalType.trim(),
-       City: this.state.City.trim(),
        PetPicture: this.state.PetImage,
        userId: this.state.userID,
-       uName: Name
+       uName: Name,
+       latitude:this.state.latitude,
+       longitude:this.state.longitude
       })
      })
      this.props.navigation.navigate('الإبلاغ عن حيوان مفقود',{
@@ -188,7 +194,7 @@ export default class MissingPetUpload extends Component {
                             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
                           )
                         }}
-                        onPress={(e) => this.setState({ marker: e.nativeEvent.coordinate })}
+                        onPress={(e) => this.setState({ marker: e.nativeEvent.coordinate, longitude:e.nativeEvent.coordinate.longitude, latitude:e.nativeEvent.coordinate.latitude})}
                        >
                         <Marker coordinate={this.state.marker} 
                          onPress={e => console.log(e.nativeEvent)}

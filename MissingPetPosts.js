@@ -4,18 +4,111 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshCon
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
-
+import MapView,{ Marker } from 'react-native-maps';
+var MissingPetPostsData= [];
 export default class MissingPetPosts extends Component {
         constructor(props) {
           super(props);
           this.state = { 
             refreshing: false,
+            region: {
+              latitude:  24.774265,
+              longitude: 46.738586,
+              latitudeDelta: 8,
+              longitudeDelta: 15
+            },
           }
         }
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
         MissingPetUpload = () => this.props.navigation.navigate('اضافة بلاغ')
+        onPressChatIcon = (offerorID, Name) => {
+          this.props.navigation.navigate('صفحة المحادثة',{
+            offerorID: offerorID,
+            name: Name
+          })
+        }
+        readPostData =() => {
+          var ref = firebase.database().ref("MissingPetPosts");
+          ref.on('value',  function (snapshot) {
+            var post = snapshot.val();
+            var postKeys = Object.keys(post);// to find the post keys and put them in an array
+            for(var i = 0; i< postKeys.length;i++){
+              var postInfo = postKeys[i];
+              //---------This to save the post info in variables----------
+              var AniType= post[postInfo].AnimalType; 
+              var AniPic= post[postInfo].PetPicture; 
+              var Long= post[postInfo].longitude; 
+              var Lat= post[postInfo].latitude;
+              var UserName = post[postInfo].uName;
+              var offerorID = post[postInfo].userId;  
+              //----------------Adoption Posts Array-----------------------
+              MissingPetPostsData[i]={
+                AnimalType: AniType,
+                AnimalPic: AniPic,
+                LongA: Long,
+                LatA: Lat,
+                Name:UserName,
+                offerorID: offerorID
+              }  
+            }         
+          });         
+          return MissingPetPostsData.map(element => {
+            if(element.offerorID == firebase.auth().currentUser.uid){
+              return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <MapView style={styles.mapStyle}
+                  initialRegion={this.state.region}
+                  provider="google"
+                  showsUserLocation={true}
+                  showsMyLocationButton={true}
+                  zoomControlEnabled={true}
+                  moveOnMarkerPress={true}
+                  >
+                  <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                  </MapView>
+                 
+                </View>
+             
+                </View>          
+              );
+            }
+            else{
+            return (
+              <View style={{ marginBottom:30}}>
+                <View style={styles.Post}>
+                <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  source={{uri: element.AnimalPic}}/>
+                  <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <MapView style={styles.mapStyle}
+                  initialRegion={this.state.region}
+                  provider="google"
+                  showsUserLocation={true}
+                  showsMyLocationButton={true}
+                  zoomControlEnabled={true}
+                  moveOnMarkerPress={true}
+                  >
+                  <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                  </MapView>
+                <TouchableOpacity 
+                style={styles.iconStyle}
+                onPress={()=> this.onPressChatIcon(element.offerorID, element.Name)}>
+                <FontAwesomeIcon icon={ faComments }size={36} color={"#69C4C6"}/>
+              </TouchableOpacity>
+              </View>
+           
+              </View>
+              
+            );}
+          }).reverse();
+      }
         render(){ 
               return (
                 <ScrollView style={{ backgroundColor:'#FFFCFC' }}
@@ -37,6 +130,7 @@ export default class MissingPetPosts extends Component {
                        style={styles.button}>
                     <Text style={styles.textStyle}>اضافة بلاغ</Text>
                     </TouchableOpacity>
+                    {this.readPostData()}
                 </View>
                 </ScrollView>
             );
@@ -99,7 +193,10 @@ const styles = StyleSheet.create({
     width:310
     },
     iconStyle: {
-      padding:20,
+      padding:8,
       left: 30
-    }
+    },
+    mapStyle: {
+      width: 290, height: 180 ,marginLeft:10, marginBottom:12
+    },
 });
