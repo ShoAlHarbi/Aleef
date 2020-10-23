@@ -20,9 +20,26 @@ import chatScreen from './chatScreen';
 import allChatsScreen from './allChatsScreen';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications'
+
 const Stack = createStackNavigator();
 
+async function registerForPushNotification () {
+  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  let finalStatus = existingStatus;
+  if (existingStatus !== "granted") {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+  if (finalStatus !== "granted") {
+    return false;
+  }
+  return true;
+}
+
 function App() {
+  registerForPushNotification()
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="index">
@@ -121,7 +138,8 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-         title: route.params.name 
+         title: route.params.name,  
+         headerTitleAlign: "center"
         })} name="صفحة المحادثة" component={chatScreen} />
 
         <Stack.Screen options={({route})=>({

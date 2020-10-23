@@ -36,7 +36,7 @@ export default function allChatsScreen({ navigation }) {
           };
         });
 
-        setThreads(threads);
+        setThreads(threads.reverse());
      
       });
 
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     flex: 1, 
   },
   listTitle: {
-    fontSize: 18, 
+    fontSize: 18,
+    alignSelf: 'flex-end'
   },
   listDescription: {
     fontSize: 16

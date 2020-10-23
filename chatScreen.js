@@ -6,7 +6,9 @@ import { GiftedChat,
 import firebase from './firebase';
 import { IconButton } from 'react-native-paper';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
-import 'firebase/firestore'; 
+import 'firebase/firestore';
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications'
 
 export default function chatScreen({ route }) {
   const { thread } = route.params;
@@ -21,6 +23,7 @@ export default function chatScreen({ route }) {
   useEffect(() => {
   
     setInfo();
+    registerForPushNotification()
     const messagesListener = firebase.firestore()
     .collection('chats')
     .doc(chatID)
@@ -49,6 +52,24 @@ export default function chatScreen({ route }) {
     return () => messagesListener();
 
       }, []);
+
+  async function registerForPushNotification () {
+
+        const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        console.log(existingStatus)
+        if (existingStatus !== "granted") {
+          return;
+        }
+        try{
+          // Generate the token and store it in the database
+          let token = await Notifications.getExpoPushTokenAsync();
+          console.log(token)
+          firebase.database().ref('account/'+currenUID+'/push_token')
+          .set(token)
+        } catch(error){
+          console.log(error)
+        }
+      }
 
   // Generate chatID
   function getChatID(){
@@ -121,11 +142,38 @@ export default function chatScreen({ route }) {
   
   }
 
+  // Send notification method
+  function sendPushNotification(message){
+
+    // Get the offeror push_token to send the notification
+    let offerorToken
+    firebase.database().ref('account/'+offerorID+'/push_token/data').on('value', (snapshot)=>{
+      offerorToken = snapshot.val()
+    })
+
+    // Push the notification
+    console.log('The token is '+offerorToken)
+    let response = fetch('https://exp.host/--/api/v2/push/send',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        to: offerorToken,
+        sound: 'default',
+        title: 'Aleef',
+        body: message
+      })
+    });
+  }
+
   // helper method that is sends a message
    function handleSend(messages) {
 
     const text = messages[0].text;
     addChatID()
+    sendPushNotification(text)
     // add the message to the database messages
     firebase.firestore()
     .collection('chats')
@@ -153,7 +201,7 @@ export default function chatScreen({ route }) {
       },
       { merge: true }
     );
-   
+    
   }
 
   function renderBubble(props) {
