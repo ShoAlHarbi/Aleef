@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl,Alert} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
 var MissingPetPostsData= [];
+
 export default class MissingPetPosts extends Component {
         constructor(props) {
           super(props);
@@ -22,7 +25,17 @@ export default class MissingPetPosts extends Component {
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
+
+        onPressTrashIcon = (postid) => {
+          MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
+           firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
+             this.readPostData(); 
+             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+           });
+         }
+
         MissingPetUpload = () => this.props.navigation.navigate('اضافة بلاغ')
+
         onPressChatIcon = (offerorID, Name) => {
           this.props.navigation.navigate('صفحة المحادثة',{
             offerorID: offerorID,
@@ -43,6 +56,7 @@ export default class MissingPetPosts extends Component {
               var Lat= post[postInfo].latitude;
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
+              var postidentification = postInfo;  
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
@@ -50,7 +64,8 @@ export default class MissingPetPosts extends Component {
                 LongA: Long,
                 LatA: Lat,
                 Name:UserName,
-                offerorID: offerorID
+                offerorID: offerorID,
+                postid: postidentification
               }  
             }         
           });         
@@ -63,6 +78,7 @@ export default class MissingPetPosts extends Component {
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   initialRegion={this.state.region}
                   provider="google"
@@ -73,9 +89,12 @@ export default class MissingPetPosts extends Component {
                   >
                   <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
                   </MapView>
-                 
+                  <TouchableOpacity 
+                     style={styles.iconStyle}
+                     onPress={()=> this.onPressTrashIcon(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
                 </View>
-             
                 </View>          
               );
             }
@@ -87,6 +106,7 @@ export default class MissingPetPosts extends Component {
                   source={{uri: element.AnimalPic}}/>
                   <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   initialRegion={this.state.region}
                   provider="google"

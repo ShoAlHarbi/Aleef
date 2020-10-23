@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl,Alert} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 var SellingPostsData= [];
+
 export default class SellingOffersScreen extends Component {
         constructor(props) {
           super(props);
@@ -15,6 +17,13 @@ export default class SellingOffersScreen extends Component {
         }
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
+        }
+        onPressTrashIcon = (postid) => {
+          SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
+          firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
+            this.readPostData(); 
+            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}]) //added 2
+          });
         }
 
         SellingUpload = () => this.props.navigation.navigate('اضافة عرض بيع')
@@ -41,6 +50,7 @@ export default class SellingOffersScreen extends Component {
                 var petPrice= post[postInfo].price; 
                 var UserName = post[postInfo].uName;
                 var offerorID = post[postInfo].userId;  
+                var postidentification = postInfo; 
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
                   AnimalType: AniType,
@@ -50,7 +60,8 @@ export default class SellingOffersScreen extends Component {
                   AnimalPic: AniPic,
                   AnimalPrice: petPrice,
                   Name: UserName,
-                  offerorID: offerorID
+                  offerorID: offerorID,
+                  postid: postidentification
                 }  
               }         
             });         
@@ -67,7 +78,11 @@ export default class SellingOffersScreen extends Component {
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                   
+                    <TouchableOpacity 
+                     style={styles.iconStyle}
+                     onPress={()=> this.onPressTrashIcon(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
                   </View>
                
                   </View>
@@ -182,7 +197,7 @@ const styles = StyleSheet.create({
     width:310
     },
     iconStyle: {
-      padding:20,
+      padding:8,
       left: 30
     }
 });
