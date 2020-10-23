@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl, Alert } from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -21,10 +21,28 @@ export default class AdoptionAdminScreen extends Component {
   }
 
   onPressTrashIcon = (postid) => {
-      firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
-        this.readPostData(); 
-      });
-    }
+    Alert.alert(
+      "",
+      "هل تود حذف هذا العرض؟",
+      [
+        {
+          text: "لا",
+          onPress: () => console.log("لا"),
+          style: "cancel"
+        },
+        { text: "نعم", onPress: () => this.onPressDelete(postid) }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  onPressDelete = (postid) => { // start new method
+    AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
+    firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
+      this.readPostData(); 
+      Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+    });
+   }  //end new method
 
 
   readPostData =() => {

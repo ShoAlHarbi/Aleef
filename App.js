@@ -16,8 +16,10 @@ import SellingUpload from './SellingUpload'
 import MissingPetPosts from './MissingPetPosts'
 import MissingPetUpload from './MissingPetUpload'
 import AdoptionAdminScreen from './AdoptionAdminScreen'
+import MissingPetAdmin from './MissingPetAdmin'; 
 import chatScreen from './chatScreen';
 import allChatsScreen from './allChatsScreen';
+import SellingAdminScreen from './SellingAdminScreen'; 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
@@ -132,6 +134,14 @@ function App() {
           },
         }} name="اضافة عرض بيع" component={SellingUpload} /> 
 
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="جميع عروض البيع" component={SellingAdminScreen} />
+
         <Stack.Screen options={({route})=>({
           headerShown: true,
           headerStyle: {
@@ -166,6 +176,16 @@ function App() {
             shadowColor: '#FFFCFC',
           },
         })} name="اضافة بلاغ" component={MissingPetUpload} />
+
+       <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="جميع البلاغات" component={MissingPetAdmin} />  
+
+        
       </Stack.Navigator>
       
     </NavigationContainer>
