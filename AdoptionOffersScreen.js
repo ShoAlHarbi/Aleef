@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl, Alert} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
-
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 var AdoptionPostsData= [];
 
@@ -15,9 +15,16 @@ export default class AdoptionOffersScreen extends Component {
             refreshing: false,
           }
         }
-
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
+        }
+
+        onPressTrashIcon = (postid) => {
+         AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
+          firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
+            this.readPostData(); 
+            Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+          });
         }
 
         AdoptionUpload = () => this.props.navigation.navigate('اضافة عرض تبني')
@@ -41,7 +48,8 @@ export default class AdoptionOffersScreen extends Component {
                 var AniCity= post[postInfo].City; 
                 var AniPic= post[postInfo].PetPicture; 
                 var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId;  
+                var offerorID = post[postInfo].userId; 
+                var postidentification = postInfo;  
                 //----------------Adoption Posts Array-----------------------
                 AdoptionPostsData[i]={
                   AnimalType: AniType,
@@ -50,7 +58,8 @@ export default class AdoptionOffersScreen extends Component {
                   AnimalCity: AniCity,
                   AnimalPic: AniPic,
                   Name: UserName,
-                  offerorID: offerorID
+                  offerorID: offerorID,
+                  postid: postidentification
                 }  
               }         
             }); 
@@ -67,7 +76,11 @@ export default class AdoptionOffersScreen extends Component {
                     <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                
+                    <TouchableOpacity 
+                     style={styles.iconStyle}
+                     onPress={()=> this.onPressTrashIcon(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
                   </View>
                   </View>
                   
@@ -98,6 +111,7 @@ export default class AdoptionOffersScreen extends Component {
               );}
             }).reverse();
         }
+
         render(){ 
               return (
                 <ScrollView style={{ backgroundColor:'#FFFCFC' }}
@@ -184,7 +198,7 @@ const styles = StyleSheet.create({
   width:310
   },
   iconStyle: {
-    padding:20,
+    padding:8,
     left: 30
   }
 });
