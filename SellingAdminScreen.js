@@ -115,10 +115,6 @@ export default class SellingAdminScreen extends Component {
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
-                    <TouchableOpacity onPress={() => this.SellingUpload()}
-                       style={styles.button}>
-                    <Text style={styles.textStyle}>اضافة عرض بيع</Text>
-                    </TouchableOpacity>
                     {this.readPostData()} 
                 </View>
                 </ScrollView>

@@ -162,10 +162,6 @@ export default class MissingPetPosts extends Component {
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
-                    <TouchableOpacity onPress={() => this.MissingPetUpload()}
-                       style={styles.button}>
-                    <Text style={styles.textStyle}>اضافة بلاغ</Text>
-                    </TouchableOpacity>
                     {this.readPostData()}
                 </View>
                 </ScrollView>
