@@ -18,13 +18,29 @@ export default class SellingOffersScreen extends Component {
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
-        onPressTrashIcon = (postid) => {
+        onPressTrashIcon = (postid) => { // start edit this method
+          Alert.alert(
+            "",
+            "هل تود حذف هذا العرض؟",
+            [
+              {
+                text: "لا",
+                onPress: () => console.log("لا"),
+                style: "cancel"
+              },
+              { text: "نعم", onPress: () => this.onPressDelete(postid) }
+            ],
+            { cancelable: false }
+          );
+        } //end edit this method
+
+        onPressDelete = (postid) => { // start new method
           SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
           firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
             this.readPostData(); 
             Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}]) //added 2
-          });
-        }
+          }); 
+         }  //end new method
 
         SellingUpload = () => this.props.navigation.navigate('اضافة عرض بيع')
         onPressChatIcon = (offerorID, Name) => {

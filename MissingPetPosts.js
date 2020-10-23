@@ -26,13 +26,29 @@ export default class MissingPetPosts extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-        onPressTrashIcon = (postid) => {
+        onPressTrashIcon = (postid) => { // start edit this method
+          Alert.alert(
+            "",
+            "هل تود حذف هذا البلاغ؟",
+            [
+              {
+                text: "لا",
+                onPress: () => console.log("لا"),
+                style: "cancel"
+              },
+              { text: "نعم", onPress: () => this.onPressDelete(postid) }
+            ],
+            { cancelable: false }
+          );
+         } // end of edit this method
+
+         onPressDelete = (postid) => { //new method
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
            firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
              this.readPostData(); 
              Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
            });
-         }
+         }  //new method
 
         MissingPetUpload = () => this.props.navigation.navigate('اضافة بلاغ')
 

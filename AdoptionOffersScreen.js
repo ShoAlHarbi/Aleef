@@ -20,12 +20,28 @@ export default class AdoptionOffersScreen extends Component {
         }
 
         onPressTrashIcon = (postid) => {
-         AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
+          Alert.alert(
+            "",
+            "هل تود حذف هذا العرض؟",
+            [
+              {
+                text: "لا",
+                onPress: () => console.log("لا"),
+                style: "cancel"
+              },
+              { text: "نعم", onPress: () => this.onPressDelete(postid) }
+            ],
+            { cancelable: false }
+          );
+        }
+
+        onPressDelete = (postid) => { // start new method
+          AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
           firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
             this.readPostData(); 
             Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
           });
-        }
+         }  //end new method
 
         AdoptionUpload = () => this.props.navigation.navigate('اضافة عرض تبني')
         onPressChatIcon = (offerorID , Name) => {
