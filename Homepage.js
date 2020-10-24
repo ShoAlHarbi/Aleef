@@ -2,8 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import firebase from './firebase';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import * as Permissions from 'expo-permissions';
+import * as Notifications from 'expo-notifications';
 
 export default class Homepage extends Component {
         constructor() {
@@ -13,6 +15,30 @@ export default class Homepage extends Component {
             displayName: ''
           }
         }
+
+        async componentDidMount(){
+          currenUID = firebase.auth().currentUser.uid
+
+          const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+          let finalStatus = existingStatus;
+          if (existingStatus !== "granted") {
+            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+          }
+          if (finalStatus !== "granted") {
+            return false;
+          }
+          try{
+            // Generate the token and store it in the database
+            let token = await Notifications.getExpoPushTokenAsync();
+            console.log(token)
+            firebase.database().ref('account/'+currenUID+'/push_token')
+            .set(token)
+          } catch(error){
+            console.log(error)
+          }
+        }
+
         signOut = () => {
             firebase.auth().signOut().then(() => {
               this.props.navigation.navigate('مرحباً في أليف')

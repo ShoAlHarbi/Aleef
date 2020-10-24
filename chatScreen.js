@@ -23,7 +23,6 @@ export default function chatScreen({ route }) {
   useEffect(() => {
   
     setInfo();
-    registerForPushNotification()
     const messagesListener = firebase.firestore()
     .collection('chats')
     .doc(chatID)
@@ -53,23 +52,7 @@ export default function chatScreen({ route }) {
 
       }, []);
 
-  async function registerForPushNotification () {
 
-        const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        console.log(existingStatus)
-        if (existingStatus !== "granted") {
-          return;
-        }
-        try{
-          // Generate the token and store it in the database
-          let token = await Notifications.getExpoPushTokenAsync();
-          console.log(token)
-          firebase.database().ref('account/'+currenUID+'/push_token')
-          .set(token)
-        } catch(error){
-          console.log(error)
-        }
-      }
 
   // Generate chatID
   function getChatID(){
@@ -162,7 +145,7 @@ export default function chatScreen({ route }) {
       body: JSON.stringify({
         to: offerorToken,
         sound: 'default',
-        title: 'Aleef',
+        title: myName,
         body: message
       })
     });
