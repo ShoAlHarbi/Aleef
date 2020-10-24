@@ -62,18 +62,18 @@ export default class MissingPetPosts extends Component {
           var ref = firebase.database().ref("MissingPetPosts");
           ref.on('value',  function (snapshot) {
             var post = snapshot.val();
-          //-------------------------------------------------------------------------           
-          //This block of code is to prevent null error when array is empty: 
-           if (post === null){
-            return(
-            <View style={{ marginBottom:30}}>
-            <View style={styles.Post}>
-            <Text style={styles.mandatoryTextStyle}>لا توجد بلاغات حاليا.</Text>
-            </View>
-            </View>
-             ); 
-             }
-           //------------------------------------------------------------------------  
+            //-------------------------------------------------------------------------           
+            //This block of code is to prevent null error when array is empty: 
+            if (post === null){
+              return(
+              <View style={{ marginBottom:30}}>
+              <View style={styles.Post}>
+              <Text style={styles.mandatoryTextStyle}>لا توجد بلاغات حاليا.</Text>
+              </View>
+              </View>
+               ); 
+               }
+            //------------------------------------------------------------------------ 
             var postKeys = Object.keys(post);// to find the post keys and put them in an array
             for(var i = 0; i< postKeys.length;i++){
               var postInfo = postKeys[i];
@@ -108,7 +108,12 @@ export default class MissingPetPosts extends Component {
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
-                  initialRegion={this.state.region}
+                  region={{
+                    latitude: element.LatA,
+                    longitude: element.LongA,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
+                  }}
                   provider="google"
                   showsUserLocation={true}
                   showsMyLocationButton={true}
@@ -136,7 +141,12 @@ export default class MissingPetPosts extends Component {
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
-                  initialRegion={this.state.region}
+                  region={{
+                    latitude: element.LatA,
+                    longitude: element.LongA,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
+                  }}
                   provider="google"
                   showsUserLocation={true}
                   showsMyLocationButton={true}
@@ -174,9 +184,9 @@ export default class MissingPetPosts extends Component {
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
-                  <TouchableOpacity onPress={() => this.MissingPetUpload()}	
-                       style={styles.button}>	
-                    <Text style={styles.textStyle}>اضافة بلاغ</Text>	
+                    <TouchableOpacity onPress={() => this.MissingPetUpload()}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>اضافة بلاغ</Text>
                     </TouchableOpacity>
                     {this.readPostData()}
                 </View>
@@ -247,11 +257,11 @@ const styles = StyleSheet.create({
     mapStyle: {
       width: 290, height: 180 ,marginLeft:10, marginBottom:12
     },
-   //--------------------------------------
+    //--------------------------------------
     mandatoryTextStyle: { 
-    color: 'red',
-    fontSize: 13,
-    marginTop: 5,
+     color: 'red',
+     fontSize: 13,
+     marginTop: 5,
     }
-   ///--------------------------------------
+    ///--------------------------------------
 });
