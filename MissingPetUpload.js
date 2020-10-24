@@ -177,7 +177,9 @@ export default class MissingPetUpload extends Component {
           placeholderTextColor="#a3a3a3"
           style={styles.inputField}
           value={this.state.AnimalType}
-          onChangeText={(val) => this.updateInputVal(val, 'AnimalType')}
+          maxLength={20} //---------------------------------------------------------------
+          onChangeText={(val) => this.updateInputVal(val, 'AnimalType')
+        }
         />
          <TouchableOpacity onPress={() => this.SelectImage()}
                        style={styles.buttonUploadPhoto}>
