@@ -4,6 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import uuid from 'react-native-uuid';
 import firebase from './firebase'
+import { RadioButton } from 'react-native-paper';
+import {Picker} from '@react-native-community/picker'; 
 console.disableYellowBox = true;
 var Name='';
 export default class AdoptionUpload extends Component {
@@ -13,13 +15,14 @@ export default class AdoptionUpload extends Component {
       AnimalType: '',
       AnimalSex: '',
       AnimalAge:'',
-      City:'',
-     
+      City:'غير محدد',
+      checked:'',
       userId:'',
       userID: firebase.auth().currentUser.uid,
       UserName: '',
       PetImage: null,
       uploading: false,
+      //checked: 'first',
     }
   }
 
@@ -116,15 +119,19 @@ export default class AdoptionUpload extends Component {
                 
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
-        const AnimalSexcheck = ArabicExpression.test(this.state.AnimalSex.trim());
         const AnimalAgecheck = ArabicExpression.test(this.state.AnimalAge.trim());
-        const Citycheck = ArabicExpression.test(this.state.City.trim());
 
-        if (this.state.AnimalType.trim() === '' || this.state.AnimalSex.trim() === '' || this.state.AnimalAge.trim() === '' || this.state.City.trim() === '') {
+        if (this.state.AnimalType.trim() === '' || this.state.AnimalAge.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
-          else if (AnimalTypecheck === false  || AnimalSexcheck === false  || Citycheck === false || AnimalAgecheck === false){
+          else if(this.state.AnimalSex === ''){
+            Alert.alert('', 'يجب تحديد جنس الحيوان',[{ text: 'حسناً'}])
+          }
+          else if (AnimalTypecheck === false || AnimalAgecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           }  
+          else if(this.state.City === 'غير محدد'){
+            Alert.alert('', 'يجب اختيار مدينة  ',[{ text: 'حسناً'}])
+          }
          else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
           }
@@ -151,6 +158,7 @@ export default class AdoptionUpload extends Component {
     }
 
   render(){ 
+    const { checked } = this.state;
     let { PetImage } = this.state;
       return (
         <ScrollView style={{ backgroundColor:'#FFFCFC' }}>
@@ -159,21 +167,38 @@ export default class AdoptionUpload extends Component {
         <Image
         style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
         source={require('./assets/AleefLogoCat.png')}/>
-
-          <TextInput
+         <TextInput
           placeholder="*نوع الحيوان"
           placeholderTextColor="#a3a3a3"
           style={styles.inputField}
           value={this.state.AnimalType}
+          maxLength={20}
           onChangeText={(val) => this.updateInputVal(val, 'AnimalType')}
         />
-         <TextInput
-          placeholder="*جنس الحيوان"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={this.state.AnimalSex}
-          onChangeText={(val) => this.updateInputVal(val, 'AnimalSex')}
+        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*جنس الحيوان:</Text>
+        <View style={{flexDirection:'row'}}>
+          <Text style={{color: '#5F5F5F',fontSize: 15,paddingTop:6}}>غير معروف</Text>
+          <RadioButton
+          value="غير معروف"
+          status={checked === 'غير معروف' ? 'checked' : 'unchecked'}
+          color={'#69C4C6'}
+          onPress={() => { this.setState({ checked: 'غير معروف', AnimalSex: 'غير معروف'}); }}
         />
+        <Text style={{color: '#5F5F5F',fontSize: 15,marginLeft:12,paddingTop:6}} >ذكر</Text>
+        <RadioButton
+          value="ذكر"
+          status={checked === 'ذكر' ? 'checked' : 'unchecked'}
+          color={'#69C4C6'}
+          onPress={() => { this.setState({ checked: 'ذكر', AnimalSex: 'ذكر' }); }}
+        />
+        <Text style={{color: '#5F5F5F',fontSize: 15, marginLeft:12,paddingTop:6}}>أنثى</Text>
+        <RadioButton
+          value="أنثى"
+          status={checked === 'أنثى' ? 'checked' : 'unchecked'}
+          color={'#69C4C6'}
+          onPress={() => { this.setState({ checked: 'أنثى',AnimalSex: 'أنثى'  }); }}
+        />
+        </View>
           <TextInput
           placeholder="*عمر الحيوان (مثال: ستة أشهر)"
           placeholderTextColor="#a3a3a3"
@@ -181,13 +206,22 @@ export default class AdoptionUpload extends Component {
           value={this.state.AnimalAge}
           onChangeText={(val) => this.updateInputVal(val, 'AnimalAge')}
         />
-        <TextInput
-          placeholder="*المدينة"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={this.state.City}
-          onChangeText={(val) => this.updateInputVal(val, 'City')}
-        />
+<Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*المدينة:</Text>
+<Picker
+  selectedValue={this.state.City}
+  style={{height: 50, width: 160}}
+  itemStyle={styles.itemStyle}
+  onValueChange={(val) => this.updateInputVal(val, 'City')}
+>
+  <Picker.Item label= "غير محدد" value= "غير محدد" />
+  <Picker.Item label="الرياض" value="الرياض" />
+  <Picker.Item label="القصيم" value="القصيم" />
+  <Picker.Item label="المدينة المنورة" value="المدينة المنورة" />
+  <Picker.Item label="المنطقة الشرقية" value="المنطقة الشرقية" />
+  <Picker.Item label="جدة" value="جدة" />
+  <Picker.Item label="حائل" value="حائل" />
+  <Picker.Item label="مكة المكرمة" value="مكة المكرمة" />
+</Picker>
                     <TouchableOpacity onPress={() => this.SelectImage()}
                        style={styles.buttonUploadPhoto}>
                     <Text style={styles.textStyleUploadPhoto}>*رفع صورة للحيوان</Text>
@@ -278,5 +312,10 @@ buttonUploadPhoto: {
   marginTop: 10,
   marginBottom: 10,
   borderRadius: 20,
+},
+//---------------------------------------
+itemStyle: {
+  textAlign: 'center',
 }
+//----------------------------------------
 })
