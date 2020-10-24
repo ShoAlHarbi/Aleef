@@ -54,6 +54,18 @@ export default class AdoptionOffersScreen extends Component {
             var ref = firebase.database().ref("AdoptionPosts");
             ref.on('value',  function (snapshot) {
               var post = snapshot.val();
+          //-------------------------------------------------------------------------           
+          //This block of code is to prevent null error when array is empty: 
+          if (post === null){
+            return(
+            <View style={{ marginBottom:30}}>
+            <View style={styles.Post}>
+            <Text style={styles.mandatoryTextStyle}>لا توجد عروض تبني حاليا.</Text>
+            </View>
+            </View>
+             ); 
+             }
+          //------------------------------------------------------------------------    
               var postKeys = Object.keys(post);// to find the post keys and put them in an array
               for(var i = 0; i< postKeys.length;i++){
                 var postInfo = postKeys[i];
@@ -216,5 +228,12 @@ const styles = StyleSheet.create({
   iconStyle: {
     padding:8,
     left: 30
+  },
+//--------------------------------------
+ mandatoryTextStyle: { 
+  color: 'red',
+  fontSize: 13,
+  marginTop: 5,
   }
+///--------------------------------------
 });
