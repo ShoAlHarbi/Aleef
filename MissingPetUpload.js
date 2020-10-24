@@ -31,8 +31,8 @@ export default class MissingPetUpload extends Component {
       region: {
         latitude:  24.774265,
         longitude: 46.738586,
-        latitudeDelta: 8,
-        longitudeDelta: 15
+        latitudeDelta: 1,
+        longitudeDelta: 1
       },
     }
   }
@@ -45,6 +45,14 @@ export default class MissingPetUpload extends Component {
 
 
   async componentDidMount() {
+    navigator.geolocation.getCurrentPosition(position => {
+    this.setState({
+      marker:{
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+      }
+    })
+    })
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
   }
 
@@ -133,12 +141,12 @@ export default class MissingPetUpload extends Component {
 
         if (this.state.AnimalType.trim() === '') {
           Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
-        /*  else if (AnimalTypecheck === false){
+          else if (AnimalTypecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
-          } */ 
-        /* else if (this.state.PetImage === null){
+          }
+          else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
-          }*/
+          }
        else{
       //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
