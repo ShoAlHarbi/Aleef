@@ -45,14 +45,7 @@ export default class MissingPetUpload extends Component {
 
 
   async componentDidMount() {
-    navigator.geolocation.getCurrentPosition(position => {
-    this.setState({
-      marker:{
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-      }
-    })
-    })
+    navigator.geolocation.getCurrentPosition()
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
   }
 
@@ -140,7 +133,10 @@ export default class MissingPetUpload extends Component {
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
 
         if (this.state.AnimalType.trim() === '') {
-          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
+          Alert.alert('', 'يجب تعبئة حقل نوع الحيوان',[{ text: 'حسناً'}])}
+          else if(this.state.marker.latitude === -82.8187050 || this.state.marker.longitude === 34.5320631){
+            Alert.alert('', 'يجب تحديد موقع اخر مشاهدة للحيوان',[{ text: 'حسناً'}])
+          }
           else if (AnimalTypecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           }
