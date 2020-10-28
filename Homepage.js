@@ -86,6 +86,11 @@ export default class Homepage extends Component {
                     <Text style={styles.textStyle}>المحادثات</Text>
                     </TouchableOpacity>
 
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('الصفحة الشخصية')}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>الصفحة الشخصية</Text>
+                    </TouchableOpacity>
+
                    </View>
                 
                 </View>
