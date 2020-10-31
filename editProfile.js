@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ActivityIndicator} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusSquare} from '@fortawesome/free-solid-svg-icons';
 import * as ImagePicker from 'expo-image-picker';
+import uuid from 'react-native-uuid';
+import { database } from 'firebase';
+
 
 
 export default class editProfile extends Component{
@@ -21,97 +24,74 @@ export default class editProfile extends Component{
             uploading: false,
         }
       }
-     
 
-    componentDidMount(){
-        firebase.database().ref('account/'+firebase.auth().currentUser.uid)
-        .on('value',(snapshot)=>{
-            this.setState({
-                userName: snapshot.val().name,
-                profileImage: snapshot.val().profileImage,
-                email: snapshot.val().Email,
-            })
-            
-        });
+
+     retrieveInfo = () => { 
+      firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+      .on('value',(snapshot)=>{
+          this.setState({
+              userName: snapshot.val().name,
+              profileImage: snapshot.val().profileImage,
+              email: snapshot.val().Email,
+          })
+          
+      });
+     }
+
+     async componentDidMount(){
+      this.retrieveInfo(); 
+      await Permissions.askAsync(Permissions.CAMERA_ROLL);
     }
 
     SelectImage = async () => {
-        let SelectResult = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing: true,
-          aspect: [2, 2],
-        });
-        this.handleImageSelected(SelectResult);
-      };
+      let SelectResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [2, 2],
+      });
+      this.handleImageSelected(SelectResult);
+    };
 
-      RenderUploading = () => {
-        if (this.state.uploading) {
-          return (
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  backgroundColor: 'rgba(0,0,0,0.4)',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                },
-              ]}>
-              <ActivityIndicator color="#fff" animating size="large" />
-            </View>
-          );
+    handleImageSelected = async SelectResult => {
+      try {
+        this.setState({ uploading: true });
+  
+        if (!SelectResult.cancelled) {
+          const uploadUrl = await uploadImageAsync(SelectResult.uri);
+          this.setState({ profileImage: uploadUrl });
         }
-      };
+      } catch (e) {
+        console.log(e);
+        Alert.alert('', 'فشل رفع الصورة',[{ text: 'حسناً'}])
+      } finally {
+        this.setState({ uploading: false });
+      }
+    };
 
-      handleImageSelected = async SelectResult => {
-        try {
-          this.setState({ uploading: true });
-    
-          if (!SelectResult.cancelled) {
-            const uploadUrl = await uploadImageAsync(SelectResult.uri);
-            this.setState({ profileImage: uploadUrl });
-          }
-        } catch (e) {
-          console.log(e);
-          Alert.alert('', 'فشل رفع الصورة',[{ text: 'حسناً'}])
-        } finally {
-          this.setState({ uploading: false });
-        }
-      };
+    RenderUploading = () => {
+      if (this.state.uploading) {
+        return (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                backgroundColor: 'rgba(0,0,0,0.4)',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+            ]}>
+            <ActivityIndicator color="#fff" animating size="large" />
+          </View>
+        );
+      }
+    };
 
-      RenderImage = () => {
-        let { profileImage } = this.state;
-        if (!profileImage) {
-          return;
-        }
-    
-        // return (
-        //   <View
-        //     style={{
-        //       marginTop: 30,
-        //       width: 220,
-        //       borderRadius: 3,
-        //       elevation: 2,
-        //     }}>
-        //     <View
-        //       style={{
-        //         borderTopRightRadius: 3,
-        //         borderTopLeftRadius: 3,
-        //         shadowColor: 'rgba(0,0,0,1)',
-        //         shadowOpacity: 0.2,
-        //         shadowOffset: { width: 4, height: 4 },
-        //         shadowRadius: 5,
-        //         overflow: 'hidden',
-        //       }}>
-        //       <Image source={{ uri: profileImage }} style={{ width: 140, height: 140, borderRadius:140/2, marginTop:20}} />
-        //     </View>
-        //   </View>
-        // );
-      };
 
     updateInfo = ()=>{
-        
+     
     }
 
     render(){
+      let { profileImage } = this.state;
         return(
             <View style={styles.container}>
                 <View>
@@ -123,17 +103,19 @@ export default class editProfile extends Component{
                      style={styles.iconStyle}>
                      <FontAwesomeIcon icon={ faPlusSquare }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
-                    {this.RenderImage()}
-                    {/* {this.RenderUploading()} */}
+                    {/* {this.RenderImage()} */}
+                    {this.RenderUploading()}
                     
                     <TextInput
                     defaultValue = {this.state.userName}
                     style={styles.inputField1}
+                    value = {this.state.userName}
                     />
                     <TextInput
                     defaultValue = {this.state.email}
                     keyboardType='email-address'
                     style={styles.inputField}
+                    value = {this.state.email}
                     />
                     <TextInput
                     placeholder= 'كلمة المرور'
@@ -156,6 +138,31 @@ export default class editProfile extends Component{
             </View>
         )
     }
+}
+
+async function uploadImageAsync(uri) {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.log(e);
+      reject(new TypeError('فشل الطلب'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+
+  const ref = firebase
+    .storage()
+    .ref()
+    .child(uuid.v4());
+  const snapshot = await ref.put(blob);
+  blob.close();
+
+  return await snapshot.ref.getDownloadURL();
 }
 
 const styles = StyleSheet.create({
