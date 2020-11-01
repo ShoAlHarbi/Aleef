@@ -6,13 +6,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import * as Permissions from 'expo-permissions'; //Copied from chatScreen
+import * as Notifications from 'expo-notifications' //Copied from chatScreen
 
 var MissingPetPostsData= [];
+//-----------------------------------------------
+// 1- Global varibles: intially zero but then set them to marker cooordinates (lat and long) of recent report:
+var reportLocationLat= 0;
+var reportLocationLong= 0;
+var reportPosterID =''; // need this to make sure that current user != offeror
+//var reportAnimalType =''; //need this later to make msg in notification more costumized.  
+//-----------------------------------------------
 
 export default class MissingPetPosts extends Component {
         constructor(props) {
           super(props);
           this.state = { 
+            LoggedinUserID: firebase.auth().currentUser.uid, // need this to make sure that current user != offeror
             refreshing: false,
             region: {
               latitude:  24.774265,
@@ -20,13 +30,72 @@ export default class MissingPetPosts extends Component {
               latitudeDelta: 8,
               longitudeDelta: 15
             },
+            //--------------Inital points------------------
+            UserLocation:{
+              latitude:  0,
+              longitude: 0,
+            },
+            //---------------------------------------------
           }
         }
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
+        //------------------------Get current user location--------------------------
+        async componentDidMount() {
+          navigator.geolocation.getCurrentPosition(position => {
+            this.setState({
+              UserLocation:{
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+              }
+            })
+          })
+        }
+        //-----------------------------------------------------------------------------
 
-        onPressTrashIcon = (postid) => { // start edit this method
+        //---------------------Calcualte distance between 2 locations-------------------
+        nearUsers =()=>{
+          var geodist = require('geodist')
+          var LoggedinUserLoc= {lat: this.state.UserLocation.latitude, lon: this.state.UserLocation.longitude}//this is current user location
+          console.log("1- Inside nearUsers: LoggedinUserLoc: lat:"+LoggedinUserLoc.lat + " lon:"+LoggedinUserLoc.lon)
+          var reportLoc = {lat: reportLocationLat, lon: reportLocationLong}
+          console.log("2- Inside nearUsers: reportLoc lat: "+reportLoc.lat+ " lon: "+reportLoc.lon)
+          var dist = geodist(LoggedinUserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
+          console.log("3- Inside nearUsers: The distance is: "+dist)
+          console.log("--------------------------------------------")
+          // If the report is of 4 KM of loggedinuser and the loggedinuser is NOT who posted the report:
+          if( (dist < 4) && (this.state.LoggedinUserID != reportPosterID) ){  //Should we add not equal to admin?
+          this.sendPushNotification();
+          console.log("Call 'send' method here.")}
+        }
+        //------------------------------------------------------------------------------
+         
+    sendPushNotification=()=>{
+    // Get the offeror push_token to send the notification
+    let LoggedinUserToken
+    firebase.database().ref('account/'+this.state.LoggedinUserID+'/push_token/data').on('value', (snapshot)=>{
+      LoggedinUserToken = snapshot.val()
+    })
+
+    // Push the notification
+    console.log('The token is '+LoggedinUserToken)
+    let response = fetch('https://exp.host/--/api/v2/push/send',{
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+       'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        to: LoggedinUserToken,
+        sound: 'default',
+        title: 'يوجد حيوان أليف مفقود بالقرب منك',
+        //body: message
+      })
+    });
+  }
+
+        onPressTrashIcon = (postid) => {
           Alert.alert(
             "",
             "هل تود حذف هذا البلاغ؟",
@@ -40,15 +109,15 @@ export default class MissingPetPosts extends Component {
             ],
             { cancelable: false }
           );
-         } // end of edit this method
+         }
 
-         onPressDelete = (postid) => { //new method
+         onPressDelete = (postid) => {
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
            firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
              this.readPostData(); 
              Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
            });
-         }  //new method
+         }
 
         MissingPetUpload = () => this.props.navigation.navigate('اضافة بلاغ')
 
@@ -58,6 +127,7 @@ export default class MissingPetPosts extends Component {
             name: Name
           })
         }
+
         readPostData =() => {
           var ref = firebase.database().ref("MissingPetPosts");
           ref.on('value',  function (snapshot) {
@@ -95,6 +165,16 @@ export default class MissingPetPosts extends Component {
                 offerorID: offerorID,
                 postid: postidentification
               }  
+              //-----------------------------------------------
+              // 3- The goal here: Set the value of the last report coordinates to the global varibles.
+              if (  i  == (postKeys.length-1)  ){ // to get the last element in array = most recent report.
+                reportLocationLat= post[postInfo].latitude; // set value of lat (from databse) of the most recent report to reportLocationLat
+                reportLocationLong= post[postInfo].longitude; // set value of long (from databse) of the most recent report to reportLocationLong
+                reportPosterID = post[postInfo].userId;
+                console.log("4- Inside if: reportLocationLat: "+reportLocationLat+ " reportLocationLong: "+reportLocationLong)
+              }
+              //-----------------------------------------------
+
             }         
           });         
           return MissingPetPostsData.map(element => {
@@ -178,6 +258,7 @@ export default class MissingPetPosts extends Component {
                 }
                 >
                 <View style={styles.container}>
+                
                   <View style={styles.container2}>
                   <View><Image
                         style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
@@ -189,6 +270,8 @@ export default class MissingPetPosts extends Component {
                     <Text style={styles.textStyle}>اضافة بلاغ</Text>
                     </TouchableOpacity>
                     {this.readPostData()}
+                    {this.nearUsers()}
+
                 </View>
                 </ScrollView>
             );
@@ -257,11 +340,9 @@ const styles = StyleSheet.create({
     mapStyle: {
       width: 290, height: 180 ,marginLeft:10, marginBottom:12
     },
-    //--------------------------------------
     mandatoryTextStyle: { 
      color: 'red',
      fontSize: 13,
      marginTop: 5,
     }
-    ///--------------------------------------
 });
