@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ActivityIndicator, Alert} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusSquare} from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +22,7 @@ export default class editProfile extends Component{
             password: '',
             confirmPassword: '',
             uploading: false,
+            newProfileImage: null,
         }
       }
 
@@ -57,7 +58,8 @@ export default class editProfile extends Component{
   
         if (!SelectResult.cancelled) {
           const uploadUrl = await uploadImageAsync(SelectResult.uri);
-          this.setState({ profileImage: uploadUrl });
+          this.setState({ profileImage: uploadUrl,
+          newProfileImage: uploadUrl});
         }
       } catch (e) {
         console.log(e);
@@ -85,13 +87,73 @@ export default class editProfile extends Component{
       }
     };
 
+    updateInputVal1 = (val, prop1, prop2) => {
+      const state = this.state;
+      state[prop1] = val;
+      state[prop2] = val;
+      this.setState(state);
+    }
+
+    updateInputVal2 = (val, prop1) => {
+      const state = this.state;
+      state[prop1] = val;
+      this.setState(state);
+    }
 
     updateInfo = ()=>{
-     
+      const Emailexpression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+      const Emailcheck = Emailexpression.test(String(this.state.newEmail).toLowerCase());
+
+      const strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
+      const Passcheck = strongPass.test(this.state.password);
+      if(this.state.newProfileImage!==null||this.state.newName!==''||this.state.newEmail!==''||this.state.password!== ''){
+      if(this.state.newProfileImage!==null){
+      firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+      .update({
+        profileImage: this.state.profileImage
+      });
+    }
+
+      if(this.state.newName.trim()!==''){
+        firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+        .update({
+          name: this.state.newName.trim()
+        })
+        Alert.alert('', 'test1',[{ text: 'حسناً'}])
+      }
+
+      if(this.state.newEmail.trim()!==''){
+        if (Emailcheck === false) {
+          Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
+        }else{
+        firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+      .update({
+        Email: this.state.newEmail
+      });
+      firebase.auth().currentUser
+      .updateEmail(this.state.newEmail)
+      Alert.alert('', 'test2',[{ text: 'حسناً'}])
+    }
+    
+      }
+      if(this.state.password.trim() !== ''){
+        if (Passcheck === false) {
+          Alert.alert('', 'يجب ان تتكون كلمة المرور من 8 خانات أو أكثر وحرف انجليزي كبير وحرف انجليزي صغير على الأقل',[{ text: 'حسناً'}])
+        } else if (this.state.password !== this.state.confirmPassword) {
+          Alert.alert('', 'كلمتا المرور غير متطابقتان. الرجاء إعادة الإدخال',[{ text: 'حسناً'}])
+        }else{
+          firebase.auth().currentUser
+          .updatePassword(this.state.password)
+          Alert.alert('', 'test3',[{ text: 'حسناً'}])
+        }
+      }
+      Alert.alert('', 'تم حفظ التغييرات',[{ text: 'حسناً'}])
+    }
     }
 
     render(){
       let { profileImage } = this.state;
+      let { newProfileImage } = this.state;
         return(
             <View style={styles.container}>
                 <View>
@@ -109,29 +171,30 @@ export default class editProfile extends Component{
                     <TextInput
                     defaultValue = {this.state.userName}
                     style={styles.inputField1}
-                    value = {this.state.userName}
+                    onChangeText={(val) => this.updateInputVal1(val,'userName','newName')}
                     />
                     <TextInput
                     defaultValue = {this.state.email}
                     keyboardType='email-address'
                     style={styles.inputField}
-                    value = {this.state.email}
+                    onChangeText={(val) => this.updateInputVal1(val, 'email','newEmail')}
                     />
                     <TextInput
                     placeholder= 'كلمة المرور'
                     placeholderTextColor="#a3a3a3"
                     secureTextEntry={true}
                     style={styles.inputField}
-                    value={this.state.password}
+                    onChangeText={(val) => this.updateInputVal2(val, 'password')}
                     />
                     <TextInput
                     placeholder= 'تأكيد كلمة المرور'
                     placeholderTextColor="#a3a3a3"
                     secureTextEntry={true}
                     style={styles.inputField}
-                    value={this.state.confirmPassord}
+                    onChangeText={(val) => this.updateInputVal2(val, 'confirmPassword')}
                     />
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button}
+                    onPress={() => this.updateInfo()}>
                         <Text style={styles.textStyle}>حفظ التغييرات</Text>
                     </TouchableOpacity>
                   
