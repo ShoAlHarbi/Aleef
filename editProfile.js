@@ -23,6 +23,7 @@ export default class editProfile extends Component{
             confirmPassword: '',
             uploading: false,
             newProfileImage: null,
+            isError: false
         }
       }
 
@@ -42,6 +43,16 @@ export default class editProfile extends Component{
      async componentDidMount(){
       this.retrieveInfo(); 
       await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    }
+     setInfo(){
+      this.setState({
+        newName: '',
+        newEmail: '',
+        newProfileImage: null,
+        password: '',
+        confirmPassword: '',
+      })
+      this.retrieveInfo();
     }
 
     SelectImage = async () => {
@@ -89,7 +100,7 @@ export default class editProfile extends Component{
 
     updateInputVal1 = (val, prop1, prop2) => {
       const state = this.state;
-      state[prop1] = val;
+      // state[prop1] = val;
       state[prop2] = val;
       this.setState(state);
     }
@@ -100,55 +111,107 @@ export default class editProfile extends Component{
       this.setState(state);
     }
 
-    updateInfo = ()=>{
+    updateInfo = async ()=>{
       const Emailexpression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
       const Emailcheck = Emailexpression.test(String(this.state.newEmail).toLowerCase());
 
       const strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
       const Passcheck = strongPass.test(this.state.password);
-      if(this.state.newProfileImage!==null||this.state.newName!==''||this.state.newEmail!==''||this.state.password!== ''){
-      if(this.state.newProfileImage!==null){
-      firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+      if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
+
+        if(this.state.newProfileImage!==null){
+       firebase.database().ref('account/'+firebase.auth().currentUser.uid)
       .update({
         profileImage: this.state.profileImage
       });
+      this.setState({
+        newProfileImage: null
+      })
+      this.retrieveInfo()
     }
 
-      if(this.state.newName.trim()!==''){
+      if(this.state.newName.trim()==''){
+        Alert.alert('', 'الرجاء ادخال اسم صحيح',[{ text: 'حسناً'}])
+        this.setState({
+          newName: ''
+        })
+        this.retrieveInfo()
+        return
+      } else {
         firebase.database().ref('account/'+firebase.auth().currentUser.uid)
         .update({
           name: this.state.newName.trim()
         })
+        this.setState({
+          newName: ''
+        })
+        this.retrieveInfo()
         Alert.alert('', 'test1',[{ text: 'حسناً'}])
       }
-
+      
       if(this.state.newEmail.trim()!==''){
         if (Emailcheck === false) {
           Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
-        }else{
-        firebase.database().ref('account/'+firebase.auth().currentUser.uid)
-      .update({
-        Email: this.state.newEmail
-      });
-      firebase.auth().currentUser
+          this.setState({
+            newEmail: ''
+          })
+          this.retrieveInfo()
+          return
+        }else if(this.state.email===this.state.newEmail){
+          Alert.alert('', 'البريد الالكتروني المدخل هو البريد الالكتروني الحالي',[{ text: 'حسناً'}])
+          this.setState({
+            newEmail: ''
+          })
+          this.retrieveInfo()
+          return
+        }
+        else{
+      
+       firebase.auth().currentUser
       .updateEmail(this.state.newEmail)
-      Alert.alert('', 'test2',[{ text: 'حسناً'}])
-    }
-    
+      .catch((error) => {
+        firebase.database().ref("account").orderByChild("Email").equalTo(this.state.email).once("value", snapshot => {
+          if (snapshot.exists()) {
+            Alert.alert('', 'عذراً البريد الإلكتروني مسجل مسبقاً',[{ text: 'حسناً'}])
+          }else {
+            firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+         .update({
+           Email: this.state.newEmail
+         })
+         Alert.alert('', 'DONE',[{ text: 'حسناً'}])
+          }
+        });
+      })
+     
       }
-      if(this.state.password.trim() !== ''){
-        if (Passcheck === false) {
+      this.setState({
+        newEmail: ''
+      })
+      return
+      }
+
+      if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
+     if((this.state.password.trim() == '' && this.state.confirmPassword.trim() !== '')
+     || (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '')){
+        Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور وتأكيد كلمة المرور',[{ text: 'حسناً'}])
+        this.setInfo()
+        return
+      }else if (Passcheck === false) {
           Alert.alert('', 'يجب ان تتكون كلمة المرور من 8 خانات أو أكثر وحرف انجليزي كبير وحرف انجليزي صغير على الأقل',[{ text: 'حسناً'}])
-        } else if (this.state.password !== this.state.confirmPassword) {
+          this.setInfo()
+          return
+        }else if (this.state.password !== this.state.confirmPassword) {
           Alert.alert('', 'كلمتا المرور غير متطابقتان. الرجاء إعادة الإدخال',[{ text: 'حسناً'}])
+          return
         }else{
-          firebase.auth().currentUser
+           firebase.auth().currentUser
           .updatePassword(this.state.password)
           Alert.alert('', 'test3',[{ text: 'حسناً'}])
         }
       }
-      Alert.alert('', 'تم حفظ التغييرات',[{ text: 'حسناً'}])
-    }
+        this.setInfo()
+        Alert.alert('', 'تم حفظ التغييرات بنجاح',[{ text: 'حسناً'}])
+      }
     }
 
     render(){
