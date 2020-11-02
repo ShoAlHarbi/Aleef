@@ -53,48 +53,6 @@ export default class MissingPetPosts extends Component {
           })
         }
         //-----------------------------------------------------------------------------
-
-        //---------------------Calcualte distance between 2 locations-------------------
-        nearUsers =()=>{
-          var geodist = require('geodist')
-          var LoggedinUserLoc= {lat: this.state.UserLocation.latitude, lon: this.state.UserLocation.longitude}//this is current user location
-          console.log("1- Inside nearUsers: LoggedinUserLoc: lat:"+LoggedinUserLoc.lat + " lon:"+LoggedinUserLoc.lon)
-          var reportLoc = {lat: reportLocationLat, lon: reportLocationLong}
-          console.log("2- Inside nearUsers: reportLoc lat: "+reportLoc.lat+ " lon: "+reportLoc.lon)
-          var dist = geodist(LoggedinUserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
-          console.log("3- Inside nearUsers: The distance is: "+dist)
-          console.log("--------------------------------------------")
-          // If the report is of 4 KM of loggedinuser and the loggedinuser is NOT who posted the report:
-          if( (dist < 4) && (this.state.LoggedinUserID != reportPosterID) ){  //Should we add not equal to admin?
-          this.sendPushNotification();
-          console.log("Call 'send' method here.")}
-        }
-        //------------------------------------------------------------------------------
-         
-    sendPushNotification=()=>{
-    // Get the offeror push_token to send the notification
-    let LoggedinUserToken
-    firebase.database().ref('account/'+this.state.LoggedinUserID+'/push_token/data').on('value', (snapshot)=>{
-      LoggedinUserToken = snapshot.val()
-    })
-
-    // Push the notification
-    console.log('The token is '+LoggedinUserToken)
-    let response = fetch('https://exp.host/--/api/v2/push/send',{
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-       'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        to: LoggedinUserToken,
-        sound: 'default',
-        title: 'يوجد حيوان أليف مفقود بالقرب منك',
-        //body: message
-      })
-    });
-  }
-
         onPressTrashIcon = (postid) => {
           Alert.alert(
             "",
@@ -165,16 +123,6 @@ export default class MissingPetPosts extends Component {
                 offerorID: offerorID,
                 postid: postidentification
               }  
-              //-----------------------------------------------
-              // 3- The goal here: Set the value of the last report coordinates to the global varibles.
-              if (  i  == (postKeys.length-1)  ){ // to get the last element in array = most recent report.
-                reportLocationLat= post[postInfo].latitude; // set value of lat (from databse) of the most recent report to reportLocationLat
-                reportLocationLong= post[postInfo].longitude; // set value of long (from databse) of the most recent report to reportLocationLong
-                reportPosterID = post[postInfo].userId;
-                console.log("4- Inside if: reportLocationLat: "+reportLocationLat+ " reportLocationLong: "+reportLocationLong)
-              }
-              //-----------------------------------------------
-
             }         
           });         
           return MissingPetPostsData.map(element => {
@@ -270,8 +218,7 @@ export default class MissingPetPosts extends Component {
                     <Text style={styles.textStyle}>اضافة بلاغ</Text>
                     </TouchableOpacity>
                     {this.readPostData()}
-                    {this.nearUsers()}
-
+                    
                 </View>
                 </ScrollView>
             );

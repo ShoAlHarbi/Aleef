@@ -7,11 +7,15 @@ import MapView,{ Marker } from 'react-native-maps';
 import { RadioButton } from 'react-native-paper';
 import {PermissionsAndroid} from 'react-native';
 
+// When you want to reset => Upload from Github.
 console.disableYellowBox = true;
 var Name='';
+var userLati=0;//inital global variable to store user latitude from DB
+var userLong=0;//inital global variable to store user longtitude from DB
+
 export default class MissingPetUpload extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { 
       userID: firebase.auth().currentUser.uid, 
       AnimalType:'',
@@ -42,7 +46,6 @@ export default class MissingPetUpload extends Component {
     state[prop] = val;
     this.setState(state);
   }
-
 
   async componentDidMount() {
     navigator.geolocation.getCurrentPosition()
@@ -140,9 +143,9 @@ export default class MissingPetUpload extends Component {
           else if (AnimalTypecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           }
-          else if (this.state.PetImage === null){
+          /*else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
-          }
+          }*/
        else{
       //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
@@ -157,13 +160,67 @@ export default class MissingPetUpload extends Component {
        longitude:this.state.longitude
       })
      })
+    this.nearUsers();
+     // /CANCEL/ at reports because we need to differ current and reporter.
+     // (X) so maybe at line 168 send imortnant info (marker coords and name and id of reporter and maybe type of animal) to the reports page and work there.
+     // if marker coords and current user location coords are near and current user is NOT OG reporter:
+     // then send notification to current user with a normal paramter String like "A pet near you is missing" 
+     // we can custimize the message like concact type of animal to to the string so its "A cat near you is missing"
+     // maybe push token to userID (since he/she is the current user and not the reporter)
+     // END
+   
      this.props.navigation.navigate('الإبلاغ عن حيوان مفقود',{
-       offerorID: this.state.userID
-     }) //-------------------- new
+       offerorID: this.state.userID, // also reporter ID
+     })
      Alert.alert('', 'تمت اضافة البلاغ بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
-    } //-------------------- else 
+    } 
     }
 
+    //-------------------------To Find all near users----------------------------------------
+    nearUsers =()=>{         
+      let userInfo
+      firebase.database().ref('account/TBvi5x2sTTWWzP6XsplIQhaX5ce2').on('value', (snapshot)=>{
+        userInfo = snapshot.val()
+        userLati=userInfo.UserLat;
+        userLong=userInfo.UserLong;
+      })
+      var geodist = require('geodist')
+      var LoggedinUserLoc= {lat: userLati, lon: userLong}//this is current user location
+      var reportLoc = {lat: this.state.latitude, lon: this.state.longitude}
+      var dist = geodist(LoggedinUserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
+      console.log(dist+'km') 
+      // If the report is of 4 KM of loggedinuser and the loggedinuser is NOT who posted the report:
+      if( (dist < 4)){ //here we need to check that the user is not the offeror i deleted it for now...
+      this.sendPushNotification();
+      console.log("Call 'send' method here.")}
+    }
+
+    //------------------------------------------------------------------------------
+
+    sendPushNotification=()=>{ //i think we can get user id by sending it from method near users!
+      // Get the offeror push_token to send the notification
+      let LoggedinUserToken
+      //this is a temp id to try the method
+      firebase.database().ref('account/TBvi5x2sTTWWzP6XsplIQhaX5ce2/push_token/data').on('value', (snapshot)=>{
+        LoggedinUserToken = snapshot.val()
+      })
+  
+      // Push the notification
+      console.log('The token is '+LoggedinUserToken)
+      let response = fetch('https://exp.host/--/api/v2/push/send',{
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+         'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          to: LoggedinUserToken,
+          sound: 'default',
+          title: 'يوجد حيوان أليف مفقود بالقرب منك',
+          //body: message
+        })
+      });
+    }
   render(){ 
     let { PetImage } = this.state;
       return (
