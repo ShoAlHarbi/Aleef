@@ -15,6 +15,18 @@ export default class SignUpScreen extends Component {
       userid: '',
     }
   }
+  //------------------------Get current user location--------------------------
+          async componentDidMount() {
+            navigator.geolocation.getCurrentPosition(position => {
+              this.setState({
+                UserLocation:{
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+                }
+              })
+            })
+          }
+    //-----------------------------------------------------------------------------
 
   updateInputVal = (val, prop) => {
     const state = this.state;
@@ -55,6 +67,8 @@ export default class SignUpScreen extends Component {
                 {
                   name: this.state.displayName.trim(),
                   Email: this.state.email,
+                  UserLat: this.state.UserLocation.latitude,
+                  UserLong: this.state.UserLocation.longitude
                 })
               this.props.navigation.navigate('الصفحة الرئيسية')
             }
