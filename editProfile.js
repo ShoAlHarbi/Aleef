@@ -129,12 +129,13 @@ export default class editProfile extends Component{
       })
       this.retrieveInfo()
     }
-
+      if(this.state.newName!==''){
       if(this.state.newName.trim()==''){
         Alert.alert('', 'الرجاء ادخال اسم صحيح',[{ text: 'حسناً'}])
-        this.setState({
-          newName: ''
-        })
+        // this.setState({
+        //   // newName: '',
+        //   userName: firebase.database().ref('account/'+firebase.auth().currentUser.uid).name
+        // })
         this.retrieveInfo()
         return
       } else {
@@ -148,20 +149,21 @@ export default class editProfile extends Component{
         this.retrieveInfo()
         Alert.alert('', 'test1',[{ text: 'حسناً'}])
       }
+    }
       
       if(this.state.newEmail.trim()!==''){
         if (Emailcheck === false) {
           Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
-          this.setState({
-            newEmail: ''
-          })
+          // this.setState({
+          //   newEmail: ''
+          // })
           this.retrieveInfo()
           return
         }else if(this.state.email===this.state.newEmail){
           Alert.alert('', 'البريد الالكتروني المدخل هو البريد الالكتروني الحالي',[{ text: 'حسناً'}])
-          this.setState({
-            newEmail: ''
-          })
+          // this.setState({
+          //   newEmail: ''
+          // })
           this.retrieveInfo()
           return
         }
