@@ -7,11 +7,15 @@ import MapView,{ Marker } from 'react-native-maps';
 import { RadioButton } from 'react-native-paper';
 import {PermissionsAndroid} from 'react-native';
 
+
 console.disableYellowBox = true;
 var Name='';
+var userLati=0;
+var userLong=0;
+var UserLocation= [];
 export default class MissingPetUpload extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { 
       userID: firebase.auth().currentUser.uid, 
       AnimalType:'',
@@ -42,7 +46,6 @@ export default class MissingPetUpload extends Component {
     state[prop] = val;
     this.setState(state);
   }
-
 
   async componentDidMount() {
     navigator.geolocation.getCurrentPosition()
@@ -140,9 +143,9 @@ export default class MissingPetUpload extends Component {
           else if (AnimalTypecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           }
-          else if (this.state.PetImage === null){
+          /*else if (this.state.PetImage === null){
             Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
-          }
+          }*/
        else{
       //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
@@ -157,12 +160,64 @@ export default class MissingPetUpload extends Component {
        longitude:this.state.longitude
       })
      })
+    this.nearUsers();   
      this.props.navigation.navigate('الإبلاغ عن حيوان مفقود',{
-       offerorID: this.state.userID
-     }) //-------------------- new
+       offerorID: this.state.userID, //also reporter ID
+     })
      Alert.alert('', 'تمت اضافة البلاغ بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
-    } //-------------------- else 
+    } 
     }
+
+    //-----------------------To Find all near users and send notifications to them----------------------------------
+    nearUsers =()=>{         
+      var ref = firebase.database().ref("account");
+          ref.on('value',  function (snapshot){
+       accountInfo = snapshot.val()
+        var userIds = Object.keys(accountInfo);// to find the acoount IDs and put them in an array
+        console.log(userIds)
+        for(var i = 0; i< userIds.length;i++){
+        var userInfo = userIds[i];
+        userLati=accountInfo[userInfo].UserLat;
+        userLong=accountInfo[userInfo].UserLong;
+        //I needed this array because the state is not working inside for loop
+        UserLocation[i]={
+          uLat: userLati,
+          uLong:userLong,
+          uID: userInfo
+        }
+        }
+      })
+     UserLocation.map(element => {//map the array to calculate the distance for each user and send them notification
+        var geodist = require('geodist')
+        var UserLoc= {lat: element.uLat, lon: element.uLong}//this is current user location
+        var reportLoc = {lat: this.state.latitude, lon: this.state.longitude}//this is the report location
+        var dist = geodist(UserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
+        console.log(dist+'km')
+        if(dist<4 && element.uID!=this.state.userID){
+          firebase.database().ref('account/'+element.uID+'/push_token/data').on('value', (snapshot)=>{
+            LoggedinUserToken = snapshot.val()
+          })      
+          // Push the notification
+          console.log('The token is '+LoggedinUserToken)
+          firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
+            Name= snapshot.val().name})
+          let response = fetch('https://exp.host/--/api/v2/push/send',{
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+             'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              to: LoggedinUserToken,
+              sound: 'default',
+              title: 'يوجد حيوان أليف مفقود بالقرب منك',
+              body: 'ساعد '+Name+' لإيجاد الحيوان المفقود'
+            })
+          });
+        }
+      })
+    }
+    //------------------------------------------------------------------------------
 
   render(){ 
     let { PetImage } = this.state;
