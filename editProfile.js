@@ -112,15 +112,17 @@ export default class editProfile extends Component{
     }
 
     updateInfo = async ()=>{
+
       const Emailexpression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
       const Emailcheck = Emailexpression.test(String(this.state.newEmail).toLowerCase());
-
       const strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
       const Passcheck = strongPass.test(this.state.password);
-      if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
 
-        if(this.state.newProfileImage!==null){
-       firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+      if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
+        
+      //profile image validation and update
+      if(this.state.newProfileImage!==null){
+      firebase.database().ref('account/'+firebase.auth().currentUser.uid)
       .update({
         profileImage: this.state.profileImage
       });
@@ -129,13 +131,11 @@ export default class editProfile extends Component{
       })
       this.retrieveInfo()
     }
+
+    //name validation and update
       if(this.state.newName!==''){
       if(this.state.newName.trim()==''){
         Alert.alert('', 'الرجاء ادخال اسم صحيح',[{ text: 'حسناً'}])
-        // this.setState({
-        //   // newName: '',
-        //   userName: firebase.database().ref('account/'+firebase.auth().currentUser.uid).name
-        // })
         this.retrieveInfo()
         return
       } else {
@@ -147,69 +147,66 @@ export default class editProfile extends Component{
           newName: ''
         })
         this.retrieveInfo()
-        Alert.alert('', 'test1',[{ text: 'حسناً'}])
-      }
-    }
-      
+        }
+     }
+    
+      //email validation and update 
       if(this.state.newEmail.trim()!==''){
         if (Emailcheck === false) {
           Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
-          // this.setState({
-          //   newEmail: ''
-          // })
           this.retrieveInfo()
           return
-        }else if(this.state.email===this.state.newEmail){
+        } else if(this.state.email===this.state.newEmail){
           Alert.alert('', 'البريد الالكتروني المدخل هو البريد الالكتروني الحالي',[{ text: 'حسناً'}])
-          // this.setState({
-          //   newEmail: ''
-          // })
           this.retrieveInfo()
           return
-        }
-        else{
-      
-       firebase.auth().currentUser
-      .updateEmail(this.state.newEmail)
-      .catch((error) => {
-        firebase.database().ref("account").orderByChild("Email").equalTo(this.state.email).once("value", snapshot => {
-          if (snapshot.exists()) {
-            Alert.alert('', 'عذراً البريد الإلكتروني مسجل مسبقاً',[{ text: 'حسناً'}])
-          }else {
-            firebase.database().ref('account/'+firebase.auth().currentUser.uid)
-         .update({
-           Email: this.state.newEmail
-         })
-         Alert.alert('', 'DONE',[{ text: 'حسناً'}])
-          }
-        });
-      })
-     
-      }
-      this.setState({
-        newEmail: ''
-      })
-      return
-      }
+        } 
+      //update case
+      else {
+        firebase.auth().currentUser
+        .updateEmail(this.state.newEmail)
+        .catch((error) => {
+          firebase.database().ref("account").orderByChild("Email").equalTo(this.state.email).once("value", snapshot => {
+            if (snapshot.exists()) {
+              Alert.alert('', 'عذراً البريد الإلكتروني مسجل مسبقاً',[{ text: 'حسناً'}])
+              this.retrieveInfo()
+              return
+            } else { 
+              firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+            .update({
+              Email: this.state.newEmail
+            })
+            }
+          });
+        })
 
-      if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
+        this.setState({
+          newName: ''
+        })
+        this.retrieveInfo()
+      }
+    }
+
+    //password validation and update
+    if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
+
      if((this.state.password.trim() == '' && this.state.confirmPassword.trim() !== '')
      || (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '')){
         Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور وتأكيد كلمة المرور',[{ text: 'حسناً'}])
         this.setInfo()
         return
-      }else if (Passcheck === false) {
+      } else if (Passcheck === false) {
           Alert.alert('', 'يجب ان تتكون كلمة المرور من 8 خانات أو أكثر وحرف انجليزي كبير وحرف انجليزي صغير على الأقل',[{ text: 'حسناً'}])
           this.setInfo()
           return
-        }else if (this.state.password !== this.state.confirmPassword) {
+        } else if (this.state.password !== this.state.confirmPassword) {
           Alert.alert('', 'كلمتا المرور غير متطابقتان. الرجاء إعادة الإدخال',[{ text: 'حسناً'}])
           return
-        }else{
+        } else {
            firebase.auth().currentUser
           .updatePassword(this.state.password)
-          Alert.alert('', 'test3',[{ text: 'حسناً'}])
         }
+
       }
         this.setInfo()
         Alert.alert('', 'تم حفظ التغييرات بنجاح',[{ text: 'حسناً'}])
@@ -230,7 +227,6 @@ export default class editProfile extends Component{
                      style={styles.iconStyle}>
                      <FontAwesomeIcon icon={ faPlusSquare }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
-                    {/* {this.RenderImage()} */}
                     {this.RenderUploading()}
                     
                     <TextInput
