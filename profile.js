@@ -4,6 +4,7 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEdit} from '@fortawesome/free-solid-svg-icons';
 import { color } from 'react-native-reanimated';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 export default class Profile extends Component{
@@ -36,12 +37,12 @@ export default class Profile extends Component{
     renderSection() {
 
         if (this.state.activeIndex == 0) {
-
+          
             return (
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
 
                     {this.renderSectionZero()}
-                </View>
+                 </View>
             )
 
         }
@@ -63,13 +64,205 @@ export default class Profile extends Component{
     }
 
     renderSectionZero(){
-        return <Text>section 0</Text>
+        var currentUID = firebase.auth().currentUser.uid
+        var post;
+        var postKeys;
+        var AdoptionPostsData=[]
+        firebase.database().ref('AdoptionPosts').orderByChild('userId').equalTo(currentUID)
+        .once('value', snapshot => {
+            if(snapshot.exists()){
+                post = snapshot.val()
+                postKeys = Object.keys(post);
+                for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    //---------This to save the post info in variables----------
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsData[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: UserName,
+                      offerorID: offerorID,
+                      postid: postidentification
+                    }  
+                  }
+              }
+                
+        });
+        if(AdoptionPostsData.length==0){
+            return(
+                <View style={{ marginBottom:30}}>
+                <View style={styles.Post}>
+                <Text style={styles.mandatoryTextStyle}>لا توجد عروض تبني حاليا.</Text>
+                </View>
+                </View>
+                 ); 
+        }
+        else return AdoptionPostsData.map(element => {
+               return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                  <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+                </View>
+                </View>
+                
+              );
+        })
     }
     renderSectionOne(){
-        return <Text>section 1</Text>
+        var currentUID = firebase.auth().currentUser.uid
+        var post;
+        var postKeys;
+        var AdoptionPostsData=[]
+        firebase.database().ref('SellingPosts').orderByChild('userId').equalTo(currentUID)
+        .once('value', snapshot => {
+            if(snapshot.exists()){
+                post = snapshot.val()
+                postKeys = Object.keys(post);
+                for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    //---------This to save the post info in variables----------
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsData[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: UserName,
+                      offerorID: offerorID,
+                      postid: postidentification
+                    }  
+                  }
+              }
+                
+        });
+        if(AdoptionPostsData.length==0){
+            return(
+                <View style={{ marginBottom:30}}>
+                <View style={styles.Post}>
+                <Text style={styles.mandatoryTextStyle}>لا توجد عروض بيع حاليا.</Text>
+                </View>
+                </View>
+                 ); 
+        }
+        else return AdoptionPostsData.map(element => {
+               return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                  <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+                </View>
+                </View>
+                
+              );
+        })
     }
     renderSectionTwo(){
-        return <Text>section 2</Text>
+        var currentUID = firebase.auth().currentUser.uid
+        var post;
+        var postKeys;
+        var AdoptionPostsData=[]
+        firebase.database().ref('MissingPetPosts').orderByChild('userId').equalTo(currentUID)
+        .once('value', snapshot => {
+            if(snapshot.exists()){
+                post = snapshot.val()
+                postKeys = Object.keys(post);
+                for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    //---------This to save the post info in variables----------
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsData[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: UserName,
+                      offerorID: offerorID,
+                      postid: postidentification
+                    }  
+                  }
+              }
+                
+        });
+        if(AdoptionPostsData.length==0){
+            return(
+                <View style={{ marginBottom:30}}>
+                <View style={styles.Post}>
+                <Text style={styles.mandatoryTextStyle}>لا توجد بلاغات حاليا.</Text>
+                </View>
+                </View>
+                 ); 
+        }
+        else return AdoptionPostsData.map(element => {
+               return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                  <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+                </View>
+                </View>
+                
+              );
+        })
     }
 
     render(){
@@ -99,12 +292,12 @@ export default class Profile extends Component{
                     
                         <TouchableOpacity style={styles.button3}
                         onPress={() => this.segmentClicked(1)}>
-                            <Text style={this.state.activeIndex == 1 ? styles.activeText: styles.inactiveText}>عروض التبني</Text>
+                            <Text style={this.state.activeIndex == 1 ? styles.activeText: styles.inactiveText}>عروض البيع</Text>
                         </TouchableOpacity>
                     
                         <TouchableOpacity style={styles.button3}
                         onPress={() => this.segmentClicked(0)}>
-                            <Text style={this.state.activeIndex == 0 ? styles.activeText: styles.inactiveText}>عروض البيع</Text>
+                            <Text style={this.state.activeIndex == 0 ? styles.activeText: styles.inactiveText}>عروض التبني</Text>
                         </TouchableOpacity>
                 </View>
                 {this.renderSection()}
@@ -146,8 +339,9 @@ const styles = StyleSheet.create({
     },
     text:{
         color:'black',
-        fontSize: 30,
-        // marginBottom: 80,
+        fontSize: 17,
+        marginRight:12,
+        marginBottom:5,
     },
 
     button: {
@@ -181,6 +375,10 @@ const styles = StyleSheet.create({
         marginLeft: 220,
         marginTop: 150
       },
+      iconStyle2: {
+        padding:8,
+        left: 30
+      },
       Container4:{
         flexDirection: 'row',
         alignContent: 'space-between',
@@ -190,5 +388,24 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         margin: 25,
         borderBottomColor: '#69C4C6',
-    }
+    },
+    Post:{
+        backgroundColor:'white',
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+             height: 1,
+          },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
+        borderRadius: 15,
+        width:310
+        },
+        mandatoryTextStyle: { 
+            color: 'red',
+            fontSize: 13,
+            marginTop: 5,
+            }
+    
 });
