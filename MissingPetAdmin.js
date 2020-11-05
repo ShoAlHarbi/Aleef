@@ -76,7 +76,8 @@ export default class MissingPetAdmin extends Component {
               var Lat= post[postInfo].latitude;
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
-              var postidentification = postInfo;  
+              var postidentification = postInfo; 
+              var Status = post[postInfo].offerStatus;//COPY Status----------------------------- 
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
@@ -85,7 +86,8 @@ export default class MissingPetAdmin extends Component {
                 LatA: Lat,
                 Name:UserName,
                 offerorID: offerorID,
-                postid: postidentification
+                postid: postidentification,
+                offerStatus: Status,//COPY Status------------------------------
               }  
             }         
           });         
@@ -95,8 +97,9 @@ export default class MissingPetAdmin extends Component {
                   <View style={styles.Post}>
                   <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{

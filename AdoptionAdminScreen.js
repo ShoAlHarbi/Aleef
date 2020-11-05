@@ -36,13 +36,13 @@ export default class AdoptionAdminScreen extends Component {
     );
   }
 
-  onPressDelete = (postid) => { // start new method
+  onPressDelete = (postid) => { 
     AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
     firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
       this.readPostData(); 
       Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
     });
-   }  //end new method
+   } 
 
 
   readPostData =() => {
@@ -73,6 +73,7 @@ export default class AdoptionAdminScreen extends Component {
           var UserName = post[postInfo].uName;
           var offerorID = post[postInfo].userId; 
           var postidentification = postInfo; 
+          var Status = post[postInfo].offerStatus;//COPY Status------------------------------
           //----------------Adoption Posts Array-----------------------
           AdoptionPostsData[i]={
             AnimalType: AniType,
@@ -82,7 +83,8 @@ export default class AdoptionAdminScreen extends Component {
             AnimalPic: AniPic,
             Name: UserName,
             offerorID: offerorID, 
-            postid: postidentification
+            postid: postidentification,
+            offerStatus: Status //COPY Status------------------------------
           } 
         }         
       }); 
@@ -99,6 +101,7 @@ export default class AdoptionAdminScreen extends Component {
               <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
               <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
               <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+              <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
 
             <TouchableOpacity 
             style={styles.iconStyle}
@@ -196,11 +199,9 @@ iconStyle: {
 padding:20,
 left: 30
 },
-//--------------------------------------
    mandatoryTextStyle: { 
     color: 'red',
     fontSize: 13,
     marginTop: 5,
     }
-///--------------------------------------
 });
