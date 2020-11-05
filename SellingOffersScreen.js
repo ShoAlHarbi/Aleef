@@ -5,7 +5,7 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import ToggleSwitch from 'toggle-switch-react-native' //COPY-----------------------------
+import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
 
 var SellingPostsData= [];
 
@@ -141,7 +141,7 @@ CloseOffer = (postid) => {
                 var UserName = post[postInfo].uName;
                 var offerorID = post[postInfo].userId;  
                 var postidentification = postInfo; 
-                var Status = post[postInfo].offerStatus;//COPY new------------------------------
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
                   AnimalType: AniType,
@@ -153,7 +153,7 @@ CloseOffer = (postid) => {
                   Name: UserName,
                   offerorID: offerorID,
                   postid: postidentification,
-                  offerStatus: Status,//COPY new------------------------------
+                  offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             });         
@@ -170,7 +170,7 @@ CloseOffer = (postid) => {
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
                     <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
@@ -209,7 +209,7 @@ CloseOffer = (postid) => {
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                   <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                   <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                  <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
                   <TouchableOpacity 
                   style={styles.iconStyle}
                   onPress={()=> this.onPressChatIcon(element.offerorID, element.Name)}>
@@ -232,7 +232,7 @@ CloseOffer = (postid) => {
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
 
                   </View>
                

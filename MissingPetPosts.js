@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import ToggleSwitch from 'toggle-switch-react-native' //COPY-----------------------------
+import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
 
 var MissingPetPostsData= [];
 
@@ -143,7 +143,7 @@ CloseOffer = (postid) => {
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
               var postidentification = postInfo;  
-              var Status = post[postInfo].offerStatus;//COPY new------------------------------
+              var Status = post[postInfo].offerStatus;//COPY Status------------------------------
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
@@ -153,7 +153,7 @@ CloseOffer = (postid) => {
                 Name:UserName,
                 offerorID: offerorID,
                 postid: postidentification,
-                offerStatus: Status,//COPY new------------------------------
+                offerStatus: Status,//COPY Status------------------------------
               }  
             }         
           });         
@@ -166,7 +166,7 @@ CloseOffer = (postid) => {
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
@@ -216,7 +216,7 @@ CloseOffer = (postid) => {
                   source={{uri: element.AnimalPic}}/>
                   <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
@@ -250,7 +250,7 @@ CloseOffer = (postid) => {
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                     <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                    <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                     <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                     <MapView style={styles.mapStyle}
                     region={{
@@ -368,5 +368,13 @@ const styles = StyleSheet.create({
      color: 'red',
      fontSize: 13,
      marginTop: 5,
-    }
+    },
+    //-----------------------------------
+    /*
+    iconStyle2: {
+      position: 'absolute',
+      padding:20,
+    },
+    */
+    //----------------------------------
 });
