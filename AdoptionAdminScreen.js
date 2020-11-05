@@ -73,6 +73,7 @@ export default class AdoptionAdminScreen extends Component {
           var UserName = post[postInfo].uName;
           var offerorID = post[postInfo].userId; 
           var postidentification = postInfo; 
+          var Status = post[postInfo].offerStatus;
           //----------------Adoption Posts Array-----------------------
           AdoptionPostsData[i]={
             AnimalType: AniType,
@@ -82,7 +83,8 @@ export default class AdoptionAdminScreen extends Component {
             AnimalPic: AniPic,
             Name: UserName,
             offerorID: offerorID, 
-            postid: postidentification
+            postid: postidentification,
+            offerStatus: Status
           } 
         }         
       }); 
@@ -99,6 +101,7 @@ export default class AdoptionAdminScreen extends Component {
               <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
               <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
               <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+              <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
 
             <TouchableOpacity 
             style={styles.iconStyle}

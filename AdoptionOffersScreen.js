@@ -5,6 +5,7 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import ToggleSwitch from 'toggle-switch-react-native' //COPY-----------------------------
 
 var AdoptionPostsData= [];
 
@@ -15,9 +16,65 @@ export default class AdoptionOffersScreen extends Component {
             refreshing: false,
           }
         }
+
+
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
+
+
+
+//------------------------------------------------------------------------------
+ToggleOnOrOff = (offerStatus) => {
+  if (offerStatus === 'مغلق'){
+    return false;
+  } else if (offerStatus === 'متاح'){
+    return true;
+  }
+}
+
+
+ToggleDisable = (offerStatus) => {
+  if (offerStatus === 'مغلق'){
+    return true;
+  }else  if (offerStatus === 'متاح'){
+    return false;
+  }
+}
+
+
+onToggle = (isOn,offerStatus,postid) => {
+  if (offerStatus === 'مغلق'){
+    Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+    console.log("Do nothing")  
+  }
+  else if (offerStatus === 'متاح'){
+    Alert.alert(
+      "",
+      "هل تود إغلاق هذا العرض؟",
+      [
+        {
+          text: "لا",
+          onPress: () => console.log("لا"),
+          style: "cancel"
+        },
+        { text: "نعم", onPress: () => this.CloseOffer(postid) }
+      ],
+      { cancelable: false }
+    );
+    }
+}
+
+CloseOffer = (postid) => {
+  firebase.database().ref('/AdoptionPosts/'+postid).update({
+    offerStatus: 'مغلق'
+  }).then((data) => {
+    this.readPostData(); 
+    Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+  });
+}
+//------------------------------------------------------------
+
 
         onPressTrashIcon = (postid) => {
           Alert.alert(
@@ -35,21 +92,28 @@ export default class AdoptionOffersScreen extends Component {
           );
         }
 
-        onPressDelete = (postid) => { // start new method
+
+        onPressDelete = (postid) => {
           AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
           firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
             this.readPostData(); 
             Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
           });
-         }  //end new method
+         }
+
+
 
         AdoptionUpload = () => this.props.navigation.navigate('اضافة عرض تبني')
+
+
         onPressChatIcon = (offerorID , Name) => {
           this.props.navigation.navigate('صفحة المحادثة',{
             offerorID: offerorID,
             name: Name
           })
         }
+
+
         readPostData =() => {
             var ref = firebase.database().ref("AdoptionPosts");
             ref.on('value',  function (snapshot) {
@@ -78,6 +142,7 @@ export default class AdoptionOffersScreen extends Component {
                 var UserName = post[postInfo].uName;
                 var offerorID = post[postInfo].userId; 
                 var postidentification = postInfo;  
+                var Status = post[postInfo].offerStatus;//COPY new------------------------------
                 //----------------Adoption Posts Array-----------------------
                 AdoptionPostsData[i]={
                   AnimalType: AniType,
@@ -87,7 +152,8 @@ export default class AdoptionOffersScreen extends Component {
                   AnimalPic: AniPic,
                   Name: UserName,
                   offerorID: offerorID,
-                  postid: postidentification
+                  postid: postidentification,
+                  offerStatus: Status,//COPY new------------------------------
                 }  
               }         
             }); 
@@ -104,17 +170,32 @@ export default class AdoptionOffersScreen extends Component {
                     <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
                     <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
+
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق العرض"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggle(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+
                   </View>
                   </View>
                   
                 );
               }
-              else{
+              else if (element.offerStatus === 'متاح'){
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
@@ -125,6 +206,7 @@ export default class AdoptionOffersScreen extends Component {
                   <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
                   <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                   <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
                   <Text/>
                   <TouchableOpacity 
                   style={styles.iconStyle}
@@ -132,11 +214,28 @@ export default class AdoptionOffersScreen extends Component {
                   <FontAwesomeIcon icon={ faComments }size={36} color={"#69C4C6"}/>
                 </TouchableOpacity>
                 <Text/>
-              
+
                 </View>
                 </View>
                 
               );}
+              else{
+                return (
+                  <View style={{ marginBottom:30}}>
+                    <View style={styles.Post}>
+                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                      source={{uri: element.AnimalPic}}/>
+                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                    <Text/>
+                  <Text/>
+                  </View>
+                  </View>
+                );}
             }).reverse();
         }
 
@@ -229,11 +328,9 @@ const styles = StyleSheet.create({
     padding:8,
     left: 30
   },
-//--------------------------------------
  mandatoryTextStyle: { 
   color: 'red',
   fontSize: 13,
   marginTop: 5,
   }
-///--------------------------------------
 });

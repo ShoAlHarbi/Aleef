@@ -97,6 +97,7 @@ export default class MissingPetAdmin extends Component {
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{

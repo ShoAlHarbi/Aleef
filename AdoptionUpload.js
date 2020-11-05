@@ -7,12 +7,13 @@ import firebase from './firebase'
 import { RadioButton } from 'react-native-paper';
 import {Picker} from '@react-native-community/picker'; 
 console.disableYellowBox = true;
+
 var Name='';
 export default class AdoptionUpload extends Component {
   constructor() {
     super();
     this.state = { 
-      AnimalType: '',
+      AnimalType: 'غير محدد',
       AnimalSex: '',
       AnimalAge:'',
       City:'غير محدد',
@@ -22,6 +23,7 @@ export default class AdoptionUpload extends Component {
       UserName: '',
       PetImage: null,
       uploading: false,
+      offerStatus: 'متاح', //-----------------new: status1
       //checked: 'first',
     }
   }
@@ -114,19 +116,20 @@ export default class AdoptionUpload extends Component {
   };
 
   PublishAdoptionPost = () => {
-        //-------------------new--------------------------
-         //Previous regex: /^[\u0621-\u064A\040/\s/g]+$/ problem with g
-                
+        //-------------------new--------------------------                
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
-        const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
         const AnimalAgecheck = ArabicExpression.test(this.state.AnimalAge.trim());
 
-        if (this.state.AnimalType.trim() === '' || this.state.AnimalAge.trim() === '') {
-          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
+           if(this.state.AnimalType === 'غير محدد'){
+            Alert.alert('', 'يجب اختيار نوع حيوان  ',[{ text: 'حسناً'}])
+          }
           else if(this.state.AnimalSex === ''){
             Alert.alert('', 'يجب تحديد جنس الحيوان',[{ text: 'حسناً'}])
           }
-          else if (AnimalTypecheck === false || AnimalAgecheck === false){
+          else if (this.state.AnimalAge.trim() === '') {
+            Alert.alert('', 'يجب تعبئة حقل عمر الحيوان',[{ text: 'حسناً'}])
+          }
+          else if (AnimalAgecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           }  
           else if(this.state.City === 'غير محدد'){
@@ -147,14 +150,15 @@ export default class AdoptionUpload extends Component {
        City: this.state.City.trim(),
        PetPicture: this.state.PetImage,
        userId: this.state.userID,
-       uName: Name
+       uName: Name,
+       offerStatus: this.state.offerStatus //-------------new: Status 2
       })
      })
      this.props.navigation.navigate('عروض التبني',{
        offerorID: this.state.userID
-     }) //-------------------- new
+     })
      Alert.alert('', 'تمت اضافة العرض بنجاح. الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
-    } //-------------------- else 
+    }
     }
 
   render(){ 
@@ -167,14 +171,23 @@ export default class AdoptionUpload extends Component {
         <Image
         style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
         source={require('./assets/AleefLogoCat.png')}/>
-         <TextInput
-          placeholder="*نوع الحيوان"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={this.state.AnimalType}
-          maxLength={20}
-          onChangeText={(val) => this.updateInputVal(val, 'AnimalType')}
-        />
+
+        
+        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*نوع الحيوان:</Text>
+        <Picker
+        selectedValue={this.state.AnimalType}
+        style={{height: 50, width: 160}}
+        itemStyle={styles.itemStyle}
+        onValueChange={(val) => this.updateInputVal(val, 'AnimalType')}
+        >
+       <Picker.Item label= "غير محدد" value= "غير محدد" />
+       <Picker.Item label="أرنب" value="أرنب" />
+       <Picker.Item label="سمك" value="سمك" />
+       <Picker.Item label="عصفور" value="عصفور" />
+       <Picker.Item label="قط" value="قط" />
+       <Picker.Item label="كلب" value="كلب" />
+       </Picker>
+        
         <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*جنس الحيوان:</Text>
         <View style={{flexDirection:'row'}}>
           <Text style={{color: '#5F5F5F',fontSize: 15,paddingTop:6}}>غير معروف</Text>
@@ -313,9 +326,7 @@ buttonUploadPhoto: {
   marginBottom: 10,
   borderRadius: 20,
 },
-//---------------------------------------
 itemStyle: {
   textAlign: 'center',
 }
-//----------------------------------------
 })

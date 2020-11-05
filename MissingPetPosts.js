@@ -6,23 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import * as Permissions from 'expo-permissions'; //Copied from chatScreen
-import * as Notifications from 'expo-notifications' //Copied from chatScreen
+import ToggleSwitch from 'toggle-switch-react-native' //COPY-----------------------------
 
 var MissingPetPostsData= [];
-//-----------------------------------------------
-// 1- Global varibles: intially zero but then set them to marker cooordinates (lat and long) of recent report:
-var reportLocationLat= 0;
-var reportLocationLong= 0;
-var reportPosterID =''; // need this to make sure that current user != offeror
-//var reportAnimalType =''; //need this later to make msg in notification more costumized.  
-//-----------------------------------------------
 
 export default class MissingPetPosts extends Component {
         constructor(props) {
           super(props);
           this.state = { 
-            LoggedinUserID: firebase.auth().currentUser.uid, // need this to make sure that current user != offeror
             refreshing: false,
             region: {
               latitude:  24.774265,
@@ -30,30 +21,70 @@ export default class MissingPetPosts extends Component {
               latitudeDelta: 8,
               longitudeDelta: 15
             },
-            //--------------Inital points------------------
-            UserLocation:{
-              latitude:  0,
-              longitude: 0,
-            },
-            //---------------------------------------------
           }
         }
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
-        //------------------------Get current user location--------------------------
-        async componentDidMount() {
-          navigator.geolocation.getCurrentPosition(position => {
-            this.setState({
-              UserLocation:{
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-              }
-            })
-          })
-        }
-        //-----------------------------------------------------------------------------
-        onPressTrashIcon = (postid) => {
+
+
+
+//------------------------------------------------------------------------------
+ToggleOnOrOff = (offerStatus) => {
+  if (offerStatus === 'مغلق'){
+    return false;
+  } else if (offerStatus === 'متاح'){
+    return true;
+  }
+}
+
+
+ToggleDisable = (offerStatus) => {
+  if (offerStatus === 'مغلق'){
+    return true;
+  }else  if (offerStatus === 'متاح'){
+    return false;
+  }
+}
+
+
+onToggle = (isOn,offerStatus,postid) => {
+  if (offerStatus === 'مغلق'){
+    Alert.alert('', 'هذا البلاغ مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+    console.log("Do nothing")  
+  }
+  else if (offerStatus === 'متاح'){
+    Alert.alert(
+      "",
+      "هل تود إغلاق هذا البلاغ؟",
+      [
+        {
+          text: "لا",
+          onPress: () => console.log("لا"),
+          style: "cancel"
+        },
+        { text: "نعم", onPress: () => this.CloseOffer(postid) }
+      ],
+      { cancelable: false }
+    );
+    }
+}
+
+CloseOffer = (postid) => {
+  firebase.database().ref('/MissingPetPosts/'+postid).update({
+    offerStatus: 'مغلق'
+  }).then((data) => {
+    this.readPostData(); 
+    Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح, الرجاء تحديث صفحة عروض البلاغات',[{ text: 'حسناً'}])
+  });
+}
+//------------------------------------------------------------
+
+
+
+
+
+        onPressTrashIcon = (postid) => { 
           Alert.alert(
             "",
             "هل تود حذف هذا البلاغ؟",
@@ -85,7 +116,6 @@ export default class MissingPetPosts extends Component {
             name: Name
           })
         }
-
         readPostData =() => {
           var ref = firebase.database().ref("MissingPetPosts");
           ref.on('value',  function (snapshot) {
@@ -113,6 +143,7 @@ export default class MissingPetPosts extends Component {
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
               var postidentification = postInfo;  
+              var Status = post[postInfo].offerStatus;//COPY new------------------------------
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
@@ -121,7 +152,8 @@ export default class MissingPetPosts extends Component {
                 LatA: Lat,
                 Name:UserName,
                 offerorID: offerorID,
-                postid: postidentification
+                postid: postidentification,
+                offerStatus: Status,//COPY new------------------------------
               }  
             }         
           });         
@@ -134,6 +166,7 @@ export default class MissingPetPosts extends Component {
                     source={{uri: element.AnimalPic}}/>
                     <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
@@ -155,11 +188,27 @@ export default class MissingPetPosts extends Component {
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
+
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق البلاغ"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggle(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+
+
+
                 </View>
                 </View>          
               );
             }
-            else{
+            else if (element.offerStatus === 'متاح'){
             return (
               <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
@@ -167,6 +216,7 @@ export default class MissingPetPosts extends Component {
                   source={{uri: element.AnimalPic}}/>
                   <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
@@ -192,7 +242,36 @@ export default class MissingPetPosts extends Component {
            
               </View>
               
-            );}
+            );} else{
+              return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
+                    <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <MapView style={styles.mapStyle}
+                    region={{
+                      latitude: element.LatA,
+                      longitude: element.LongA,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01
+                    }}
+                    provider="google"
+                    showsUserLocation={true}
+                    showsMyLocationButton={true}
+                    zoomControlEnabled={true}
+                    moveOnMarkerPress={true}
+                    >
+                    <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                    </MapView>
+                </View>
+             
+                </View>
+                
+              );}
           }).reverse();
       }
         render(){ 
@@ -206,7 +285,6 @@ export default class MissingPetPosts extends Component {
                 }
                 >
                 <View style={styles.container}>
-                
                   <View style={styles.container2}>
                   <View><Image
                         style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
@@ -218,7 +296,6 @@ export default class MissingPetPosts extends Component {
                     <Text style={styles.textStyle}>اضافة بلاغ</Text>
                     </TouchableOpacity>
                     {this.readPostData()}
-                    
                 </View>
                 </ScrollView>
             );

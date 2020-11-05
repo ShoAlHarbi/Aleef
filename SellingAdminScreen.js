@@ -72,6 +72,7 @@ export default class SellingAdminScreen extends Component {
                 var UserName = post[postInfo].uName;
                 var offerorID = post[postInfo].userId;  
                 var postidentification = postInfo; 
+                var Status = post[postInfo].offerStatus;//COPY new------------------------------
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
                   AnimalType: AniType,
@@ -82,7 +83,8 @@ export default class SellingAdminScreen extends Component {
                   AnimalPrice: petPrice,
                   Name: UserName,
                   offerorID: offerorID,
-                  postid: postidentification
+                  postid: postidentification,
+                  offerStatus: Status,//COPY new------------------------------
                 }  
               }         
             });         
@@ -98,6 +100,7 @@ export default class SellingAdminScreen extends Component {
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
+                    <Text style={styles.text}>{"حالة الطلب: "+element.offerStatus}</Text>
                     <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
