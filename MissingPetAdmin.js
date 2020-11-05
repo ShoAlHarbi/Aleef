@@ -76,7 +76,8 @@ export default class MissingPetAdmin extends Component {
               var Lat= post[postInfo].latitude;
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
-              var postidentification = postInfo;  
+              var postidentification = postInfo; 
+              var Status = post[postInfo].offerStatus;//COPY new------------------------------ 
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
@@ -85,7 +86,8 @@ export default class MissingPetAdmin extends Component {
                 LatA: Lat,
                 Name:UserName,
                 offerorID: offerorID,
-                postid: postidentification
+                postid: postidentification,
+                offerStatus: Status,//COPY new------------------------------
               }  
             }         
           });         
