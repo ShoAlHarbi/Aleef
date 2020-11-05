@@ -23,7 +23,7 @@ export default class AdoptionUpload extends Component {
       UserName: '',
       PetImage: null,
       uploading: false,
-      offerStatus: 'متاح', //-----------------new: status1
+      offerStatus: 'متاح', //-----------------Status1
       //checked: 'first',
     }
   }

@@ -24,7 +24,7 @@ export default class SellingUpload extends Component {
       UserName: '',
       PetImage: null,
       uploading: false,
-      offerStatus: 'متاح', //-----------------new: status1
+      offerStatus: 'متاح', //-----------------Status1
     }
   }
 
@@ -126,11 +126,12 @@ export default class SellingUpload extends Component {
         if(this.state.AnimalType === 'غير محدد'){
           Alert.alert('', 'يجب اختيار نوع حيوان  ',[{ text: 'حسناً'}])
         }
+        else if(this.state.AnimalSex === ''){
+          Alert.alert('', 'يجب تحديد جنس الحيوان',[{ text: 'حسناً'}])
+        }
         else if (this.state.AnimalAge.trim() === '' || this.state.Price.trim() === '') {
-          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
-          else if(this.state.AnimalSex === ''){
-            Alert.alert('', 'يجب تحديد جنس الحيوان',[{ text: 'حسناً'}])
-          }
+          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])
+        }
           else if (AnimalAgecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           } 

@@ -138,12 +138,12 @@ export default class MissingPetUpload extends Component {
         if(this.state.AnimalType === 'غير محدد'){
           Alert.alert('', 'يجب اختيار نوع حيوان  ',[{ text: 'حسناً'}])
         }
+        else if (this.state.PetImage === null){
+          Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
+        }
           else if(this.state.marker.latitude === -82.8187050 || this.state.marker.longitude === 34.5320631){
             Alert.alert('', 'يجب تحديد موقع اخر مشاهدة للحيوان',[{ text: 'حسناً'}])
           }
-          /*else if (this.state.PetImage === null){
-            Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
-          }*/
        else{
       //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
@@ -170,7 +170,7 @@ export default class MissingPetUpload extends Component {
     nearUsers =()=>{         
       var ref = firebase.database().ref("account");
           ref.on('value',  function (snapshot){
-         accountInfo = snapshot.val()
+         var accountInfo = snapshot.val()
         var userIds = Object.keys(accountInfo);// to find the acoount IDs and put them in an array
         console.log(userIds)
         for(var i = 0; i< userIds.length;i++){
