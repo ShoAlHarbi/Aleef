@@ -38,6 +38,7 @@ export default class Profile extends Component{
             
         });
     }
+    //.........Deletion adoption posts section........
     onPressTrashIcon0 = (postid) => {
         Alert.alert(
           "",
@@ -61,6 +62,7 @@ export default class Profile extends Component{
         });
        }
 
+       //.........Deletion selling posts section........
       onPressTrashIcon1 = (postid) => {
         Alert.alert(
           "",
@@ -84,6 +86,7 @@ export default class Profile extends Component{
         }); 
        }
 
+     //.........Deletion missing pet posts section........
     onPressTrashIcon2 = (postid) => { // start edit this method
         Alert.alert(
           "",
@@ -106,6 +109,7 @@ export default class Profile extends Component{
            Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح.',[{ text: 'حسناً'}])
          });
        }
+    // Display posts based on the activeIndex   
     renderSection() {
 
         if (this.state.activeIndex == 0) {
@@ -129,7 +133,7 @@ export default class Profile extends Component{
             )
         }
     }
-
+    // Handler عروض التبني
     renderSectionZero(){
         var currentUID = firebase.auth().currentUser.uid
         var post;
@@ -197,6 +201,7 @@ export default class Profile extends Component{
               );
         }).reverse();
     }
+    // Handler عروض البيع
     renderSectionOne(){
         var currentUID = firebase.auth().currentUser.uid
         var post;
@@ -219,7 +224,7 @@ export default class Profile extends Component{
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId;  
                     var postidentification = postInfo; 
-                    //----------------Adoption Posts Array-----------------------
+                    //----------------Selling Posts Array-----------------------
                     SellingPostsData[i]={
                       AnimalType: AniType,
                       AnimalSex: AniSex,
@@ -267,6 +272,7 @@ export default class Profile extends Component{
               );
         }).reverse();
     }
+    // Handler البلاغات
     renderSectionTwo(){
         var currentUID = firebase.auth().currentUser.uid
         var post;
@@ -287,7 +293,7 @@ export default class Profile extends Component{
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId;  
                     var postidentification = postInfo;  
-                    //----------------Adoption Posts Array-----------------------
+                    //----------------Missing Posts Array-----------------------
                     MissingPetPostsData[i]={
                       AnimalType: AniType,
                       AnimalPic: AniPic,
@@ -343,37 +349,6 @@ export default class Profile extends Component{
                 </View>
                 </View>          
               );
-            // return (
-            //     <View style={{ marginBottom:30,alignContent:'center'}}>
-            //       <View style={styles.Post}>
-            //       <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-            //         source={{uri: element.AnimalPic}}/>
-            //         <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-            //       <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-            //       <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
-            //       <MapView style={styles.mapStyle}
-            //       region={{
-            //         latitude: element.LatA,
-            //         longitude: element.LongA,
-            //         latitudeDelta: 0.01,
-            //         longitudeDelta: 0.01
-            //       }}
-            //       provider="google"
-            //       showsUserLocation={true}
-            //       showsMyLocationButton={true}
-            //       zoomControlEnabled={true}
-            //       moveOnMarkerPress={true}
-            //       >
-            //       <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
-            //       </MapView>
-            //       <TouchableOpacity 
-            //          style={styles.iconStyle}
-            //          onPress={()=> this.onPressTrashIcon(element.postid)}>
-            //          <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-            //         </TouchableOpacity>
-            //     </View>
-            //     </View>          
-            //   );
         }).reverse();
     }
 
@@ -397,7 +372,6 @@ export default class Profile extends Component{
                 </View>
                 
                 <View style={styles.Container4}>
-
                         <TouchableOpacity style={styles.button3}
                         onPress={() => this.segmentClicked(2)}>
                             <Text style={this.state.activeIndex == 2 ? styles.activeText: styles.inactiveText}>بلاغات </Text>

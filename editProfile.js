@@ -23,7 +23,7 @@ export default class editProfile extends Component{
             confirmPassword: '',
             uploading: false,
             newProfileImage: null,
-            isError: false
+            exist: false
         }
       }
 
@@ -117,6 +117,7 @@ export default class editProfile extends Component{
       const Emailcheck = Emailexpression.test(String(this.state.newEmail).toLowerCase());
       const strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
       const Passcheck = strongPass.test(this.state.password);
+      var exist = false
 
       if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
         
@@ -162,29 +163,33 @@ export default class editProfile extends Component{
           return
         } 
       //update case
-      else {
-        firebase.auth().currentUser
+        await firebase.auth().currentUser
         .updateEmail(this.state.newEmail)
-        .catch((error) => {
-          firebase.database().ref("account").orderByChild("Email").equalTo(this.state.email).once("value", snapshot => {
-            if (snapshot.exists()) {
+        .then(async(data)=>{
+          await firebase.database().ref('account/'+firebase.auth().currentUser.uid)
+          .update({
+            Email: this.state.newEmail
+          })
+        })
+        .catch(async (error) => {
+          console.log(error)
+           await firebase.database().ref("account").orderByChild("Email").equalTo(this.state.email).once("value", snapshot => {
+            if (snapshot.exists()){
+              exist = true
               Alert.alert('', 'عذراً البريد الإلكتروني مسجل مسبقاً',[{ text: 'حسناً'}])
+              this.setState({
+                exist: true,
+                newEmail: ''
+              })
               this.retrieveInfo()
               return
-            } else { 
-              firebase.database().ref('account/'+firebase.auth().currentUser.uid)
-            .update({
-              Email: this.state.newEmail
-            })
+            }else{
+              Alert.alert('', 'لتغيير البريد الإلكتروني الرجاء تسجيل الدخول من جديد وإعادة المحاولة.',[{ text: 'حسناً'}])
+              return
             }
           });
+          
         })
-
-        this.setState({
-          newName: ''
-        })
-        this.retrieveInfo()
-      }
     }
 
     //password validation and update
@@ -193,7 +198,7 @@ export default class editProfile extends Component{
      if((this.state.password.trim() == '' && this.state.confirmPassword.trim() !== '')
      || (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '')){
         Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور وتأكيد كلمة المرور',[{ text: 'حسناً'}])
-        this.setInfo()
+        // this.setInfo()
         return
       } else if (Passcheck === false) {
           Alert.alert('', 'يجب ان تتكون كلمة المرور من 8 خانات أو أكثر وحرف انجليزي كبير وحرف انجليزي صغير على الأقل',[{ text: 'حسناً'}])
@@ -208,8 +213,12 @@ export default class editProfile extends Component{
         }
 
       }
+      console.log(this.state.exist)
+      console.log(exist)
+      if(!exist){
         this.setInfo()
         Alert.alert('', 'تم حفظ التغييرات بنجاح',[{ text: 'حسناً'}])
+      }
       }
     }
 
