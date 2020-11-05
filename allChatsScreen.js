@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity,Image, Text } from 'react-native';
 import { List, Divider } from 'react-native-paper';
 // import firestore from '@react-native-firebase/firestore';
 import firebase from './firebase';
@@ -13,7 +13,8 @@ export default function allChatsScreen({ navigation }) {
 
 
   useEffect(() => {
-    const unsubscribe = firebase.firestore()
+    (async () => {
+    const unsubscribe = await firebase.firestore()
       .collection('userChats')
       .doc(firebase.auth().currentUser.uid)
       .collection('chatsID')
@@ -28,6 +29,7 @@ export default function allChatsScreen({ navigation }) {
             // give defaults
             name: documentSnapshot.data().to,
             toID: documentSnapshot.data().toID,
+            unreadMsgs: documentSnapshot.data().unreadMessages,            
 
             latestMessage: {
               text: ''
@@ -42,16 +44,23 @@ export default function allChatsScreen({ navigation }) {
 
     
     return () => unsubscribe();
+  })();
   }, []);
 
-
-
+  function numOfUnreadMsgs(num){
+    if(num==0){
+      return <Text></Text>
+    }
+    return <Text  style={styles.text}>{num}</Text>
+  }
+  
   return (
     <View style={styles.container}>
       <FlatList
         data={threads}
         keyExtractor={item => item._id}
         ItemSeparatorComponent={() => <Divider />}
+        
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.onechat}
             onPress={() => navigation.navigate('صفحة المحادثة', 
@@ -59,6 +68,7 @@ export default function allChatsScreen({ navigation }) {
               name:item.name,
             offerorID: item.toID})}
           >
+            
             <List.Item 
               title={item.name}
               description={item.latestMessage.text}
@@ -67,6 +77,10 @@ export default function allChatsScreen({ navigation }) {
               descriptionStyle={styles.listDescription}
               descriptionNumberOfLines={1}
             />
+            
+              {numOfUnreadMsgs(item.unreadMsgs)}
+              
+            
           </TouchableOpacity>
         )}
       />
@@ -90,6 +104,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 4, 
     borderColor: '#F0F0F0', 
-    backgroundColor: '#FBFBFB', 
+    backgroundColor: '#FBFBFB',
+    alignContent: 'center',
+    justifyContent: 'center',
+    // alignItems: 'center'   
+    
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    backgroundColor: '#69C4C6',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    width: 35,
+    height: 35,
+    borderRadius: 35/2,
+    position: 'absolute',
+    marginLeft: 40
   }
 });
