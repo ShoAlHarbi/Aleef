@@ -164,7 +164,7 @@ CloseOffer = (postid) => {
                   <View style={styles.Post}>
                   <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
+                  <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                   <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
@@ -183,12 +183,15 @@ CloseOffer = (postid) => {
                   >
                   <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
                   </MapView>
+
+                  <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
 
+                    <View style={styles.toggleStyle}>
                     <ToggleSwitch
                     isOn= {this.ToggleOnOrOff(element.offerStatus)}
                     onColor="green"
@@ -201,7 +204,8 @@ CloseOffer = (postid) => {
                     }}
                     disable={this.ToggleDisable(element.offerStatus)}
                     />
-
+                    </View>
+                    </View>
 
 
                 </View>
@@ -214,7 +218,7 @@ CloseOffer = (postid) => {
                 <View style={styles.Post}>
                 <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                   source={{uri: element.AnimalPic}}/>
-                  <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                   <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
@@ -248,7 +252,7 @@ CloseOffer = (postid) => {
                   <View style={styles.Post}>
                   <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                     <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                     <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                     <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
@@ -369,12 +373,11 @@ const styles = StyleSheet.create({
      fontSize: 13,
      marginTop: 5,
     },
-    //-----------------------------------
-    /*
-    iconStyle2: {
-      position: 'absolute',
-      padding:20,
-    },
-    */
+      //-----------------------------------
+      toggleStyle: {
+        padding:8,
+        left: 110,
+        paddingTop: 10,
+      },
     //----------------------------------
 });

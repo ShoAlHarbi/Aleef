@@ -171,13 +171,15 @@ CloseOffer = (postid) => {
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
                     <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+
+                    <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
 
-
+                    <View style={styles.toggleStyle}>
                     <ToggleSwitch
                     isOn= {this.ToggleOnOrOff(element.offerStatus)}
                     onColor="green"
@@ -190,6 +192,8 @@ CloseOffer = (postid) => {
                     }}
                     disable={this.ToggleDisable(element.offerStatus)}
                     />
+                    </View>
+                    </View>
 
 
                   </View>
@@ -332,5 +336,12 @@ const styles = StyleSheet.create({
       color: 'red',
       fontSize: 13,
       marginTop: 5,
-    }
+    },
+    //-----------------------------------
+      toggleStyle: {
+        padding:8,
+        left: 110,
+        paddingTop: 10,
+      },
+    //----------------------------------
 });
