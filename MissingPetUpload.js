@@ -6,6 +6,7 @@ import firebase from './firebase'
 import MapView,{ Marker } from 'react-native-maps';
 import { RadioButton } from 'react-native-paper';
 import {PermissionsAndroid} from 'react-native';
+import {Picker} from '@react-native-community/picker'; 
 
 
 console.disableYellowBox = true;
@@ -18,11 +19,12 @@ export default class MissingPetUpload extends Component {
     super(props);
     this.state = { 
       userID: firebase.auth().currentUser.uid, 
-      AnimalType:'',
+      AnimalType: 'غير محدد',
       latitude:'',
       longitude:'',
       PetImage: null,
       uploading: false,
+      offerStatus: 'متاح', //-----------------new: status1
       //--------------------
       marker:
       {latitude: -82.8187050,
@@ -129,23 +131,19 @@ export default class MissingPetUpload extends Component {
   };
 
   PublishMissingPetPost = () => {
-        //-------------------new--------------------------
-         //Previous regex: /^[\u0621-\u064A\040/\s/g]+$/ problem with g
-                
+        //-------------------new--------------------------                
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
 
-        if (this.state.AnimalType.trim() === '') {
-          Alert.alert('', 'يجب تعبئة حقل نوع الحيوان',[{ text: 'حسناً'}])}
+        if(this.state.AnimalType === 'غير محدد'){
+          Alert.alert('', 'يجب اختيار نوع حيوان  ',[{ text: 'حسناً'}])
+        }
+        else if (this.state.PetImage === null){
+          Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
+        }
           else if(this.state.marker.latitude === -82.8187050 || this.state.marker.longitude === 34.5320631){
             Alert.alert('', 'يجب تحديد موقع اخر مشاهدة للحيوان',[{ text: 'حسناً'}])
           }
-          else if (AnimalTypecheck === false){
-            Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
-          }
-          /*else if (this.state.PetImage === null){
-            Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
-          }*/
        else{
       //----------------------new--------------------------    
     firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
@@ -157,7 +155,8 @@ export default class MissingPetUpload extends Component {
        userId: this.state.userID,
        uName: Name,
        latitude:this.state.latitude,
-       longitude:this.state.longitude
+       longitude:this.state.longitude,
+       offerStatus: this.state.offerStatus //-------------new: Status 2
       })
      })
     this.nearUsers();   
@@ -167,12 +166,11 @@ export default class MissingPetUpload extends Component {
      Alert.alert('', 'تمت اضافة البلاغ بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
     } 
     }
-
     //-----------------------To Find all near users and send notifications to them----------------------------------
     nearUsers =()=>{         
       var ref = firebase.database().ref("account");
           ref.on('value',  function (snapshot){
-       accountInfo = snapshot.val()
+         var accountInfo = snapshot.val()
         var userIds = Object.keys(accountInfo);// to find the acoount IDs and put them in an array
         console.log(userIds)
         for(var i = 0; i< userIds.length;i++){
@@ -227,15 +225,25 @@ export default class MissingPetUpload extends Component {
         <Image
         style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
         source={require('./assets/AleefLogoCat.png')}/>
-        <TextInput
-          placeholder="*نوع الحيوان"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={this.state.AnimalType}
-          maxLength={20} //---------------------------------------------------------------
-          onChangeText={(val) => this.updateInputVal(val, 'AnimalType')
-        }
-        />
+        
+        
+        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*نوع الحيوان:</Text>
+        <Picker
+        selectedValue={this.state.AnimalType}
+        style={{height: 50, width: 160}}
+        itemStyle={styles.itemStyle}
+        onValueChange={(val) => this.updateInputVal(val, 'AnimalType')}
+        >
+       <Picker.Item label= "غير محدد" value= "غير محدد" />
+       <Picker.Item label="أرنب" value="أرنب" />
+       <Picker.Item label="سمك" value="سمك" />
+       <Picker.Item label="عصفور" value="عصفور" />
+       <Picker.Item label="قط" value="قط" />
+       <Picker.Item label="كلب" value="كلب" />
+       </Picker>
+
+
+
          <TouchableOpacity onPress={() => this.SelectImage()}
                        style={styles.buttonUploadPhoto}>
                     <Text style={styles.textStyleUploadPhoto}>*رفع صورة للحيوان</Text>
@@ -350,4 +358,7 @@ mapStyle: {
   width: 300,
   height: 220,
 },
+itemStyle: {
+  textAlign: 'center',
+}
 })
