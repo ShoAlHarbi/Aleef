@@ -55,6 +55,7 @@ export default class SignUpScreen extends Component {
                 {
                   name: this.state.displayName.trim(),
                   Email: this.state.email,
+                  profileImage: 'https://firebasestorage.googleapis.com/v0/b/aleef-4b784.appspot.com/o/images.png?alt=media&token=976e23f9-43b5-4caf-a796-8bad5947b511'
                 })
               this.props.navigation.navigate('الصفحة الرئيسية')
             }

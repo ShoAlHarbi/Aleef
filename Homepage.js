@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt, faComment, faUser } from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
 
@@ -59,7 +59,7 @@ export default class Homepage extends Component {
                   <View style={styles.container2}>
                   <View><TouchableOpacity  onPress={() => this.signOut()} style={styles.button2}>
                       <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#5F5F5F"}/>
-                    </TouchableOpacity>
+                    </TouchableOpacity>                 
                   </View>
                   <Image style={{ width: 65, height: 70,marginTop:50, marginRight:195,}}
                    source={require('./assets/AleefLogoCat.png')}/>   
@@ -81,13 +81,16 @@ export default class Homepage extends Component {
                     <Text style={styles.textStyle}>الإبلاغ عن حيوان مفقود</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('جميع المحادثات')}
-                       style={styles.button}>
-                    <Text style={styles.textStyle}>المحادثات</Text>
-                    </TouchableOpacity>
-
                    </View>
-                
+
+                   <View style={{ flexDirection: 'row', position:'absolute', top:550 }} >
+                   <TouchableOpacity onPress={() => this.props.navigation.navigate('جميع المحادثات')} style = {styles.sideIcons}>
+                     <FontAwesomeIcon icon={ faComment }size={40} color={"#5F5F5F"} />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('الصفحة الشخصية')} style = {styles.sideIcons}>
+                     <FontAwesomeIcon  icon={ faUser }size={40} color={"#5F5F5F"}/>
+                  </TouchableOpacity>
+                   </View>
                 </View>
             );
         } 
@@ -144,7 +147,14 @@ const styles = StyleSheet.create({
       width: 125,
       marginLeft: 160,
       marginTop:50
-  }
+  }, 
+
+  sideIcons: { 
+    //padding: 8
+    margin: 20, 
+    borderColor: 'black', 
+  },
+
 });
 
 
