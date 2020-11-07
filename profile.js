@@ -252,6 +252,7 @@ export default class Profile extends Component{
         var post;
         var postKeys;
         var AdoptionPostsData=[]
+        var name;
         firebase.database().ref('AdoptionPosts').orderByChild('userId').equalTo(currentUID)
         .once('value', snapshot => {
             if(snapshot.exists()){
@@ -268,7 +269,10 @@ export default class Profile extends Component{
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId; 
                     var postidentification = postInfo; 
-                    var Status = post[postInfo].offerStatus; 
+                    var Status = post[postInfo].offerStatus;
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    }) 
                     //----------------Adoption Posts Array-----------------------
                     AdoptionPostsData[i]={
                       AnimalType: AniType,
@@ -276,7 +280,7 @@ export default class Profile extends Component{
                       AnimalAge: AniAge,
                       AnimalCity: AniCity,
                       AnimalPic: AniPic,
-                      Name: UserName,
+                      Name:name,
                       offerorID: offerorID,
                       postid: postidentification,
                       offerStatus: Status,
@@ -309,7 +313,7 @@ export default class Profile extends Component{
                     
                     <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity 
-                     style={styles.iconStyle}
+                     style={styles.iconStyle2}
                      onPress={()=> this.onPressTrashIcon0(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
@@ -323,7 +327,7 @@ export default class Profile extends Component{
                     labelStyle={{ color: "black", fontWeight: "900" }}
                     size="small"
                     onToggle={isOn => {
-                      this.onToggleAdoption(isOn,element.offerStatus,element.postid);
+                      this.onToggle(isOn,element.offerStatus,element.postid);
                     }}
                     disable={this.ToggleDisable(element.offerStatus)}
                     />
@@ -342,6 +346,7 @@ export default class Profile extends Component{
         var post;
         var postKeys;
         var SellingPostsData=[]
+        var name;
         firebase.database().ref('SellingPosts').orderByChild('userId').equalTo(currentUID)
         .once('value', snapshot => {
             if(snapshot.exists()){
@@ -359,7 +364,10 @@ export default class Profile extends Component{
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId;  
                     var postidentification = postInfo; 
-                    var Status = post[postInfo].offerStatus; 
+                    var Status = post[postInfo].offerStatus;
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    }) 
                     //----------------Selling Posts Array-----------------------
                     SellingPostsData[i]={
                       AnimalType: AniType,
@@ -368,7 +376,7 @@ export default class Profile extends Component{
                       AnimalCity: AniCity,
                       AnimalPic: AniPic,
                       AnimalPrice: petPrice,
-                      Name: UserName,
+                      Name: name,
                       offerorID: offerorID,
                       postid: postidentification, 
                       offerStatus: Status,
@@ -402,7 +410,7 @@ export default class Profile extends Component{
 
                     <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity 
-                     style={styles.iconStyle}
+                     style={styles.iconStyle2}
                      onPress={()=> this.onPressTrashIcon1(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
@@ -436,6 +444,7 @@ export default class Profile extends Component{
         var post;
         var postKeys;
         var MissingPetPostsData=[]
+        var name;
         firebase.database().ref('MissingPetPosts').orderByChild('userId').equalTo(currentUID)
         .once('value', snapshot => {
             if(snapshot.exists()){
@@ -452,13 +461,16 @@ export default class Profile extends Component{
                     var offerorID = post[postInfo].userId;  
                     var postidentification = postInfo;  
                     var Status = post[postInfo].offerStatus;
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
                     //----------------Missing Posts Array-----------------------
                     MissingPetPostsData[i]={
                       AnimalType: AniType,
                       AnimalPic: AniPic,
                       LongA: Long,
                       LatA: Lat,
-                      Name:UserName,
+                      Name:name,
                       offerorID: offerorID,
                       postid: postidentification,
                       offerStatus: Status,
@@ -505,7 +517,7 @@ export default class Profile extends Component{
 
               <View style={{flexDirection: 'row'}}>
               <TouchableOpacity 
-                 style={styles.iconStyle}
+                 style={styles.iconStyle2}
                  onPress={()=> this.onPressTrashIcon2(element.postid)}>
                  <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                 </TouchableOpacity>

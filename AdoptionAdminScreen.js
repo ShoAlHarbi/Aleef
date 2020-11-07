@@ -64,6 +64,7 @@ export default class AdoptionAdminScreen extends Component {
         var postKeys = Object.keys(post);// to find the post keys and put them in an array
         for(var i = 0; i< postKeys.length;i++){
           var postInfo = postKeys[i];
+          var name;
           //---------This to save the post info in variables----------
           var AniType= post[postInfo].AnimalType; 
           var AniSex= post[postInfo].AnimalSex; 
@@ -74,6 +75,9 @@ export default class AdoptionAdminScreen extends Component {
           var offerorID = post[postInfo].userId; 
           var postidentification = postInfo; 
           var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+          firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+            name= snapshot.val()
+          }) 
           //----------------Adoption Posts Array-----------------------
           AdoptionPostsData[i]={
             AnimalType: AniType,
@@ -81,7 +85,7 @@ export default class AdoptionAdminScreen extends Component {
             AnimalAge: AniAge,
             AnimalCity: AniCity,
             AnimalPic: AniPic,
-            Name: UserName,
+            Name: name,
             offerorID: offerorID, 
             postid: postidentification,
             offerStatus: Status //COPY Status------------------------------

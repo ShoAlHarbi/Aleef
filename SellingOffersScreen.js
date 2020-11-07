@@ -116,6 +116,7 @@ CloseOffer = (postid) => {
             var ref = firebase.database().ref("SellingPosts");
             ref.on('value',  function (snapshot) {
             var post = snapshot.val();
+            var name;
            //-------------------------------------------------------------------------           
           //This block of code is to prevent null error when array is empty: 
            if (post === null){
@@ -142,6 +143,9 @@ CloseOffer = (postid) => {
                 var offerorID = post[postInfo].userId;  
                 var postidentification = postInfo; 
                 var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
                   AnimalType: AniType,
@@ -150,7 +154,7 @@ CloseOffer = (postid) => {
                   AnimalCity: AniCity,
                   AnimalPic: AniPic,
                   AnimalPrice: petPrice,
-                  Name: UserName,
+                  Name: name,
                   offerorID: offerorID,
                   postid: postidentification,
                   offerStatus: Status,//COPY Status------------------------------
