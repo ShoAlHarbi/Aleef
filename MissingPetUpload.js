@@ -172,7 +172,6 @@ export default class MissingPetUpload extends Component {
           ref.on('value',  function (snapshot){
          var accountInfo = snapshot.val()
         var userIds = Object.keys(accountInfo);// to find the acoount IDs and put them in an array
-        console.log(userIds)
         for(var i = 0; i< userIds.length;i++){
         var userInfo = userIds[i];
         userLati=accountInfo[userInfo].UserLat;
@@ -191,7 +190,7 @@ export default class MissingPetUpload extends Component {
         var reportLoc = {lat: this.state.latitude, lon: this.state.longitude}//this is the report location
         var dist = geodist(UserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
         console.log(dist+'km')
-        if(dist<4 && element.uID!=this.state.userID){
+        if(dist<=3 && element.uID!=this.state.userID){
           firebase.database().ref('account/'+element.uID+'/push_token/data').on('value', (snapshot)=>{
             LoggedinUserToken = snapshot.val()
           })      
@@ -236,7 +235,6 @@ export default class MissingPetUpload extends Component {
         >
        <Picker.Item label= "غير محدد" value= "غير محدد" />
        <Picker.Item label="أرنب" value="أرنب" />
-       <Picker.Item label="سمك" value="سمك" />
        <Picker.Item label="عصفور" value="عصفور" />
        <Picker.Item label="قط" value="قط" />
        <Picker.Item label="كلب" value="كلب" />
