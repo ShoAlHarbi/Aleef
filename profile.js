@@ -40,6 +40,10 @@ export default class Profile extends Component{
         });
     }
 
+    _onRefresh = () => {
+      setTimeout(() => this.setState({ refreshing: false }), 1000);
+    }
+
     ToggleOnOrOff = (offerStatus) => {
       if (offerStatus === 'مغلق'){
         return false;
@@ -655,11 +659,13 @@ const styles = StyleSheet.create({
       marginTop:50
   },
   inactiveText: {
-    fontSize: 18
+    fontSize: 18,
+    color:'black',
 },
     activeText: {
         textDecorationLine: 'underline',
-        fontSize: 18
+        fontSize: 18,
+        color: '#69C4C6'
     },
     iconStyle: {
         position: 'absolute',
