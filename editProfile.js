@@ -17,8 +17,8 @@ export default class editProfile extends Component{
             userName: '',
             profileImage: null,
             email:'',
-            newName: '',
-            newEmail: '',
+            newName:null,
+            newEmail: null,
             password: '',
             confirmPassword: '',
             uploading: false,
@@ -118,6 +118,18 @@ export default class editProfile extends Component{
       const strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
       const Passcheck = strongPass.test(this.state.password);
       var exist = false
+
+      if(this.state.newName==''||this.state.newName.trim()==''){
+        Alert.alert('', 'الرجاء ادخال اسم ',[{ text: 'حسناً'}])
+        this.retrieveInfo()
+        return
+      }
+      
+      if(this.state.newEmail==''||this.state.newEmail.trim()==''){
+        Alert.alert('', 'الرجاء ادخال بريد إلكتروني ',[{ text: 'حسناً'}])
+        this.retrieveInfo()
+        return
+      }
 
       if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
         
