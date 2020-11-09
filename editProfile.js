@@ -119,6 +119,7 @@ export default class editProfile extends Component{
       const Passcheck = strongPass.test(this.state.password);
       var exist = false
 
+      
       if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
         
       //profile image validation and update
@@ -135,6 +136,7 @@ export default class editProfile extends Component{
 
     //name validation and update
       if(this.state.newName!==''){
+
       if(this.state.newName.trim()==''){
         Alert.alert('', 'الرجاء ادخال اسم صحيح',[{ text: 'حسناً'}])
         this.retrieveInfo()
@@ -195,9 +197,12 @@ export default class editProfile extends Component{
     //password validation and update
     if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
 
-     if((this.state.password.trim() == '' && this.state.confirmPassword.trim() !== '')
-     || (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '')){
-        Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور وتأكيد كلمة المرور',[{ text: 'حسناً'}])
+     if(this.state.password.trim() == '' && this.state.confirmPassword.trim() !== ''){
+        Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور',[{ text: 'حسناً'}])
+        // this.setInfo()
+        return
+      } else if (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '') { 
+        Alert.alert('', 'الرجاء تعبئة خانة تأكيد كلمة المرور',[{ text: 'حسناً'}])
         // this.setInfo()
         return
       } else if (Passcheck === false) {
