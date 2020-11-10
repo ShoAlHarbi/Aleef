@@ -331,7 +331,7 @@ export default class Profile extends Component{
                     labelStyle={{ color: "black", fontWeight: "900" }}
                     size="small"
                     onToggle={isOn => {
-                      this.onToggle(isOn,element.offerStatus,element.postid);
+                      this.onToggleAdoption(isOn,element.offerStatus,element.postid);
                     }}
                     disable={this.ToggleDisable(element.offerStatus)}
                     />
