@@ -154,7 +154,7 @@ export default class editProfile extends Component{
      }
     
       //email validation and update 
-      if(this.state.newEmail.trim()==''){
+      if(this.state.newEmail==' '){
           Alert.alert('', 'الرجاء ادخال بريد إلكتروني',[{ text: 'حسناً'}])
           this.retrieveInfo()
           return
@@ -168,7 +168,7 @@ export default class editProfile extends Component{
           Alert.alert('', 'البريد الالكتروني المدخل هو البريد الالكتروني الحالي',[{ text: 'حسناً'}])
           this.retrieveInfo()
           return
-        } 
+        }
       //update case
         await firebase.auth().currentUser
         .updateEmail(this.state.newEmail)
@@ -200,7 +200,7 @@ export default class editProfile extends Component{
     }
 
     //password validation and update
-    if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
+     if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
 
      if(this.state.password.trim() == '' && this.state.confirmPassword.trim() !== ''){
         Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور',[{ text: 'حسناً'}])
