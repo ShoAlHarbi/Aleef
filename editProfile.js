@@ -154,7 +154,12 @@ export default class editProfile extends Component{
      }
     
       //email validation and update 
-      if(this.state.newEmail.trim()!==''){
+      if(this.state.newEmail.trim()==''){
+          Alert.alert('', 'الرجاء ادخال بريد إلكتروني',[{ text: 'حسناً'}])
+          this.retrieveInfo()
+          return
+      }
+      else if(this.state.newEmail.trim()!==''){
         if (Emailcheck === false) {
           Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
           this.retrieveInfo()
