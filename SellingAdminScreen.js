@@ -18,7 +18,7 @@ export default class SellingAdminScreen extends Component {
         _onRefresh = () => {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
-        onPressTrashIcon = (postid) => { // start edit this method
+        onPressTrashIcon = (postid) => { 
           Alert.alert(
             "",
             "هل تود حذف هذا العرض؟",
@@ -32,15 +32,15 @@ export default class SellingAdminScreen extends Component {
             ],
             { cancelable: false }
           );
-        } //end edit this method
+        } 
 
-        onPressDelete = (postid) => { // start new method
+        onPressDelete = (postid) => {
           SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
           firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
             this.readPostData(); 
             Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}]) //added 2
           }); 
-         }  //end new method
+         } 
 
 
         readPostData =() => {
@@ -62,6 +62,7 @@ export default class SellingAdminScreen extends Component {
               var postKeys = Object.keys(post);// to find the post keys and put them in an array
               for(var i = 0; i< postKeys.length;i++){
                 var postInfo = postKeys[i];
+                var name;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
                 var AniSex= post[postInfo].AnimalSex; 
@@ -72,6 +73,10 @@ export default class SellingAdminScreen extends Component {
                 var UserName = post[postInfo].uName;
                 var offerorID = post[postInfo].userId;  
                 var postidentification = postInfo; 
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                }) 
                 //----------------Adoption Posts Array-----------------------
                 SellingPostsData[i]={
                   AnimalType: AniType,
@@ -80,9 +85,10 @@ export default class SellingAdminScreen extends Component {
                   AnimalCity: AniCity,
                   AnimalPic: AniPic,
                   AnimalPrice: petPrice,
-                  Name: UserName,
+                  Name: name,
                   offerorID: offerorID,
-                  postid: postidentification
+                  postid: postidentification,
+                  offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             });         
@@ -98,6 +104,7 @@ export default class SellingAdminScreen extends Component {
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
+                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
                     <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>

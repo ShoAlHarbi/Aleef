@@ -6,19 +6,25 @@ import firebase from './firebase'
 import MapView,{ Marker } from 'react-native-maps';
 import { RadioButton } from 'react-native-paper';
 import {PermissionsAndroid} from 'react-native';
+import {Picker} from '@react-native-community/picker'; 
+
 
 console.disableYellowBox = true;
 var Name='';
+var userLati=0;
+var userLong=0;
+var UserLocation= [];
 export default class MissingPetUpload extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { 
       userID: firebase.auth().currentUser.uid, 
-      AnimalType:'',
+      AnimalType: 'غير محدد',
       latitude:'',
       longitude:'',
       PetImage: null,
       uploading: false,
+      offerStatus: 'متاح', //-----------------new: status1
       //--------------------
       marker:
       {latitude: -82.8187050,
@@ -42,7 +48,6 @@ export default class MissingPetUpload extends Component {
     state[prop] = val;
     this.setState(state);
   }
-
 
   async componentDidMount() {
     navigator.geolocation.getCurrentPosition()
@@ -126,22 +131,18 @@ export default class MissingPetUpload extends Component {
   };
 
   PublishMissingPetPost = () => {
-        //-------------------new--------------------------
-         //Previous regex: /^[\u0621-\u064A\040/\s/g]+$/ problem with g
-                
+        //-------------------new--------------------------                
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
 
-        if (this.state.AnimalType.trim() === '') {
-          Alert.alert('', 'يجب تعبئة حقل نوع الحيوان',[{ text: 'حسناً'}])}
+        if(this.state.AnimalType === 'غير محدد'){
+          Alert.alert('', 'يجب اختيار نوع حيوان  ',[{ text: 'حسناً'}])
+        }
+        else if (this.state.PetImage === null){
+          Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
+        }
           else if(this.state.marker.latitude === -82.8187050 || this.state.marker.longitude === 34.5320631){
             Alert.alert('', 'يجب تحديد موقع اخر مشاهدة للحيوان',[{ text: 'حسناً'}])
-          }
-          else if (AnimalTypecheck === false){
-            Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
-          }
-          else if (this.state.PetImage === null){
-            Alert.alert('', 'يجب رفع صورة للحيوان',[{ text: 'حسناً'}])
           }
        else{
       //----------------------new--------------------------    
@@ -154,15 +155,66 @@ export default class MissingPetUpload extends Component {
        userId: this.state.userID,
        uName: Name,
        latitude:this.state.latitude,
-       longitude:this.state.longitude
+       longitude:this.state.longitude,
+       offerStatus: this.state.offerStatus //-------------new: Status 2
       })
      })
+    this.nearUsers();   
      this.props.navigation.navigate('الإبلاغ عن حيوان مفقود',{
-       offerorID: this.state.userID
-     }) //-------------------- new
+       offerorID: this.state.userID, //also reporter ID
+     })
      Alert.alert('', 'تمت اضافة البلاغ بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
-    } //-------------------- else 
+    } 
     }
+    //-----------------------To Find all near users and send notifications to them----------------------------------
+    nearUsers =()=>{         
+      var ref = firebase.database().ref("account");
+          ref.on('value',  function (snapshot){
+         var accountInfo = snapshot.val()
+        var userIds = Object.keys(accountInfo);// to find the acoount IDs and put them in an array
+        for(var i = 0; i< userIds.length;i++){
+        var userInfo = userIds[i];
+        userLati=accountInfo[userInfo].UserLat;
+        userLong=accountInfo[userInfo].UserLong;
+        //I needed this array because the state is not working inside for loop
+        UserLocation[i]={
+          uLat: userLati,
+          uLong:userLong,
+          uID: userInfo
+        }
+        }
+      })
+     UserLocation.map(element => {//map the array to calculate the distance for each user and send them notification
+        var geodist = require('geodist')
+        var UserLoc= {lat: element.uLat, lon: element.uLong}//this is current user location
+        var reportLoc = {lat: this.state.latitude, lon: this.state.longitude}//this is the report location
+        var dist = geodist(UserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
+        console.log(dist+'km')
+        if(dist<=3 && element.uID!=this.state.userID){
+          firebase.database().ref('account/'+element.uID+'/push_token/data').on('value', (snapshot)=>{
+            LoggedinUserToken = snapshot.val()
+          })      
+          // Push the notification
+          console.log('The token is '+LoggedinUserToken)
+          firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
+            Name= snapshot.val().name})
+          let response = fetch('https://exp.host/--/api/v2/push/send',{
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+             'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              to: LoggedinUserToken,
+              sound: 'default',
+              title: 'يوجد حيوان أليف مفقود بالقرب منك',
+              body: 'ساعد '+Name+' لإيجاد الحيوان المفقود'
+            })
+          });
+        }
+      })
+    }
+    //------------------------------------------------------------------------------
 
   render(){ 
     let { PetImage } = this.state;
@@ -172,15 +224,24 @@ export default class MissingPetUpload extends Component {
         <Image
         style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
         source={require('./assets/AleefLogoCat.png')}/>
-        <TextInput
-          placeholder="*نوع الحيوان"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={this.state.AnimalType}
-          maxLength={20} //---------------------------------------------------------------
-          onChangeText={(val) => this.updateInputVal(val, 'AnimalType')
-        }
-        />
+        
+        
+        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*نوع الحيوان:</Text>
+        <Picker
+        selectedValue={this.state.AnimalType}
+        style={{height: 50, width: 160}}
+        itemStyle={styles.itemStyle}
+        onValueChange={(val) => this.updateInputVal(val, 'AnimalType')}
+        >
+       <Picker.Item label= "غير محدد" value= "غير محدد" />
+       <Picker.Item label="أرنب" value="أرنب" />
+       <Picker.Item label="عصفور" value="عصفور" />
+       <Picker.Item label="قط" value="قط" />
+       <Picker.Item label="كلب" value="كلب" />
+       </Picker>
+
+
+
          <TouchableOpacity onPress={() => this.SelectImage()}
                        style={styles.buttonUploadPhoto}>
                     <Text style={styles.textStyleUploadPhoto}>*رفع صورة للحيوان</Text>
@@ -295,4 +356,7 @@ mapStyle: {
   width: 300,
   height: 220,
 },
+itemStyle: {
+  textAlign: 'center',
+}
 })

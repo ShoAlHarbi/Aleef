@@ -69,6 +69,7 @@ export default class MissingPetAdmin extends Component {
             var postKeys = Object.keys(post);// to find the post keys and put them in an array
             for(var i = 0; i< postKeys.length;i++){
               var postInfo = postKeys[i];
+              var name;
               //---------This to save the post info in variables----------
               var AniType= post[postInfo].AnimalType; 
               var AniPic= post[postInfo].PetPicture; 
@@ -76,16 +77,21 @@ export default class MissingPetAdmin extends Component {
               var Lat= post[postInfo].latitude;
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
-              var postidentification = postInfo;  
+              var postidentification = postInfo; 
+              var Status = post[postInfo].offerStatus;//COPY Status----------------------------- 
+              firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                name= snapshot.val()
+              }) 
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
                 AnimalPic: AniPic,
                 LongA: Long,
                 LatA: Lat,
-                Name:UserName,
+                Name:name,
                 offerorID: offerorID,
-                postid: postidentification
+                postid: postidentification,
+                offerStatus: Status,//COPY Status------------------------------
               }  
             }         
           });         
@@ -95,8 +101,9 @@ export default class MissingPetAdmin extends Component {
                   <View style={styles.Post}>
                   <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{

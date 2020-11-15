@@ -6,6 +6,7 @@ import { faEdit} from '@fortawesome/free-solid-svg-icons';
 import { color } from 'react-native-reanimated';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
+import ToggleSwitch from 'toggle-switch-react-native'
 
 var AdoptionPostsData= [];
 var SellingPostsData= [];
@@ -38,6 +39,122 @@ export default class Profile extends Component{
             
         });
     }
+
+    _onRefresh = () => {
+      setTimeout(() => this.setState({ refreshing: false }), 1000);
+    }
+
+    ToggleOnOrOff = (offerStatus) => {
+      if (offerStatus === 'مغلق'){
+        return false;
+      } else if (offerStatus === 'متاح'){
+        return true;
+      }
+    }
+    
+    
+    ToggleDisable = (offerStatus) => {
+      if (offerStatus === 'مغلق'){
+        return true;
+      }else  if (offerStatus === 'متاح'){
+        return false;
+      }
+    }
+    
+    
+    onToggleAdoption = (isOn,offerStatus,postid) => {
+      if (offerStatus === 'مغلق'){
+        Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+        console.log("Do nothing")  
+      }
+      else if (offerStatus === 'متاح'){
+        Alert.alert(
+          "",
+          "هل تود إغلاق هذا العرض؟",
+          [
+            {
+              text: "لا",
+              onPress: () => console.log("لا"),
+              style: "cancel"
+            },
+            { text: "نعم", onPress: () => this.CloseOfferAdoption(postid) }
+          ],
+          { cancelable: false }
+        );
+        }
+    }
+
+    onToggleSelling = (isOn,offerStatus,postid) => {
+      if (offerStatus === 'مغلق'){
+        Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+        console.log("Do nothing")  
+      }
+      else if (offerStatus === 'متاح'){
+        Alert.alert(
+          "",
+          "هل تود إغلاق هذا العرض؟",
+          [
+            {
+              text: "لا",
+              onPress: () => console.log("لا"),
+              style: "cancel"
+            },
+            { text: "نعم", onPress: () => this.CloseOfferSelling(postid) }
+          ],
+          { cancelable: false }
+        );
+        }
+    }
+
+    onToggleReport = (isOn,offerStatus,postid) => {
+      if (offerStatus === 'مغلق'){
+        Alert.alert('', 'هذا البلاغ مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+        console.log("Do nothing")  
+      }
+      else if (offerStatus === 'متاح'){
+        Alert.alert(
+          "",
+          "هل تود إغلاق هذا البلاغ؟",
+          [
+            {
+              text: "لا",
+              onPress: () => console.log("لا"),
+              style: "cancel"
+            },
+            { text: "نعم", onPress: () => this.CloseOfferReport(postid) }
+          ],
+          { cancelable: false }
+        );
+        }
+    }
+ 
+    CloseOfferAdoption = (postid) => {
+      firebase.database().ref('/AdoptionPosts/'+postid).update({
+        offerStatus: 'مغلق'
+      }).then((data) => {
+        this.renderSectionZero(); 
+        Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
+      });
+    }
+
+    CloseOfferSelling = (postid) => {
+      firebase.database().ref('/SellingPosts/'+postid).update({
+        offerStatus: 'مغلق'
+      }).then((data) => {
+        this.renderSectionOne(); 
+        Alert.alert('', 'لقد تم إغلاق عرض البيع بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
+      });
+    }
+
+    CloseOfferReport = (postid) => {
+      firebase.database().ref('/MissingPetPosts/'+postid).update({
+        offerStatus: 'مغلق'
+      }).then((data) => {
+        this.renderSectionTwo(); 
+        Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
+      });
+    }
+
     //.........Deletion adoption posts section........
     onPressTrashIcon0 = (postid) => {
         Alert.alert(
@@ -139,6 +256,7 @@ export default class Profile extends Component{
         var post;
         var postKeys;
         var AdoptionPostsData=[]
+        var name;
         firebase.database().ref('AdoptionPosts').orderByChild('userId').equalTo(currentUID)
         .once('value', snapshot => {
             if(snapshot.exists()){
@@ -154,7 +272,11 @@ export default class Profile extends Component{
                     var AniPic= post[postInfo].PetPicture; 
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId; 
-                    var postidentification = postInfo;  
+                    var postidentification = postInfo; 
+                    var Status = post[postInfo].offerStatus;
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    }) 
                     //----------------Adoption Posts Array-----------------------
                     AdoptionPostsData[i]={
                       AnimalType: AniType,
@@ -162,9 +284,10 @@ export default class Profile extends Component{
                       AnimalAge: AniAge,
                       AnimalCity: AniCity,
                       AnimalPic: AniPic,
-                      Name: UserName,
+                      Name:name,
                       offerorID: offerorID,
-                      postid: postidentification
+                      postid: postidentification,
+                      offerStatus: Status,
                     }  
                   }
               }
@@ -174,29 +297,49 @@ export default class Profile extends Component{
             return(
                 <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
-                <Text style={styles.mandatoryTextStyle}>لا توجد عروض تبني حاليا.</Text>
+                <Text style={styles.mandatoryTextStyle}>لا توجد لديك عروض تبني.</Text>
                 </View>
                 </View>
                  ); 
         }
         else return AdoptionPostsData.map(element => {
                return (
-                <View style={{ marginBottom:30,  alignContent:'center'}}>
-                  <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                    source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                  <TouchableOpacity 
-                   style={styles.iconStyle2}
-                   onPress={()=> this.onPressTrashIcon0(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-                  </TouchableOpacity>
-                </View>
-                </View>
+                <View style={{ marginBottom:30}}>
+                    <View style={styles.Post}>
+                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                      source={{uri: element.AnimalPic}}/>
+                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                    
+                    <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity 
+                     style={styles.iconStyle2}
+                     onPress={()=> this.onPressTrashIcon0(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+
+                    <View style={styles.toggleStyle}>
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق العرض"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggleAdoption(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+                    </View>
+                    </View>
+
+                  </View>
+                  </View>
                 
               );
         }).reverse();
@@ -207,6 +350,7 @@ export default class Profile extends Component{
         var post;
         var postKeys;
         var SellingPostsData=[]
+        var name;
         firebase.database().ref('SellingPosts').orderByChild('userId').equalTo(currentUID)
         .once('value', snapshot => {
             if(snapshot.exists()){
@@ -224,6 +368,10 @@ export default class Profile extends Component{
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId;  
                     var postidentification = postInfo; 
+                    var Status = post[postInfo].offerStatus;
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    }) 
                     //----------------Selling Posts Array-----------------------
                     SellingPostsData[i]={
                       AnimalType: AniType,
@@ -232,9 +380,10 @@ export default class Profile extends Component{
                       AnimalCity: AniCity,
                       AnimalPic: AniPic,
                       AnimalPrice: petPrice,
-                      Name: UserName,
+                      Name: name,
                       offerorID: offerorID,
-                      postid: postidentification
+                      postid: postidentification, 
+                      offerStatus: Status,
                     }  
                   }
               }
@@ -244,30 +393,51 @@ export default class Profile extends Component{
             return(
                 <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
-                <Text style={styles.mandatoryTextStyle}>لا توجد عروض بيع حاليا.</Text>
+                <Text style={styles.mandatoryTextStyle}>لا توجد لديك عروض بيع.</Text>
                 </View>
                 </View>
                  ); 
         }
         else return SellingPostsData.map(element => {
                return (
-                <View style={{marginBottom:30, alignContent:'center'}}>
-                  <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                    source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                <View style={{ marginBottom:30}}>
+                    <View style={styles.Post}>
+                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                      source={{uri: element.AnimalPic}}/>
+                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
                     <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
                     <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
                     <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
                     <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
                     <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                  <TouchableOpacity 
-                   style={styles.iconStyle2}
-                   onPress={()=> this.onPressTrashIcon1(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-                  </TouchableOpacity>
-                </View>
-                </View>
+                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+
+                    <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity 
+                     style={styles.iconStyle2}
+                     onPress={()=> this.onPressTrashIcon1(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+
+                    <View style={styles.toggleStyle}>
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق العرض"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggleSelling(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+                    </View>
+                    </View>
+
+
+                  </View>
+                  </View>
                 
               );
         }).reverse();
@@ -278,6 +448,7 @@ export default class Profile extends Component{
         var post;
         var postKeys;
         var MissingPetPostsData=[]
+        var name;
         firebase.database().ref('MissingPetPosts').orderByChild('userId').equalTo(currentUID)
         .once('value', snapshot => {
             if(snapshot.exists()){
@@ -293,15 +464,20 @@ export default class Profile extends Component{
                     var UserName = post[postInfo].uName;
                     var offerorID = post[postInfo].userId;  
                     var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
                     //----------------Missing Posts Array-----------------------
                     MissingPetPostsData[i]={
                       AnimalType: AniType,
                       AnimalPic: AniPic,
                       LongA: Long,
                       LatA: Lat,
-                      Name:UserName,
+                      Name:name,
                       offerorID: offerorID,
-                      postid: postidentification
+                      postid: postidentification,
+                      offerStatus: Status,
                     }  
                   }
               }
@@ -311,7 +487,7 @@ export default class Profile extends Component{
             return(
                 <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
-                <Text style={styles.mandatoryTextStyle}>لا توجد بلاغات حاليا.</Text>
+                <Text style={styles.mandatoryTextStyle}>لا توجد لديك بلاغات.</Text>
                 </View>
                 </View>
                  ); 
@@ -319,35 +495,56 @@ export default class Profile extends Component{
         else return MissingPetPostsData.map(element => {
 
             return (
-                <View style={{ marginBottom:30}}>
-                  <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                    source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
-                  <MapView style={styles.mapStyle}
-                  region={{
-                    latitude: element.LatA,
-                    longitude: element.LongA,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01
-                  }}
-                  provider="google"
-                  showsUserLocation={true}
-                  showsMyLocationButton={true}
-                  zoomControlEnabled={true}
-                  moveOnMarkerPress={true}
-                  >
-                  <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
-                  </MapView>
-                  <TouchableOpacity 
-                     style={styles.iconStyle2}
-                     onPress={()=> this.onPressTrashIcon2(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-                    </TouchableOpacity>
+              <View style={{ marginBottom:30}}>
+              <View style={styles.Post}>
+              <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                source={{uri: element.AnimalPic}}/>
+              <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
+              <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+              <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
+              <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+              <MapView style={styles.mapStyle}
+              region={{
+                latitude: element.LatA,
+                longitude: element.LongA,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01
+              }}
+              provider="google"
+              showsUserLocation={true}
+              showsMyLocationButton={true}
+              zoomControlEnabled={true}
+              moveOnMarkerPress={true}
+              >
+              <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+              </MapView>
+
+              <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity 
+                 style={styles.iconStyle2}
+                 onPress={()=> this.onPressTrashIcon2(element.postid)}>
+                 <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                </TouchableOpacity>
+
+                <View style={styles.toggleStyle}>
+                <ToggleSwitch
+                isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                onColor="green"
+                offColor="red"
+                label="إغلاق البلاغ"
+                labelStyle={{ color: "black", fontWeight: "900" }}
+                size="small"
+                onToggle={isOn => {
+                  this.onToggleReport(isOn,element.offerStatus,element.postid);
+                }}
+                disable={this.ToggleDisable(element.offerStatus)}
+                />
                 </View>
-                </View>          
+                </View>
+
+
+            </View>
+            </View>
               );
         }).reverse();
     }
@@ -462,11 +659,13 @@ const styles = StyleSheet.create({
       marginTop:50
   },
   inactiveText: {
-    fontSize: 18
+    fontSize: 18,
+    color:'black',
 },
     activeText: {
         textDecorationLine: 'underline',
-        fontSize: 18
+        fontSize: 18,
+        color: '#69C4C6'
     },
     iconStyle: {
         position: 'absolute',
@@ -503,12 +702,19 @@ const styles = StyleSheet.create({
         width:310
         },
     mandatoryTextStyle: { 
+            textAlign: 'center',
             color: 'red',
             fontSize: 13,
             marginTop: 5,
             },
         mapStyle: {
                 width: 290, height: 180 ,marginLeft:10, marginBottom:12
+              },
+
+              toggleStyle: {
+                padding:8,
+                left: 110,
+                paddingTop: 10,
               },
     
 });

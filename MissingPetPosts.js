@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
 
 var MissingPetPostsData= [];
 
@@ -26,7 +27,64 @@ export default class MissingPetPosts extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-        onPressTrashIcon = (postid) => { // start edit this method
+
+
+//------------------------------------------------------------------------------
+ToggleOnOrOff = (offerStatus) => {
+  if (offerStatus === 'مغلق'){
+    return false;
+  } else if (offerStatus === 'متاح'){
+    return true;
+  }
+}
+
+
+ToggleDisable = (offerStatus) => {
+  if (offerStatus === 'مغلق'){
+    return true;
+  }else  if (offerStatus === 'متاح'){
+    return false;
+  }
+}
+
+
+onToggle = (isOn,offerStatus,postid) => {
+  if (offerStatus === 'مغلق'){
+    Alert.alert('', 'هذا البلاغ مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+    console.log("Do nothing")  
+  }
+  else if (offerStatus === 'متاح'){
+    Alert.alert(
+      "",
+      "هل تود إغلاق هذا البلاغ؟",
+      [
+        {
+          text: "لا",
+          onPress: () => console.log("لا"),
+          style: "cancel"
+        },
+        { text: "نعم", onPress: () => this.CloseOffer(postid) }
+      ],
+      { cancelable: false }
+    );
+    }
+}
+
+CloseOffer = (postid) => {
+  firebase.database().ref('/MissingPetPosts/'+postid).update({
+    offerStatus: 'مغلق'
+  }).then((data) => {
+    this.readPostData(); 
+    Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح, الرجاء تحديث صفحة عروض البلاغات',[{ text: 'حسناً'}])
+  });
+}
+//------------------------------------------------------------
+
+
+
+
+
+        onPressTrashIcon = (postid) => { 
           Alert.alert(
             "",
             "هل تود حذف هذا البلاغ؟",
@@ -40,15 +98,15 @@ export default class MissingPetPosts extends Component {
             ],
             { cancelable: false }
           );
-         } // end of edit this method
+         }
 
-         onPressDelete = (postid) => { //new method
+         onPressDelete = (postid) => {
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
            firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
              this.readPostData(); 
              Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
            });
-         }  //new method
+         }
 
         MissingPetUpload = () => this.props.navigation.navigate('اضافة بلاغ')
 
@@ -62,6 +120,7 @@ export default class MissingPetPosts extends Component {
           var ref = firebase.database().ref("MissingPetPosts");
           ref.on('value',  function (snapshot) {
             var post = snapshot.val();
+            var name;
             //-------------------------------------------------------------------------           
             //This block of code is to prevent null error when array is empty: 
             if (post === null){
@@ -85,15 +144,20 @@ export default class MissingPetPosts extends Component {
               var UserName = post[postInfo].uName;
               var offerorID = post[postInfo].userId;  
               var postidentification = postInfo;  
+              var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+              firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                name= snapshot.val()
+              })
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
                 AnimalPic: AniPic,
                 LongA: Long,
                 LatA: Lat,
-                Name:UserName,
+                Name:name,
                 offerorID: offerorID,
-                postid: postidentification
+                postid: postidentification,
+                offerStatus: Status,//COPY Status------------------------------
               }  
             }         
           });         
@@ -104,8 +168,9 @@ export default class MissingPetPosts extends Component {
                   <View style={styles.Post}>
                   <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
@@ -122,23 +187,44 @@ export default class MissingPetPosts extends Component {
                   >
                   <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
                   </MapView>
+
+                  <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
+
+                    <View style={styles.toggleStyle}>
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق البلاغ"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggle(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+                    </View>
+                    </View>
+
+
                 </View>
                 </View>          
               );
             }
-            else{
+            else if (element.offerStatus === 'متاح'){
             return (
               <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
                 <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                   source={{uri: element.AnimalPic}}/>
-                  <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
                   <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
                   <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
@@ -164,7 +250,36 @@ export default class MissingPetPosts extends Component {
            
               </View>
               
-            );}
+            );} else{
+              return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
+                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                    <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
+                    <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <MapView style={styles.mapStyle}
+                    region={{
+                      latitude: element.LatA,
+                      longitude: element.LongA,
+                      latitudeDelta: 0.01,
+                      longitudeDelta: 0.01
+                    }}
+                    provider="google"
+                    showsUserLocation={true}
+                    showsMyLocationButton={true}
+                    zoomControlEnabled={true}
+                    moveOnMarkerPress={true}
+                    >
+                    <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                    </MapView>
+                </View>
+             
+                </View>
+                
+              );}
           }).reverse();
       }
         render(){ 
@@ -257,11 +372,16 @@ const styles = StyleSheet.create({
     mapStyle: {
       width: 290, height: 180 ,marginLeft:10, marginBottom:12
     },
-    //--------------------------------------
     mandatoryTextStyle: { 
      color: 'red',
      fontSize: 13,
      marginTop: 5,
-    }
-    ///--------------------------------------
+    },
+      //-----------------------------------
+      toggleStyle: {
+        padding:8,
+        left: 110,
+        paddingTop: 10,
+      },
+    //----------------------------------
 });

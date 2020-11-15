@@ -7,12 +7,13 @@ import firebase from './firebase'
 import { RadioButton } from 'react-native-paper';
 import {Picker} from '@react-native-community/picker'; 
 console.disableYellowBox = true;
+
 var Name='';
 export default class SellingUpload extends Component {
   constructor() {
     super();
     this.state = { 
-      AnimalType: '',
+      AnimalType: 'غير محدد',
       AnimalSex: '',
       AnimalAge:'',
       checked:'',
@@ -23,6 +24,7 @@ export default class SellingUpload extends Component {
       UserName: '',
       PetImage: null,
       uploading: false,
+      offerStatus: 'متاح', //-----------------Status1
     }
   }
 
@@ -118,20 +120,19 @@ export default class SellingUpload extends Component {
         const Priceexpression = /^[0-9\b]+$/ //Only English numbers
         const Pricecheck = Priceexpression.test(this.state.Price.trim());
 
-        
-        // /^[\u0621-\u064A\040]+$/ Works but idk keep it as a comment might need later.
-        //Previous regex: /^[\u0621-\u064A\040/\s/g]+$/  problem with g
-
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/  //Arabic letters and space only for type,sex,age and city.
-        const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
         const AnimalAgecheck = ArabicExpression.test(this.state.AnimalAge.trim());
 
-        if (this.state.AnimalType.trim() === ''|| this.state.AnimalAge.trim() === '' || this.state.Price.trim() === '') {
-          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])}
-          else if(this.state.AnimalSex === ''){
-            Alert.alert('', 'يجب تحديد جنس الحيوان',[{ text: 'حسناً'}])
-          }
-          else if (AnimalTypecheck === false  || AnimalAgecheck === false){
+        if(this.state.AnimalType === 'غير محدد'){
+          Alert.alert('', 'يجب اختيار نوع حيوان  ',[{ text: 'حسناً'}])
+        }
+        else if(this.state.AnimalSex === ''){
+          Alert.alert('', 'يجب تحديد جنس الحيوان',[{ text: 'حسناً'}])
+        }
+        else if (this.state.AnimalAge.trim() === '' || this.state.Price.trim() === '') {
+          Alert.alert('', 'يجب تعبئة جميع الحقول',[{ text: 'حسناً'}])
+        }
+          else if (AnimalAgecheck === false){
             Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
           } 
           else if(this.state.City === 'غير محدد'){
@@ -156,13 +157,14 @@ export default class SellingUpload extends Component {
        PetPicture: this.state.PetImage,
        userId: this.state.userID,
        price: this.state.Price.trim(),
-       uName: Name
+       uName: Name,
+       offerStatus: this.state.offerStatus //-------------new: Status 2
       })
      })
-     this.props.navigation.navigate('عروض البيع') //-------------------- new
+     this.props.navigation.navigate('عروض البيع') 
      //
     Alert.alert('', 'تم رفع العرض بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
-    } //-------------------- else 
+    } 
   
   }
 
@@ -177,13 +179,25 @@ export default class SellingUpload extends Component {
         style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
         source={require('./assets/AleefLogoCat.png')}/>
 
-          <TextInput
-          placeholder="*نوع الحيوان"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={this.state.AnimalType}
-          onChangeText={(val) => this.updateInputVal(val, 'AnimalType')}
-        />
+
+
+        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*نوع الحيوان:</Text>
+        <Picker
+        selectedValue={this.state.AnimalType}
+        style={{height: 50, width: 160}}
+        itemStyle={styles.itemStyle}
+        onValueChange={(val) => this.updateInputVal(val, 'AnimalType')}
+        >
+       <Picker.Item label= "غير محدد" value= "غير محدد" />
+       <Picker.Item label="أرنب" value="أرنب" />
+       <Picker.Item label="سمك" value="سمك" />
+       <Picker.Item label="عصفور" value="عصفور" />
+       <Picker.Item label="قط" value="قط" />
+       <Picker.Item label="كلب" value="كلب" />
+       </Picker>
+
+
+
         <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>جنس الحيوان:</Text>
         <View style={{flexDirection:'row'}}>
           <Text style={{color: '#5F5F5F',fontSize: 15,paddingTop:6}}>غير معروف</Text>
@@ -330,9 +344,7 @@ buttonUploadPhoto: {
   marginBottom: 10,
   borderRadius: 20,
 },
-//---------------------------------------
 itemStyle: {
   textAlign: 'center',
 }
-//----------------------------------------
 })

@@ -17,8 +17,8 @@ export default class editProfile extends Component{
             userName: '',
             profileImage: null,
             email:'',
-            newName:null,
-            newEmail: null,
+            newName: '',
+            newEmail: '',
             password: '',
             confirmPassword: '',
             uploading: false,
@@ -119,18 +119,7 @@ export default class editProfile extends Component{
       const Passcheck = strongPass.test(this.state.password);
       var exist = false
 
-      if(this.state.newName==''||this.state.newName.trim()==''){
-        Alert.alert('', 'الرجاء ادخال اسم ',[{ text: 'حسناً'}])
-        this.retrieveInfo()
-        return
-      }
       
-      if(this.state.newEmail==''||this.state.newEmail.trim()==''){
-        Alert.alert('', 'الرجاء ادخال بريد إلكتروني ',[{ text: 'حسناً'}])
-        this.retrieveInfo()
-        return
-      }
-
       if(this.state.newProfileImage!==null||this.state.newName !==''||this.state.newEmail !==''||this.state.password !== ''||this.state.confirmPassword !== ''){
         
       //profile image validation and update
@@ -147,6 +136,7 @@ export default class editProfile extends Component{
 
     //name validation and update
       if(this.state.newName!==''){
+
       if(this.state.newName.trim()==''){
         Alert.alert('', 'الرجاء ادخال اسم صحيح',[{ text: 'حسناً'}])
         this.retrieveInfo()
@@ -164,7 +154,12 @@ export default class editProfile extends Component{
      }
     
       //email validation and update 
-      if(this.state.newEmail.trim()!==''){
+      if(this.state.newEmail==' '){
+          Alert.alert('', 'الرجاء ادخال بريد إلكتروني',[{ text: 'حسناً'}])
+          this.retrieveInfo()
+          return
+      }
+      else if(this.state.newEmail.trim()!==''){
         if (Emailcheck === false) {
           Alert.alert('', 'الرجاء ادخال البريد الإلكتروني بصيغة صحيحة',[{ text: 'حسناً'}])
           this.retrieveInfo()
@@ -173,7 +168,7 @@ export default class editProfile extends Component{
           Alert.alert('', 'البريد الالكتروني المدخل هو البريد الالكتروني الحالي',[{ text: 'حسناً'}])
           this.retrieveInfo()
           return
-        } 
+        }
       //update case
         await firebase.auth().currentUser
         .updateEmail(this.state.newEmail)
@@ -182,6 +177,7 @@ export default class editProfile extends Component{
           .update({
             Email: this.state.newEmail
           })
+          this.retrieveInfo()
         })
         .catch(async (error) => {
           console.log(error)
@@ -200,16 +196,18 @@ export default class editProfile extends Component{
               return
             }
           });
-          
         })
     }
 
     //password validation and update
-    if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
+     if(this.state.password.trim() !== '' || this.state.confirmPassword.trim() !== ''){
 
-     if((this.state.password.trim() == '' && this.state.confirmPassword.trim() !== '')
-     || (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '')){
-        Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور وتأكيد كلمة المرور',[{ text: 'حسناً'}])
+     if(this.state.password.trim() == '' && this.state.confirmPassword.trim() !== ''){
+        Alert.alert('', 'الرجاء تعبئة خانة كلمة المرور',[{ text: 'حسناً'}])
+        // this.setInfo()
+        return
+      } else if (this.state.confirmPassword.trim() == '' && this.state.password.trim() !== '') { 
+        Alert.alert('', 'الرجاء تعبئة خانة تأكيد كلمة المرور',[{ text: 'حسناً'}])
         // this.setInfo()
         return
       } else if (Passcheck === false) {
