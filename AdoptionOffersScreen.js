@@ -9,6 +9,7 @@ import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-------------
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import PopupDialog from 'react-native-popup-dialog';
 import { Checkbox } from 'react-native-paper';
+import { ThemeProvider } from '@react-navigation/native';
 
 var AdoptionPostsData= [];
 
@@ -17,10 +18,10 @@ export default class AdoptionOffersScreen extends Component {
           super(props);
           this.state = { 
             refreshing: false,
-            modalVisible: false,
+            modalVisible: true,
             // Animal type check
             isCat: false,
-            ifFish: false,
+            isFish: false,
             isDog: false,
             isRabbit: false,
             isBird: false,
@@ -89,6 +90,7 @@ CloseOffer = (postid) => {
           console.log('Hi')
           AdoptionPostsData=[]
           console.log(AdoptionPostsData)
+          this.readPostData()
           return (
             <View >
               <Text>تصفية حسب اkgklkj;jdf;er;oigh;odgj;snb;kbnkdfsjb;dfbodfivbkjdsnvkdjfbvszdujvbk;jfdbvzsudvh;ksdzbلنوع</Text>
@@ -132,11 +134,19 @@ CloseOffer = (postid) => {
           })
         }
 
-
+        // firebase.database().ref('MissingPetPosts').orderByChild('userId').equalTo(currentUID)
+        // .once('value', snapshot => {
         readPostData =() => {
+          var cat = this.state.isCat
+          var dog = this.state.isDog
+          var rabbit = this.state.isRabbit
+          var fish = this.state.isFish
+          var bird = this.state.isBird
+
             var ref = firebase.database().ref("AdoptionPosts");
             ref.on('value',  function (snapshot) {
               var post = snapshot.val();
+              // console.log(post)
           //-------------------------------------------------------------------------           
           //This block of code is to prevent null error when array is empty: 
           if (post === null){
@@ -151,6 +161,9 @@ CloseOffer = (postid) => {
           //------------------------------------------------------------------------    
               var postKeys = Object.keys(post);// to find the post keys and put them in an array
               var name;
+              console.log(post)
+              // posts with no filter
+              if(!fish && !cat && !rabbit && !bird && !dog){
               for(var i = 0; i< postKeys.length;i++){
                 var postInfo = postKeys[i];
                 //---------This to save the post info in variables----------
@@ -178,8 +191,176 @@ CloseOffer = (postid) => {
                   postid: postidentification,
                   offerStatus: Status,//COPY Status------------------------------
                 }  
+              } }
+              // Cat Case
+              if(cat==true){
+              for(var i = 0; i< postKeys.length;i++){
+                var postInfo = postKeys[i];
+                if(post[postInfo].AnimalType !== 'قط')
+                  continue;
+                //---------This to save the post info in variables----------
+                var AniType= post[postInfo].AnimalType; 
+                var AniSex= post[postInfo].AnimalSex; 
+                var AniAge= post[postInfo].AnimalAge; 
+                var AniCity= post[postInfo].City; 
+                var AniPic= post[postInfo].PetPicture; 
+                var UserName = post[postInfo].uName;
+                var offerorID = post[postInfo].userId; 
+                var postidentification = postInfo;  
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
+                //----------------Adoption Posts Array-----------------------
+                AdoptionPostsData[i]={
+                  AnimalType: AniType,
+                  AnimalSex: AniSex,
+                  AnimalAge: AniAge,
+                  AnimalCity: AniCity,
+                  AnimalPic: AniPic,
+                  Name: name,
+                  offerorID: offerorID,
+                  postid: postidentification,
+                  offerStatus: Status,//COPY Status------------------------------
+                }  
               }         
-            }); 
+            } // cat case end 
+
+            // rabbit case
+            if(rabbit==true){
+              for(var i = 0; i< postKeys.length;i++){
+                var postInfo = postKeys[i];
+                if(post[postInfo].AnimalType !== 'أرنب')
+                  continue;
+                //---------This to save the post info in variables----------
+                var AniType= post[postInfo].AnimalType; 
+                var AniSex= post[postInfo].AnimalSex; 
+                var AniAge= post[postInfo].AnimalAge; 
+                var AniCity= post[postInfo].City; 
+                var AniPic= post[postInfo].PetPicture; 
+                var UserName = post[postInfo].uName;
+                var offerorID = post[postInfo].userId; 
+                var postidentification = postInfo;  
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
+                //----------------Adoption Posts Array-----------------------
+                AdoptionPostsData[i]={
+                  AnimalType: AniType,
+                  AnimalSex: AniSex,
+                  AnimalAge: AniAge,
+                  AnimalCity: AniCity,
+                  AnimalPic: AniPic,
+                  Name: name,
+                  offerorID: offerorID,
+                  postid: postidentification,
+                  offerStatus: Status,//COPY Status------------------------------
+                }  
+              }         
+            } // rabbit case end
+            // Dog caase start
+            if(dog==true){
+              for(var i = 0; i< postKeys.length;i++){
+                var postInfo = postKeys[i];
+                if(post[postInfo].AnimalType !== 'كلب')
+                  continue;
+                //---------This to save the post info in variables----------
+                var AniType= post[postInfo].AnimalType; 
+                var AniSex= post[postInfo].AnimalSex; 
+                var AniAge= post[postInfo].AnimalAge; 
+                var AniCity= post[postInfo].City; 
+                var AniPic= post[postInfo].PetPicture; 
+                var UserName = post[postInfo].uName;
+                var offerorID = post[postInfo].userId; 
+                var postidentification = postInfo;  
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
+                //----------------Adoption Posts Array-----------------------
+                AdoptionPostsData[i]={
+                  AnimalType: AniType,
+                  AnimalSex: AniSex,
+                  AnimalAge: AniAge,
+                  AnimalCity: AniCity,
+                  AnimalPic: AniPic,
+                  Name: name,
+                  offerorID: offerorID,
+                  postid: postidentification,
+                  offerStatus: Status,//COPY Status------------------------------
+                }  
+              }         
+            } // Dog case end
+            // Bird case start
+            if(bird==true){
+              for(var i = 0; i< postKeys.length;i++){
+                var postInfo = postKeys[i];
+                if(post[postInfo].AnimalType !== 'عصفور')
+                  continue;
+                //---------This to save the post info in variables----------
+                var AniType= post[postInfo].AnimalType; 
+                var AniSex= post[postInfo].AnimalSex; 
+                var AniAge= post[postInfo].AnimalAge; 
+                var AniCity= post[postInfo].City; 
+                var AniPic= post[postInfo].PetPicture; 
+                var UserName = post[postInfo].uName;
+                var offerorID = post[postInfo].userId; 
+                var postidentification = postInfo;  
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
+                //----------------Adoption Posts Array-----------------------
+                AdoptionPostsData[i]={
+                  AnimalType: AniType,
+                  AnimalSex: AniSex,
+                  AnimalAge: AniAge,
+                  AnimalCity: AniCity,
+                  AnimalPic: AniPic,
+                  Name: name,
+                  offerorID: offerorID,
+                  postid: postidentification,
+                  offerStatus: Status,//COPY Status------------------------------
+                }  
+              }         
+            } // Bird case end
+
+            // Fish case start 
+            if(fish==true){
+              for(var i = 0; i< postKeys.length;i++){
+                var postInfo = postKeys[i];
+                if(post[postInfo].AnimalType !== 'سمك')
+                  continue;
+                //---------This to save the post info in variables----------
+                var AniType= post[postInfo].AnimalType; 
+                var AniSex= post[postInfo].AnimalSex; 
+                var AniAge= post[postInfo].AnimalAge; 
+                var AniCity= post[postInfo].City; 
+                var AniPic= post[postInfo].PetPicture; 
+                var UserName = post[postInfo].uName;
+                var offerorID = post[postInfo].userId; 
+                var postidentification = postInfo;  
+                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
+                //----------------Adoption Posts Array-----------------------
+                AdoptionPostsData[i]={
+                  AnimalType: AniType,
+                  AnimalSex: AniSex,
+                  AnimalAge: AniAge,
+                  AnimalCity: AniCity,
+                  AnimalPic: AniPic,
+                  Name: name,
+                  offerorID: offerorID,
+                  postid: postidentification,
+                  offerStatus: Status,//COPY Status------------------------------
+                }  
+              }         
+            } // Fish end start
+          
+          }); 
            
             return AdoptionPostsData.map(element => {
               if(element.offerorID == firebase.auth().currentUser.uid){
@@ -310,7 +491,7 @@ CloseOffer = (postid) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>تصفية حسب نوع الحيوان</Text>
-            
+            <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
               <Text>قطط</Text>
               <Checkbox
@@ -351,13 +532,14 @@ CloseOffer = (postid) => {
               <Text>سمك</Text>
               <Checkbox
               title='optForReceipts'
-              status={this.state.ifFish ? 'checked' : 'unchecked'}
-              onPress={() => { this.setState({ ifFish: !this.state.ifFish }); }}
+              status={this.state.isFish ? 'checked' : 'unchecked'}
+              onPress={() => { this.setState({ isFish: !this.state.isFish }); }}
             />
+            </View>
             </View>
 
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+              style={{ ...styles.openButton, backgroundColor: '#69C4C6' }}
               onPress={() => {
                 this.setState({
                   modalVisible: !this.state.modalVisible
@@ -476,6 +658,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    margin: 20,
   },
   textStyle: {
     color: 'white',
@@ -485,6 +668,8 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   dialogContentView: {
     flex: 1,
@@ -499,5 +684,10 @@ const styles = StyleSheet.create({
   ModalCon: {
     flexDirection: 'row',
     alignItems: 'center',
+    
+  },
+  checkBoxContainer: {
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end'
   }
 });
