@@ -19,7 +19,9 @@ import AdoptionAdminScreen from './AdoptionAdminScreen'
 import MissingPetAdmin from './MissingPetAdmin'; 
 import chatScreen from './chatScreen';
 import allChatsScreen from './allChatsScreen';
-import SellingAdminScreen from './SellingAdminScreen'; 
+import SellingAdminScreen from './SellingAdminScreen';
+import profile from './profile' ;
+import editProfile from './editProfile';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
@@ -170,7 +172,21 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="جميع البلاغات" component={MissingPetAdmin} />  
+        }} name="جميع البلاغات" component={MissingPetAdmin} />
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="الصفحة الشخصية" component={profile} /> 
+         <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل صفحة المستخدم" component={editProfile} />    
 
         
       </Stack.Navigator>

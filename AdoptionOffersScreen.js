@@ -131,6 +131,7 @@ CloseOffer = (postid) => {
              }
           //------------------------------------------------------------------------    
               var postKeys = Object.keys(post);// to find the post keys and put them in an array
+              var name;
               for(var i = 0; i< postKeys.length;i++){
                 var postInfo = postKeys[i];
                 //---------This to save the post info in variables----------
@@ -143,6 +144,9 @@ CloseOffer = (postid) => {
                 var offerorID = post[postInfo].userId; 
                 var postidentification = postInfo;  
                 var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                  name= snapshot.val()
+                })
                 //----------------Adoption Posts Array-----------------------
                 AdoptionPostsData[i]={
                   AnimalType: AniType,
@@ -150,7 +154,7 @@ CloseOffer = (postid) => {
                   AnimalAge: AniAge,
                   AnimalCity: AniCity,
                   AnimalPic: AniPic,
-                  Name: UserName,
+                  Name: name,
                   offerorID: offerorID,
                   postid: postidentification,
                   offerStatus: Status,//COPY Status------------------------------

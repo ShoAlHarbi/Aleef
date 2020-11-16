@@ -69,6 +69,7 @@ export default class MissingPetAdmin extends Component {
             var postKeys = Object.keys(post);// to find the post keys and put them in an array
             for(var i = 0; i< postKeys.length;i++){
               var postInfo = postKeys[i];
+              var name;
               //---------This to save the post info in variables----------
               var AniType= post[postInfo].AnimalType; 
               var AniPic= post[postInfo].PetPicture; 
@@ -78,13 +79,16 @@ export default class MissingPetAdmin extends Component {
               var offerorID = post[postInfo].userId;  
               var postidentification = postInfo; 
               var Status = post[postInfo].offerStatus;//COPY Status----------------------------- 
+              firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                name= snapshot.val()
+              }) 
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
                 AnimalPic: AniPic,
                 LongA: Long,
                 LatA: Lat,
-                Name:UserName,
+                Name:name,
                 offerorID: offerorID,
                 postid: postidentification,
                 offerStatus: Status,//COPY Status------------------------------

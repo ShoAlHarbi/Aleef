@@ -20,8 +20,8 @@ export default function chatScreen({ route }) {
   const [messages, setMessages] = useState([]);
 
   //retrieve the messages from the database
-  useEffect(() => {
-  
+   useEffect( ()=> {
+    (async () => {
     setInfo();
     const messagesListener = firebase.firestore()
     .collection('chats')
@@ -48,8 +48,38 @@ export default function chatScreen({ route }) {
       });
       setMessages(messages);
     });
-    return () => messagesListener();
+    var docID;
+    var unreadMsgs;
+    await firebase.firestore()
+        .collection('userChats')
+        .doc(currenUID)
+        .collection('chatsID')
+        .get()
+        .then((data)=>{
+          data.forEach(doc => {
+            if(doc.data().chatID==chatID){
+              docID = doc.id
+              unreadMsgs = doc.data().unreadMessages
+            }
+            console.log(unreadMsgs)
+            console.log(doc.id);
+            console.log(docID);
+          });
+        })
 
+        console.log('After loop');
+        console.log(docID);
+        firebase.firestore()
+        .collection('userChats')
+        .doc(currenUID)
+        .collection('chatsID')
+        .doc(docID)
+        .update({
+          unreadMessages: Number('0')
+        })
+
+    return () => messagesListener();
+  })();
       }, []);
 
 
@@ -104,7 +134,8 @@ export default function chatScreen({ route }) {
       .add({
         chatID: chatID,
         to: offerorName,
-        toID: offerorID
+        toID: offerorID,
+        unreadMessages: Number('0')
       })
         // andd the chatID for the offeror
         firebase.firestore()
@@ -114,7 +145,8 @@ export default function chatScreen({ route }) {
         .add({
           chatID: chatID,
           to: myName,
-          toID: currenUID
+          toID: currenUID,
+          unreadMessages: Number('0')
 
         })
      
@@ -152,7 +184,7 @@ export default function chatScreen({ route }) {
   }
 
   // helper method that is sends a message
-   function handleSend(messages) {
+   async function handleSend(messages) {
 
     const text = messages[0].text;
     addChatID()
@@ -168,7 +200,8 @@ export default function chatScreen({ route }) {
         user: {
           _id: currenUID,
           to: offerorID,
-        }
+        },
+        // receiverHasRead: false
     })
     // update the last message
      firebase.firestore()
@@ -184,6 +217,36 @@ export default function chatScreen({ route }) {
       },
       { merge: true }
     );
+    var docID;
+    var unreadMsgs;
+    await firebase.firestore()
+        .collection('userChats')
+        .doc(offerorID)
+        .collection('chatsID')
+        .get()
+        .then((data)=>{
+          data.forEach(doc => {
+            if(doc.data().chatID==chatID){
+              docID = doc.id
+              unreadMsgs = doc.data().unreadMessages
+            }
+            console.log(unreadMsgs)
+            console.log(doc.id);
+            console.log(docID);
+          });
+        })
+
+        console.log('After loop');
+        console.log(docID);
+        firebase.firestore()
+        .collection('userChats')
+        .doc(offerorID)
+        .collection('chatsID')
+        .doc(docID)
+        .update({
+          unreadMessages: Number(unreadMsgs+1)
+        })
+
     
   }
 
@@ -226,15 +289,15 @@ export default function chatScreen({ route }) {
     );
   }
 
-  function renderSystemMessage(props) {
-    return (
-      <SystemMessage
-        {...props}
-        wrapperStyle={styles.systemMessageWrapper}
-        textStyle={styles.systemMessageText}
-      />
-    );
-  }
+  // function renderSystemMessage(props) {
+  //   return (
+  //     <SystemMessage
+  //       {...props}
+  //       wrapperStyle={styles.systemMessageWrapper}
+  //       textStyle={styles.systemMessageText}
+  //     />
+  //   );
+  // }
 
   return (
     <View style={{ backgroundColor: "#f5f9f9", flex: 1 }}>
@@ -252,7 +315,7 @@ export default function chatScreen({ route }) {
       renderSend={renderSend}
       alignItems
       scrollToBottomComponent={scrollToBottomComponent}
-      renderSystemMessage={renderSystemMessage}
+      // renderSystemMessage={renderSystemMessage}
     /></View>
   );
 }
