@@ -5,7 +5,7 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
 import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
 
 var MissingPetPostsData= [];
@@ -27,7 +27,7 @@ export default class MissingPetPosts extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-
+        NearReports = () => this.props.navigation.navigate('بلاغات قريبة مني')
 
 //------------------------------------------------------------------------------
 ToggleOnOrOff = (offerStatus) => {
@@ -120,6 +120,7 @@ CloseOffer = (postid) => {
           var ref = firebase.database().ref("MissingPetPosts");
           ref.on('value',  function (snapshot) {
             var post = snapshot.val();
+            var name;
             //-------------------------------------------------------------------------           
             //This block of code is to prevent null error when array is empty: 
             if (post === null){
@@ -144,13 +145,16 @@ CloseOffer = (postid) => {
               var offerorID = post[postInfo].userId;  
               var postidentification = postInfo;  
               var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+              firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                name= snapshot.val()
+              })
               //----------------Adoption Posts Array-----------------------
               MissingPetPostsData[i]={
                 AnimalType: AniType,
                 AnimalPic: AniPic,
                 LongA: Long,
                 LatA: Lat,
-                Name:UserName,
+                Name:name,
                 offerorID: offerorID,
                 postid: postidentification,
                 offerStatus: Status,//COPY Status------------------------------
@@ -162,12 +166,12 @@ CloseOffer = (postid) => {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                  <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'#3fa5a6', fontSize: 17,marginRight:12}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -216,12 +220,12 @@ CloseOffer = (postid) => {
             return (
               <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
-                <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                <Image style={styles.PostPic}
                   source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'#3fa5a6', fontSize: 17,marginRight:12}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -250,12 +254,12 @@ CloseOffer = (postid) => {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                    <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.text}><Text style={styles.textTitle}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'#3fa5a6', fontSize: 17,marginRight:12}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                     <MapView style={styles.mapStyle}
                     region={{
                       latitude: element.LatA,
@@ -295,10 +299,17 @@ CloseOffer = (postid) => {
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
-                    <TouchableOpacity onPress={() => this.MissingPetUpload()}
+                  <View style={{flexDirection:'row'}}>
+                  <TouchableOpacity onPress={() => this.MissingPetUpload()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>اضافة بلاغ</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity 
+                     style={{paddingTop:15,paddingLeft:6}}
+                     onPress={()=> this.NearReports()}>
+                     <FontAwesomeIcon icon={ faMapMarkerAlt }size={35} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+                  </View>                   
                     {this.readPostData()}
                 </View>
                 </ScrollView>
@@ -331,7 +342,18 @@ const styles = StyleSheet.create({
       marginRight:12,
       marginBottom:5,
     },
-
+    textTitle:{
+      color:'#3fa5a6', 
+      fontSize: 17,
+      //fontWeight: 'bold',
+    },
+    PostPic:{
+      borderRadius: 6,
+      width: 290, 
+      height: 180 ,
+      marginLeft:10,
+      marginTop:12,marginBottom:7
+      },
     button: {
         backgroundColor: '#69C4C6',
         padding: 10,
