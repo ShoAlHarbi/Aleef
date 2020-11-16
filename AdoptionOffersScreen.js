@@ -5,7 +5,8 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
+import ToggleSwitch from 'toggle-switch-react-native'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'; // Edit offer
 
 var AdoptionPostsData= [];
 
@@ -22,9 +23,22 @@ export default class AdoptionOffersScreen extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
+//------------------------ EDIT 1 start-------------------------------------
 
+onPressEditIcon = (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity) => {
+  this.props.navigation.navigate('تعديل التبني',{
+    postid: postid,
+    Name: Name,
+    AnimalPic: AnimalPic,
+    AnimalType: AnimalType,
+    AnimalSex: AnimalSex,
+    AnimalAge: AnimalAge,
+    AnimalCity: AnimalCity,
+  })
+}
 
-//------------------------------------------------------------------------------
+//------------------------------EDIT 1 end----------------------------------
+
 ToggleOnOrOff = (offerStatus) => {
   if (offerStatus === 'مغلق'){
     return false;
@@ -73,7 +87,6 @@ CloseOffer = (postid) => {
     Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
   });
 }
-//------------------------------------------------------------
 
 
         onPressTrashIcon = (postid) => {
@@ -143,7 +156,7 @@ CloseOffer = (postid) => {
                 var UserName = post[postInfo].uName;
                 var offerorID = post[postInfo].userId; 
                 var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                var Status = post[postInfo].offerStatus;
                 firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                   name= snapshot.val()
                 })
@@ -157,7 +170,7 @@ CloseOffer = (postid) => {
                   Name: name,
                   offerorID: offerorID,
                   postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  offerStatus: Status,
                 }  
               }         
             }); 
@@ -182,6 +195,18 @@ CloseOffer = (postid) => {
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
+
+
+
+                    <TouchableOpacity 
+                  style={styles.iconStyle}
+                  onPress={()=> this.onPressEditIcon(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity)}>
+                  <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+
+
+
+
 
                     <View style={styles.toggleStyle}>
                     <ToggleSwitch
@@ -342,11 +367,9 @@ const styles = StyleSheet.create({
   fontSize: 13,
   marginTop: 5,
   },
-  //-----------------------------------
     toggleStyle: {
       padding:8,
       left: 110,
       paddingTop: 10,
     },
-  //----------------------------------
 });
