@@ -26,7 +26,7 @@ export default class AdoptionOffersScreen extends Component {
 //------------------------ EDIT 1 start-------------------------------------
 
 onPressEditIcon = (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity) => {
-  this.props.navigation.navigate('تعديل التبني',{
+  this.props.navigation.navigate('تعديل عرض التبني',{
     postid: postid,
     Name: Name,
     AnimalPic: AnimalPic,
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
   },
     toggleStyle: {
       padding:8,
-      left: 110,
+      left: 70, //--------------------------------------------- Edit offer
       paddingTop: 10,
     },
 });

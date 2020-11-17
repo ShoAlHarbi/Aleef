@@ -10,14 +10,15 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase';
 import { render } from 'react-dom';
 
-export default function editAdoption({ route }) {
+export default function editAdoption({ route,navigation }) {
 
     // Information we need from the offer that needs to be edited.
     const currenUID = firebase.auth().currentUser.uid // Current user
-    const { thread } = route.params; 
-    const Name = route.params.Name; // Pic
+    const { thread } = route.params;
+    const Name = route.params.Name;
     const postid = route.params.postid; // Post ID
 
+    //Original offer elements to use them to compare and validate.
     const OGPic = route.params.AnimalPic;
     const OGType = route.params.AnimalType;
     const OGSex= route.params.AnimalSex;
@@ -29,123 +30,20 @@ export default function editAdoption({ route }) {
     const [AniSex, setAnimalSex] =useState(route.params.AnimalSex) // Set new gender
     const [AniCity, setAnimalCity] =useState(route.params.AnimalCity) // Set new city
     const [AniAge, setAnimalAge] =useState(route.params.AnimalAge) // Set new age
-    const [checked, setChecked] =useState('')
-    const [uploading, setUploading] =useState(false)
+    const [checked, setChecked] =useState('') // For grnder
+    const [uploading, setUploading] =useState(false) // For pic
 
 
 
 
 
     useEffect ( ()=> {
-       Permissions.askAsync(Permissions.CAMERA_ROLL);
+
     }, []);
 
 
 //-------------------------------------Image methods start---------------------------
-/*async function componentDidMount(){
-  await Permissions.askAsync(Permissions.CAMERA_ROLL);
-}*/
 
-
-async function SelectImage (){
-  let SelectResult = await ImagePicker.launchImageLibraryAsync({
-    allowsEditing: true,
-    aspect: [4, 3],
-  });
-  handleImageSelected(SelectResult);
-};
-
-
-async function handleImageSelected (SelectResult) {
-  try {
-    setUploading(true);
-
-    if (!SelectResult.cancelled) {
-      const uploadUrl = await uploadImageAsync(SelectResult.uri);
-      setAnimalPic(uploadUrl);
-    }
-  } catch (e) {
-    console.log(e);
-    Alert.alert('', 'فشل رفع الصورة',[{ text: 'حسناً'}])
-  } finally {
-    setUploading(false);
-  }
-};
-
-
- function RenderUploading () {
-  if (uploading) {
-    return (
-      <View
-        style={[
-          StyleSheet.absoluteFill,
-          {
-            backgroundColor: 'rgba(0,0,0,0.4)',
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-        ]}>
-        <ActivityIndicator color="#fff" animating size="large" />
-      </View>
-    );
-  }
-};
-
-
- function RenderImage () {
-  if (!AniPic) {
-    return;
-  }
-
-  return (
-    <View
-      style={{
-        marginTop: 30,
-        width: 220,
-        borderRadius: 3,
-        elevation: 2,
-      }}>
-      <View
-        style={{
-          borderTopRightRadius: 3,
-          borderTopLeftRadius: 3,
-          shadowColor: 'rgba(0,0,0,1)',
-          shadowOpacity: 0.2,
-          shadowOffset: { width: 4, height: 4 },
-          shadowRadius: 5,
-          overflow: 'hidden',
-        }}>
-        <Image source={{ uri: AniPic }} style={{ width: 220, height: 180 }} />
-      </View>
-    </View>
-  );
-};
-
-
-async function uploadImageAsync(uri) {
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function(e) {
-      console.log(e);
-      reject(new TypeError('فشل الطلب'));
-    };
-    xhr.responseType = 'blob';
-    xhr.open('GET', uri, true);
-    xhr.send(null);
-  });
-
-  const ref = firebase
-    .storage()
-    .ref()
-    .child(uuid.v4());
-  const snapshot = await ref.put(blob);
-  blob.close();
-
-  return await snapshot.ref.getDownloadURL();
-}
 //-------------------------------------Image methods ends----------------------------
 
 
@@ -160,13 +58,13 @@ function confirmEdit (){
   const AnimalAgecheck = ArabicExpression.test(AniAge);
 
   if(OGType === AniType && OGSex=== AniSex && OGAge === AniAge.trim() && OGCity=== AniCity ){
-    Alert.alert('', 'لم تقم بتغيير أي من بيانات العرض',[{ text: 'حسناً'}])
+    Alert.alert('', 'لم تقم بتعديل أي من بيانات العرض ليتم حفظها.',[{ text: 'حسناً'}])
   }
   else if(AniType === 'غير محدد' || AniAge.trim() === '' || AniCity === 'غير محدد'  ){
     Alert.alert('', 'لا يمكنك التعديل بقيم فارغة أو غير محددة',[{ text: 'حسناً'}])
   }
   else if (AnimalAgecheck === false) {
-    Alert.alert('', 'يسمح بحروف اللغة العربية والمسافة فقط.',[{ text: 'حسناً'}])
+    Alert.alert('', ' يسمح بحروف اللغة العربية والمسافة فقط في خانة عمر الحيوان.',[{ text: 'حسناً'}])
   }
 else{
   Alert.alert(
@@ -193,9 +91,9 @@ function edit (){
     AnimalAge: AniAge.trim(),
     City: AniCity,
   }).then((data) => {
-    Alert.alert('', 'تم حفظ التغييرات بنجاح',[{ text: 'حسناً'}])
+    Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
   });
-
+  navigation.navigate('عروض التبني')
 }
 //-------------------------------------edit methods ends----------------------------
 
@@ -283,18 +181,6 @@ function edit (){
   <Picker.Item label="حائل" value="حائل" />
   <Picker.Item label="مكة المكرمة" value="مكة المكرمة" />
 </Picker>
-
-
-       <Image style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
-        source={{uri: AniPic}}/>
-
-
-<TouchableOpacity onPress={() => SelectImage()}
-                       style={styles.buttonUploadPhoto}>
-                    <Text style={styles.textStyleUploadPhoto}>رفع صورة للحيوان</Text>
-                    </TouchableOpacity>
-                    {RenderImage()}
-                    {RenderUploading()}
 
 
         <TouchableOpacity
