@@ -198,7 +198,7 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="تعديل التبني" component={editAdoption} /> 
+        }} name="تعديل عرض التبني" component={editAdoption} /> 
         
         </Stack.Navigator>
 
