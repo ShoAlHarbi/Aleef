@@ -174,7 +174,8 @@ export default class Profile extends Component{
       onPressDelete0 = (postid) => { // start new method
         AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
         firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
-          this.renderSectionZero(); 
+          this.renderSectionZero();
+          this.renderSection();
           Alert.alert('', 'لقد تم حذف عرض التبني بنجاح.',[{ text: 'حسناً'}])
         });
        }
@@ -303,8 +304,49 @@ export default class Profile extends Component{
                  ); 
         }
         else return AdoptionPostsData.map(element => {
-               return (
-                <View style={{ marginBottom:30}}>
+          if(AdoptionPostsData.length==1){
+            return (
+              <View style={{ marginBottom:30 }}>
+                  <View style={styles.Post}>
+                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                  <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                  
+                  <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon0(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+
+                  <View style={styles.toggleStyle}>
+                  <ToggleSwitch
+                  isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                  onColor="green"
+                  offColor="red"
+                  label="إغلاق العرض"
+                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  size="small"
+                  onToggle={isOn => {
+                    this.onToggleAdoption(isOn,element.offerStatus,element.postid);
+                  }}
+                  disable={this.ToggleDisable(element.offerStatus)}
+                  />
+                  </View>
+                  </View>
+
+                </View>
+                </View>
+              
+            );
+                }
+               else return (
+                <View style={{ marginBottom:30, marginLeft:53}}>
                     <View style={styles.Post}>
                     <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
                       source={{uri: element.AnimalPic}}/>
@@ -399,6 +441,7 @@ export default class Profile extends Component{
                  ); 
         }
         else return SellingPostsData.map(element => {
+          if(SellingPostsData.length==1){
                return (
                 <View style={{ marginBottom:30}}>
                     <View style={styles.Post}>
@@ -440,6 +483,48 @@ export default class Profile extends Component{
                   </View>
                 
               );
+              }
+                  else return (
+                    <View style={{ marginBottom:30, marginLeft:53}}>
+                        <View style={styles.Post}>
+                        <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                          source={{uri: element.AnimalPic}}/>
+                          <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                        <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                        <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                        <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                        <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                        <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
+                        <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+    
+                        <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity 
+                         style={styles.iconStyle2}
+                         onPress={()=> this.onPressTrashIcon1(element.postid)}>
+                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                        </TouchableOpacity>
+    
+                        <View style={styles.toggleStyle}>
+                        <ToggleSwitch
+                        isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                        onColor="green"
+                        offColor="red"
+                        label="إغلاق العرض"
+                        labelStyle={{ color: "black", fontWeight: "900" }}
+                        size="small"
+                        onToggle={isOn => {
+                          this.onToggleSelling(isOn,element.offerStatus,element.postid);
+                        }}
+                        disable={this.ToggleDisable(element.offerStatus)}
+                        />
+                        </View>
+                        </View>
+    
+    
+                      </View>
+                      </View>
+                    
+                  );
         }).reverse();
     }
     // Handler البلاغات
@@ -493,7 +578,7 @@ export default class Profile extends Component{
                  ); 
         }
         else return MissingPetPostsData.map(element => {
-
+          if(MissingPetPostsData.length==1){
             return (
               <View style={{ marginBottom:30}}>
               <View style={styles.Post}>
@@ -546,6 +631,59 @@ export default class Profile extends Component{
             </View>
             </View>
               );
+          }
+          else return (
+            <View style={{ marginBottom:30, marginLeft: 53}}>
+            <View style={styles.Post}>
+            <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+              source={{uri: element.AnimalPic}}/>
+            <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
+            <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+            <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
+            <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+            <MapView style={styles.mapStyle}
+            region={{
+              latitude: element.LatA,
+              longitude: element.LongA,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01
+            }}
+            provider="google"
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            zoomControlEnabled={true}
+            moveOnMarkerPress={true}
+            >
+            <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+            </MapView>
+
+            <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity 
+               style={styles.iconStyle2}
+               onPress={()=> this.onPressTrashIcon2(element.postid)}>
+               <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+              </TouchableOpacity>
+
+              <View style={styles.toggleStyle}>
+              <ToggleSwitch
+              isOn= {this.ToggleOnOrOff(element.offerStatus)}
+              onColor="green"
+              offColor="red"
+              label="إغلاق البلاغ"
+              labelStyle={{ color: "black", fontWeight: "900" }}
+              size="small"
+              onToggle={isOn => {
+                this.onToggleReport(isOn,element.offerStatus,element.postid);
+              }}
+              disable={this.ToggleDisable(element.offerStatus)}
+              />
+              </View>
+              </View>
+
+
+          </View>
+          </View>
+            );
         }).reverse();
     }
 
@@ -584,8 +722,10 @@ export default class Profile extends Component{
                             <Text style={this.state.activeIndex == 0 ? styles.activeText: styles.inactiveText}>عروض التبني</Text>
                         </TouchableOpacity>
                 </View>
+
                 
-                <ScrollView style={{ backgroundColor:'#FFFCFC' }}
+                
+                <ScrollView style={{ backgroundColor:'#FFFCFC'}}
                  refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -596,6 +736,7 @@ export default class Profile extends Component{
                 
                 {this.renderSection()}
                 </ScrollView>
+                
                 
 
             </View>
@@ -661,6 +802,7 @@ const styles = StyleSheet.create({
   inactiveText: {
     fontSize: 18,
     color:'black',
+    textDecorationLine: 'underline'
 },
     activeText: {
         textDecorationLine: 'underline',
@@ -682,6 +824,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'space-between',
         alignItems: 'baseline',
+        borderTopColor: '#d9d9d9',
+        borderTopWidth: 1,
+        marginTop: 15
       },
       button3: {
         alignSelf: 'center',
