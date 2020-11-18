@@ -43,23 +43,32 @@ export default class LogInScreen extends Component {
             email: '',
             password: ''
           })
-          //------------------------------
-          if (firebase.auth().currentUser.email === 'admin@gmail.com') {
+          if (firebase.auth().currentUser.email === 'admin@gmail.com') 
             this.props.navigation.navigate('لوحة التحكم')
-          }
-          else
-            //------------------------------
-            this.props.navigation.navigate('الصفحة الرئيسية')
+
+          else {
+
+          console.log(firebase.auth().currentUser.uid + '  heeerreee')
+          let useridtemp = firebase.auth().currentUser.uid 
+          firebase.database().ref('account/'+useridtemp).on("value", snapshot => {
+          if (snapshot.val().Userstatus === 'disabled') {
+          Alert.alert('', "يبدو بأنك انتهت قوانين أليف, لا يمكنك تسجيل الدخول",[{ text: 'حسناً'}])
+          this.setState({
+            isLoading: false,
+          }) 
+        }
+        else
+          this.props.navigation.navigate('الصفحة الرئيسية')
+      }) }
+
         })
-        //.catch(error => this.setState({ errorMessage: error.message }))
-        //-------------------------
+
         .catch((error) => {
           Alert.alert('', "البريد الإلكتروني أو كلمة المرور خاطئة",[{ text: 'حسناً'}])
           this.setState({
             isLoading: false,
-          })
+          })  
         })
-      //-------------------------------
     }
   }
    //Forget password 

@@ -24,6 +24,7 @@ export default class AdminScreen extends Component {
           AdoptionOffers = () => this.props.navigation.navigate('جميع عروض التبني')
           SellingOffers = () => this.props.navigation.navigate('جميع عروض البيع')
           MissingPetPosts = () => this.props.navigation.navigate('جميع البلاغات')
+          MangeAllUsers = () => this.props.navigation.navigate('ادارة المستخدمين')
 
 
           render(){
@@ -56,6 +57,11 @@ export default class AdminScreen extends Component {
                     <TouchableOpacity onPress={() => this.MissingPetPosts()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>الإبلاغ عن حيوان مفقود</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => this.MangeAllUsers()}
+                       style={styles.button}>
+                    <Text style={styles.textStyle}>ادارة المستخدمين</Text>
                     </TouchableOpacity>
 
                    </View>

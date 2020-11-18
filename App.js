@@ -26,6 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications'
+import ManageUsers from './ManageUsers';
 
 const Stack = createStackNavigator();
 
@@ -186,7 +187,14 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="تعديل صفحة المستخدم" component={editProfile} />    
+        }} name="تعديل صفحة المستخدم" component={editProfile} />  
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="ادارة المستخدمين" component={ManageUsers} />   
 
         
       </Stack.Navigator>
