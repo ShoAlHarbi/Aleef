@@ -38,12 +38,115 @@ export default function editAdoption({ route,navigation }) {
 
 
     useEffect ( ()=> {
-
+       Permissions.askAsync(Permissions.CAMERA_ROLL);
     }, []);
 
 
 //-------------------------------------Image methods start---------------------------
+/*async function componentDidMount(){
+  await Permissions.askAsync(Permissions.CAMERA_ROLL);
+}*/
 
+
+async function SelectImage (){
+  let SelectResult = await ImagePicker.launchImageLibraryAsync({
+    allowsEditing: true,
+    aspect: [4, 3],
+  });
+  handleImageSelected(SelectResult);
+};
+
+
+async function handleImageSelected (SelectResult) {
+  try {
+    setUploading(true);
+
+    if (!SelectResult.cancelled) {
+      const uploadUrl = await uploadImageAsync(SelectResult.uri);
+      setAnimalPic(uploadUrl);
+    }
+  } catch (e) {
+    console.log(e);
+    Alert.alert('', 'فشل رفع الصورة',[{ text: 'حسناً'}])
+  } finally {
+    setUploading(false);
+  }
+};
+
+
+ function RenderUploading () {
+  if (uploading) {
+    return (
+      <View
+        style={[
+          StyleSheet.absoluteFill,
+          {
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        ]}>
+        <ActivityIndicator color="#fff" animating size="large" />
+      </View>
+    );
+  }
+};
+
+
+ function RenderImage () {
+  if (!AniPic) {
+    return;
+  }
+
+  return (
+    <View
+      style={{
+        marginTop: 30,
+        width: 220,
+        borderRadius: 3,
+        elevation: 2,
+      }}>
+      <View
+        style={{
+          borderTopRightRadius: 3,
+          borderTopLeftRadius: 3,
+          shadowColor: 'rgba(0,0,0,1)',
+          shadowOpacity: 0.2,
+          shadowOffset: { width: 4, height: 4 },
+          shadowRadius: 5,
+          overflow: 'hidden',
+        }}>
+        <Image source={{ uri: AniPic }} style={{ width: 220, height: 180 }} />
+      </View>
+    </View>
+  );
+};
+
+
+async function uploadImageAsync(uri) {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function(e) {
+      console.log(e);
+      reject(new TypeError('فشل الطلب'));
+    };
+    xhr.responseType = 'blob';
+    xhr.open('GET', uri, true);
+    xhr.send(null);
+  });
+
+  const ref = firebase
+    .storage()
+    .ref()
+    .child(uuid.v4());
+  const snapshot = await ref.put(blob);
+  blob.close();
+
+  return await snapshot.ref.getDownloadURL();
+}
 //-------------------------------------Image methods ends----------------------------
 
 
@@ -57,7 +160,7 @@ function confirmEdit (){
   const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
   const AnimalAgecheck = ArabicExpression.test(AniAge);
 
-  if(OGType === AniType && OGSex=== AniSex && OGAge === AniAge.trim() && OGCity=== AniCity ){
+  if(OGType === AniType && OGSex=== AniSex && OGAge === AniAge.trim() && OGCity=== AniCity && OGPic === AniPic ){
     Alert.alert('', 'لم تقم بتعديل أي من بيانات العرض ليتم حفظها.',[{ text: 'حسناً'}])
   }
   else if(AniType === 'غير محدد' || AniAge.trim() === '' || AniCity === 'غير محدد'  ){
@@ -90,6 +193,7 @@ function edit (){
     AnimalSex: AniSex,
     AnimalAge: AniAge.trim(),
     City: AniCity,
+    PetPicture: AniPic,
   }).then((data) => {
     Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
   });
@@ -183,10 +287,18 @@ function edit (){
 </Picker>
 
 
+<TouchableOpacity onPress={() => SelectImage()}
+                       style={styles.buttonUploadPhoto}>
+                    <Text style={styles.textStyleUploadPhoto}>تعديل صورة الحيوان</Text>
+                    </TouchableOpacity>
+                    {RenderImage()}
+                    {RenderUploading()}
+
         <TouchableOpacity
          style={styles.button} onPress={() => confirmEdit()}>
          <Text style={styles.textStyle}>تعديل</Text>
          </TouchableOpacity>
+
         </View>
         </ScrollView>
         </View>
