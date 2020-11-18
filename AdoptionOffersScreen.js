@@ -59,7 +59,7 @@ ToggleDisable = (offerStatus) => {
 
 onToggle = (isOn,offerStatus,postid) => {
   if (offerStatus === 'مغلق'){
-    Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+    Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد. أضف عرض جديد',[{ text: 'حسناً'}]) //edited based on comment from instructors.
     console.log("Do nothing")  
   }
   else if (offerStatus === 'متاح'){
