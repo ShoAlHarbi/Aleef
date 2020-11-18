@@ -7,9 +7,7 @@ import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import PopupDialog from 'react-native-popup-dialog';
 import { Checkbox } from 'react-native-paper';
-import { ThemeProvider } from '@react-navigation/native';
 
 var AdoptionPostsData= [];
 var AdoptionPostsAfterCities= [];
@@ -105,12 +103,9 @@ CloseOffer = (postid) => {
           AdoptionPostsAfterCities= [];
           postKeys2 = [];
           this.readPostData()
-          return (
-            <View >
-              <Text>تصفية حسب اkgklkj;jdf;er;oigh;odgj;snb;kbnkdfsjb;dfbodfivbkjdsnvkdjfbvszdujvbk;jfdbvzsudvh;ksdzbلنوع</Text>
-            </View>
-          );
         }
+
+
         onPressTrashIcon = (postid) => {
           Alert.alert(
             "",
@@ -148,8 +143,7 @@ CloseOffer = (postid) => {
           })
         }
 
-        // firebase.database().ref('MissingPetPosts').orderByChild('userId').equalTo(currentUID)
-        // .once('value', snapshot => {
+        
         readPostData =() => {
           
           AdoptionPostsData=[];
@@ -819,9 +813,6 @@ CloseOffer = (postid) => {
           if(AdoptionPostsAfterCities == null ){
             AdoptionPostsData = null
           }else
-          // if(AdoptionPostsAfterCities.length>0){
-          //   AdoptionPostsData = AdoptionPostsAfterCities
-          // }else
           if(!fish && !cat && !rabbit && !bird && !dog && !riyadh && !qassim && !medina && !eastern && !jeddah && !hail && !makkah){
               // ---------No Filter case-----------
               AdoptionPostsData = [];
@@ -989,7 +980,6 @@ CloseOffer = (postid) => {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
         }}>
           
         <View style={styles.centeredView}>
@@ -1193,6 +1183,7 @@ const styles = StyleSheet.create({
   color: 'red',
   fontSize: 13,
   marginTop: 5,
+  textAlign: 'center',
   },
   //-----------------------------------
     toggleStyle: {
