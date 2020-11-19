@@ -52,7 +52,7 @@ export default class LogInScreen extends Component {
           let useridtemp = firebase.auth().currentUser.uid 
           firebase.database().ref('account/'+useridtemp).on("value", snapshot => {
           if (snapshot.val().Userstatus === 'disabled') {
-          Alert.alert('', "يبدو بأنك انتهت قوانين أليف, لا يمكنك تسجيل الدخول",[{ text: 'حسناً'}])
+          Alert.alert('', "يبدو بأنك انتهكت قوانين أليف، لا يمكنك تسجيل الدخول",[{ text: 'حسناً'}])
           this.setState({
             isLoading: false,
           }) 
