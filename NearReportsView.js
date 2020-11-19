@@ -4,6 +4,8 @@ import { StyleSheet, View, ScrollView, RefreshControl, Dimensions,Text,Image,Tou
 import { Callout } from 'react-native-maps';
 import firebase from './firebase';
 import MapView,{ Marker } from 'react-native-maps';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faComments} from '@fortawesome/free-solid-svg-icons';
 
 var PostLocations= [];
 var PostLati=0;
@@ -11,6 +13,7 @@ var PostLong=0;
 var ReporterID=0;
 var ReporterName='';
 var ReportPic='';
+var ReportStatus='';
 export default class NearReportsView extends Component {
         constructor(props) {
           super(props);
@@ -37,9 +40,7 @@ export default class NearReportsView extends Component {
               })
             })
           }
-
-        GoToReport = () => this.props.navigation.navigate('صفحة البلاغ')
-
+         GoToReport=()=>{this.props.navigation.navigate('صفحة البلاغ')}
         GetNearMarkers =() => {
         var ref = firebase.database().ref("MissingPetPosts");
         ref.on('value',  function (snapshot){
@@ -52,12 +53,14 @@ export default class NearReportsView extends Component {
         ReporterID=posts[PostInfo].userId;
         ReporterName=posts[PostInfo].uName;
         ReportPic=posts[PostInfo].PetPicture;
+        ReportStatus=posts[PostInfo].offerStatus;
         PostLocations[i]={
           PLat: PostLati,
           PLong:PostLong,
           UID: ReporterID,
           RepName:ReporterName,
           PetPic:ReportPic,
+          RepStat:ReportStatus
         }
         }
         })
@@ -66,24 +69,20 @@ export default class NearReportsView extends Component {
             var UserLoc= {lat: this.state.UserLocation.latitude, lon: this.state.UserLocation.longitude}//this is current user location
             var reportLoc = {lat: element.PLat, lon:element.PLong}//this is the report location
             var dist = geodist(UserLoc,reportLoc,{exact: true, unit: 'km'})//calcualte distance in Km
-            console.log(dist+'km')
-            if(dist<=3 && this.state.userID!=element.UID){
+            if(dist<=3 && this.state.userID!=element.UID && element.RepStat === 'متاح'){
                 this.state.NearPosts.push({
                     PLat: element.PLat,
                     PLong:element.PLong,
                     RName:element.RepName,
-                    RPic:element.PetPic
+                    RPic:element.PetPic,
                   })
             }
         });
-            return this.state.NearPosts.map(element => //map the array to calculate the distance for each user and send them notification
+            return this.state.NearPosts.map(element =>
              <Marker 
              coordinate={{ latitude:element.PLat ,longitude:element.PLong}}>
-              
-             <Callout tooltip={true}>
-             <TouchableOpacity onPress={() => this.GoToReport()}>
+             <Callout tooltip={true} onPress={()=> this.GoToReport()}>
              <Text><Image style={styles.PostPic} source={{uri: element.RPic}}/></Text>
-             </TouchableOpacity>
              </Callout>
              </Marker>
                )
@@ -134,17 +133,24 @@ const styles = StyleSheet.create({
       height: Dimensions.get('window').height,
     },
     PostPic:{
-      height:170,
-      width:120,   
-      borderRadius:16
+      height: 280,
+      width:180,   
+      borderRadius:16,
     },
     MarkerTip:{
     backgroundColor:'white',
-    width:170,
-    height:100,
-    borderRadius:16
+    width:160,
+    height:50,
+    borderBottomEndRadius:16,
+    borderBottomLeftRadius:16
     },
     Text:{
-      marginBottom:10
-    }
+      marginBottom:14,
+    },
+    textTitle:{
+      marginBottom:14,
+      color:'#3fa5a6', 
+      marginRight:18,
+      //fontWeight: 'bold',
+    },
 });
