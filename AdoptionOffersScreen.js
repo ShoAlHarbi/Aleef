@@ -862,14 +862,14 @@ CloseOffer = (postid) => {
                 return (
                   <View style={{ marginBottom:30}}>
                     <View style={styles.Post}>
-                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    <Image style={styles.PostPic}
                       source={{uri: element.AnimalPic}}/>
-                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
                     
                     <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity 
@@ -903,15 +903,14 @@ CloseOffer = (postid) => {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                    source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                  <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-                  <Text/>
+                  <Image style={styles.PostPic}
+                      source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
                   <TouchableOpacity 
                   style={styles.iconStyle}
                   onPress={()=> this.onPressChatIcon(element.offerorID,element.Name)}>
@@ -927,16 +926,14 @@ CloseOffer = (postid) => {
                 return (
                   <View style={{ marginBottom:30}}>
                     <View style={styles.Post}>
-                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    <Image style={styles.PostPic}
                       source={{uri: element.AnimalPic}}/>
-                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-                    <Text/>
-                  <Text/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
                   </View>
                   </View>
                 );}
@@ -1146,12 +1143,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
     },
-    text:{
-        color:'black',
-        fontSize: 17,
-        marginRight:12,
-        marginBottom:5,
-    },
 
     button: {
         backgroundColor: '#69C4C6',
@@ -1170,20 +1161,19 @@ const styles = StyleSheet.create({
       marginBottom:200
   },
   Post:{
-  backgroundColor:'white',
+    backgroundColor:'white',
     shadowColor: "#000",
     shadowOffset: {
-	  width: 0,
-   	height: 1,
+      width: 0,
+      height: 5,
     },
-  shadowOpacity: 0.22,
-  shadowRadius: 2.22,
-  elevation: 3,
-  borderRadius: 15,
-  width:310
-  },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 9,
+    width:310,
+    borderRadius:16
+    },
   iconStyle: {
-    padding:8,
     left: 30,
   },
   iconStyle2: {
@@ -1262,5 +1252,29 @@ const styles = StyleSheet.create({
   checkBoxContainer: {
     alignSelf: 'flex-end',
     alignItems: 'flex-end'
-  }
+  },
+  //------------------------------------------
+  text:{
+    color:'black',
+    fontSize: 17,
+    marginRight:12,
+    marginBottom:5,
+  },
+  textTitle:{
+    color:'#3fa5a6', 
+    fontSize: 17,
+    marginRight:12,
+    marginBottom:5,
+  },
+  PostPic:{
+    borderRadius: 6,
+    width: 290, 
+    height: 160 ,
+    marginLeft:10,
+    marginTop:12,marginBottom:7
+    },
+    iconStyle2: {
+      padding:8,
+      paddingBottom:18,
+    },
 });

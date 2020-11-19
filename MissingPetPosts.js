@@ -5,7 +5,7 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -42,7 +42,7 @@ export default class MissingPetPosts extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-
+        NearReports = () => this.props.navigation.navigate('بلاغات قريبة مني')
 
 //------------------------------------------------------------------------------
 ToggleOnOrOff = (offerStatus) => {
@@ -398,12 +398,12 @@ CloseOffer = (postid) => {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                  <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -452,12 +452,12 @@ CloseOffer = (postid) => {
             return (
               <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
-                <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                  source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                <Image style={styles.PostPic}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -486,12 +486,12 @@ CloseOffer = (postid) => {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                    <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                     <MapView style={styles.mapStyle}
                     region={{
                       latitude: element.LatA,
@@ -546,6 +546,11 @@ CloseOffer = (postid) => {
                      style={styles.iconStyle2}
                      onPress={()=> { this.setState({ modalVisible: true})}}>
                      <FontAwesomeIcon icon={ faFilter }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                     style={{paddingBottom:12,paddingLeft:6}}
+                    onPress={()=> this.NearReports()}>
+                    <FontAwesomeIcon icon={ faMapMarkerAlt }size={33} color={"#69C4C6"}/>
                     </TouchableOpacity>
                     </View>
 
@@ -666,6 +671,7 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         marginTop: 15,
         borderRadius: 20,
+        marginLeft:42
 
     },
     button2: {
@@ -676,16 +682,16 @@ const styles = StyleSheet.create({
   },
   Post:{
     backgroundColor:'white',
-      shadowColor: "#000",
-      shadowOffset: {
+    shadowColor: "#000",
+    shadowOffset: {
       width: 0,
-       height: 1,
-      },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    borderRadius: 15,
-    width:310
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 9,
+    width:310,
+    borderRadius:16
     },
     iconStyle: {
       padding:8,
@@ -695,7 +701,7 @@ const styles = StyleSheet.create({
       padding:8,
     },
     mapStyle: {
-      width: 290, height: 180 ,marginLeft:10, marginBottom:12
+      width: 290, height: 180 ,marginLeft:10, marginBottom:8
     },
     mandatoryTextStyle: { 
      color: 'red',
@@ -770,5 +776,28 @@ const styles = StyleSheet.create({
     checkBoxContainer: {
       alignSelf: 'flex-end',
       alignItems: 'flex-end'
-    }
+    },
+    text:{
+      color:'black',
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    textTitle:{
+      color:'#3fa5a6', 
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    PostPic:{
+      borderRadius: 6,
+      width: 290, 
+      height: 160 ,
+      marginLeft:10,
+      marginTop:12,marginBottom:7
+      },
+      iconStyle2: {
+        padding:8,
+        paddingBottom:18,
+      },
 });
