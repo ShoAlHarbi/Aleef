@@ -967,7 +967,7 @@ CloseOffer = (postid) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                    <TouchableOpacity onPress={() => this.MissingPetUpload()}
+                    <TouchableOpacity onPress={() => this.AdoptionUpload()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>اضافة عرض تبني</Text>
                     </TouchableOpacity>

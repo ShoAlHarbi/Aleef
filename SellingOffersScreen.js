@@ -1003,7 +1003,7 @@ CloseOffer = (postid) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                    <TouchableOpacity onPress={() => this.MissingPetUpload()}
+                    <TouchableOpacity onPress={() => this.SellingUpload()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>اضافة عرض بيع</Text>
                     </TouchableOpacity>
