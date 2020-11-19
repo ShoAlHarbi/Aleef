@@ -27,6 +27,10 @@ import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications'
 import ManageUsers from './ManageUsers';
+import editAdoption from './editAdoption'; // EDIT
+import editSelling from './editSelling';  //EDIT
+import editMissing from './editMissing';  //EDIT
+
 
 const Stack = createStackNavigator();
 
@@ -196,7 +200,33 @@ function App() {
           },
         }} name="ادارة المستخدمين" component={ManageUsers} />   
 
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل عرض التبني" component={editAdoption} /> 
         
+
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل عرض البيع" component={editSelling} /> 
+        
+
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل البلاغ " component={editMissing} /> 
+
+
       </Stack.Navigator>
       
     </NavigationContainer>
