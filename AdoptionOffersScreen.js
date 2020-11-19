@@ -961,18 +961,24 @@ CloseOffer = (postid) => {
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
-                    <TouchableOpacity 
-                    style={{alignContent: "center"}}
-                    onPress={() => this.AdoptionUpload()}
+
+                  <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                    <TouchableOpacity onPress={() => this.MissingPetUpload()}
                        style={styles.button}>
                     <Text style={styles.textStyle}>اضافة عرض تبني</Text>
                     </TouchableOpacity>
-       
+
                     <TouchableOpacity 
-                     style={styles.iconStyle}
+                     style={styles.iconStyle2}
                      onPress={()=> { this.setState({ modalVisible: true})}}>
                      <FontAwesomeIcon icon={ faFilter }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
+                    </View>
+
                     {this.readPostData()} 
                     
                     <Modal
@@ -980,6 +986,7 @@ CloseOffer = (postid) => {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
+          this.setState({ modalVisible: false})
         }}>
           
         <View style={styles.centeredView}>
@@ -1179,6 +1186,9 @@ const styles = StyleSheet.create({
     padding:8,
     left: 30,
   },
+  iconStyle2: {
+    padding:8,
+  },
  mandatoryTextStyle: { 
   color: 'red',
   fontSize: 13,
@@ -1221,6 +1231,7 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     margin: 20,
+    width: 150,
   },
   textStyle: {
     color: 'white',

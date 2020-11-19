@@ -97,7 +97,7 @@ export default class SellingAdminScreen extends Component {
           var hail = this.state.isHail
           var makkah = this.state.isMakkah
 
-            var ref = firebase.database().ref("AdoptionPosts");
+            var ref = firebase.database().ref("SellingPosts");
             ref.on('value',  function (snapshot) {
               var post = snapshot.val();
             
@@ -133,9 +133,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -147,6 +148,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -168,9 +170,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -182,6 +185,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -203,9 +207,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -217,6 +222,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -238,9 +244,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -252,6 +259,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -273,9 +281,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -287,6 +296,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -308,9 +318,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -322,6 +333,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -343,9 +355,10 @@ export default class SellingAdminScreen extends Component {
                   var AniAge= post[postInfo].AnimalAge; 
                   var AniCity= post[postInfo].City; 
                   var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
                   var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId; 
-                  var postidentification = postInfo;  
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
                   var Status = post[postInfo].offerStatus;//COPY Status------------------------------
                   firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
                     name= snapshot.val()
@@ -357,6 +370,7 @@ export default class SellingAdminScreen extends Component {
                     AnimalAge: AniAge,
                     AnimalCity: AniCity,
                     AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
                     Name: name,
                     offerorID: offerorID,
                     postid: postidentification,
@@ -384,29 +398,31 @@ export default class SellingAdminScreen extends Component {
                 if(post[postInfo].AnimalType !== 'قط')
                   continue;
                 //---------This to save the post info in variables----------
-                var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // cat case end 
@@ -419,28 +435,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // rabbit case end
@@ -453,28 +471,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // Dog case end
@@ -488,28 +508,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // Bird case end
@@ -522,28 +544,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // Fish end start
@@ -566,28 +590,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // cat case end 
@@ -600,28 +626,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // rabbit case end
@@ -634,28 +662,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // Dog case end
@@ -669,28 +699,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // Bird case end
@@ -703,28 +735,30 @@ export default class SellingAdminScreen extends Component {
                   continue;
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsAfterType[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               }         
             } // Fish end start
@@ -750,28 +784,30 @@ export default class SellingAdminScreen extends Component {
                 var postInfo = postKeys[i];
                 //---------This to save the post info in variables----------
                 var AniType= post[postInfo].AnimalType; 
-                var AniSex= post[postInfo].AnimalSex; 
-                var AniAge= post[postInfo].AnimalAge; 
-                var AniCity= post[postInfo].City; 
-                var AniPic= post[postInfo].PetPicture; 
-                var UserName = post[postInfo].uName;
-                var offerorID = post[postInfo].userId; 
-                var postidentification = postInfo;  
-                var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                  name= snapshot.val()
-                })
-                //----------------Adoption Posts Array-----------------------
-                SellingPostsData[i]={
-                  AnimalType: AniType,
-                  AnimalSex: AniSex,
-                  AnimalAge: AniAge,
-                  AnimalCity: AniCity,
-                  AnimalPic: AniPic,
-                  Name: name,
-                  offerorID: offerorID,
-                  postid: postidentification,
-                  offerStatus: Status,//COPY Status------------------------------
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var petPrice= post[postInfo].price; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId;  
+                  var postidentification = postInfo; 
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  SellingPostsData[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    AnimalPrice: petPrice,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
                 }  
               } 
             } }
@@ -787,91 +823,53 @@ export default class SellingAdminScreen extends Component {
               </View>
                ); 
                }else{
-                  return SellingPostsData.map(element => {
-              if(element.offerorID == firebase.auth().currentUser.uid){
-                return (
-                  <View style={{ marginBottom:30}}>
-                    <View style={styles.Post}>
-                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                      source={{uri: element.AnimalPic}}/>
-                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-                    
-                    <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity 
-                     style={styles.iconStyle}
-                     onPress={()=> this.onPressTrashIcon(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                return SellingPostsData.map(element => {
+                  if (element.offerStatus === 'متاح'){
+                  return (
+                    <View style={{ marginBottom:30}}>
+                      <View style={styles.Post}>
+                      <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                        source={{uri: element.AnimalPic}}/>
+                        <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                      <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                      <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                      <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                      <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                      <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
+                      <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                      <TouchableOpacity 
+                      style={styles.iconStyle}
+                      onPress={()=> this.onPressChatIcon(element.offerorID, element.Name)}>
+                      <FontAwesomeIcon icon={ faComments }size={36} color={"#69C4C6"}/>
                     </TouchableOpacity>
-
-                    <View style={styles.toggleStyle}>
-                    <ToggleSwitch
-                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
-                    onColor="green"
-                    offColor="red"
-                    label="إغلاق العرض"
-                    labelStyle={{ color: "black", fontWeight: "900" }}
-                    size="small"
-                    onToggle={isOn => {
-                      this.onToggle(isOn,element.offerStatus,element.postid);
-                    }}
-                    disable={this.ToggleDisable(element.offerStatus)}
-                    />
                     </View>
+                 
                     </View>
+                    
+                  );}
+                  else{
+                    return (
+                      <View style={{ marginBottom:30}}>
+                        <View style={styles.Post}>
+                        <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                          source={{uri: element.AnimalPic}}/>
+                          <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
+                        <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
+                        <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
+                        <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
+                        <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
+                        <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
+                        <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+    
+                      </View>
+                   
+                      </View>
+                      
+                    );}
+                }).reverse();
+            }
 
-                  </View>
-                  </View>
-                  
-                );
-              }
-              else if (element.offerStatus === 'متاح'){
-              return (
-                <View style={{ marginBottom:30}}>
-                  <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                    source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                  <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-                  <Text/>
-                  <TouchableOpacity 
-                  style={styles.iconStyle}
-                  onPress={()=> this.onPressChatIcon(element.offerorID,element.Name)}>
-                  <FontAwesomeIcon icon={ faComments }size={36} color={"#69C4C6"}/>
-                </TouchableOpacity>
-                <Text/>
-
-                </View>
-                </View>
-                
-              );}
-              else{
-                return (
-                  <View style={{ marginBottom:30}}>
-                    <View style={styles.Post}>
-                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                      source={{uri: element.AnimalPic}}/>
-                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-                    <Text/>
-                  <Text/>
-                  </View>
-                  </View>
-                );}
-            }).reverse();
-        }}
+        }
         render(){ 
               return (
                 <ScrollView style={{ backgroundColor:'#FFFCFC' }}
@@ -890,7 +888,7 @@ export default class SellingAdminScreen extends Component {
                   </View>
                   </View>
                   <TouchableOpacity 
-                     style={styles.iconStyle}
+                     style={styles.iconStyle2}
                      onPress={()=> { this.setState({ modalVisible: true})}}>
                      <FontAwesomeIcon icon={ faFilter }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
@@ -901,6 +899,7 @@ export default class SellingAdminScreen extends Component {
                   transparent={true}
                   visible={this.state.modalVisible}
                   onRequestClose={() => {
+                    this.setState({ modalVisible: false})
                 }}>
           
         <View style={styles.centeredView}>
@@ -1099,11 +1098,16 @@ const styles = StyleSheet.create({
       padding:8,
       left: 30
     },
+    iconStyle2: {
+      padding:8,
+      left: 150
+    },
    //--------------------------------------
     mandatoryTextStyle: { 
     color: 'red',
     fontSize: 13,
     marginTop: 5,
+    textAlign: 'center',
     },
   //--------------------------------------
   centeredView: {
@@ -1135,6 +1139,7 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     margin: 20,
+    width: 150,
   },
   textStyle: {
     color: 'white',
