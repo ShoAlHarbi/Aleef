@@ -29,7 +29,6 @@ import * as Notifications from 'expo-notifications'
 import ManageUsers from './ManageUsers';
 import editAdoption from './editAdoption'; // EDIT
 import editSelling from './editSelling';  //EDIT
-import editMissing from './editMissing';  //EDIT
 
 
 const Stack = createStackNavigator();
@@ -217,15 +216,6 @@ function App() {
           },
         }} name="تعديل عرض البيع" component={editSelling} /> 
         
-
-        <Stack.Screen options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: '#FFFCFC',
-            shadowColor: '#FFFCFC',
-          },
-        }} name="تعديل البلاغ " component={editMissing} /> 
-
 
       </Stack.Navigator>
       
