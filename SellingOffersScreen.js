@@ -5,9 +5,11 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
+import ToggleSwitch from 'toggle-switch-react-native' 
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox } from 'react-native-paper';
+import { faEdit } from '@fortawesome/free-solid-svg-icons'; // --------------- Edit offer
+
 
 var SellingPostsData= [];
 var SellingPostsAfterCities= [];
@@ -44,6 +46,25 @@ export default class SellingOffersScreen extends Component {
 
 
 
+//------------------------ EDIT 1 start-------------------------------------
+
+onPressEditIcon = (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity,AnimalPrice) => {
+  this.props.navigation.navigate('تعديل عرض البيع',{
+    postid: postid,
+    Name: Name,
+    AnimalPic: AnimalPic,
+    AnimalType: AnimalType,
+    AnimalSex: AnimalSex,
+    AnimalAge: AnimalAge,
+    AnimalCity: AnimalCity,
+    AnimalPrice: AnimalPrice,
+  })
+}
+
+//------------------------------EDIT 1 end----------------------------------
+
+
+
 //------------------------------------------------------------------------------
 ToggleOnOrOff = (offerStatus) => {
   if (offerStatus === 'مغلق'){
@@ -65,7 +86,7 @@ ToggleDisable = (offerStatus) => {
 
 onToggle = (isOn,offerStatus,postid) => {
   if (offerStatus === 'مغلق'){
-    Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+    Alert.alert('', 'هذا العرض مغلق ولا يمكن إعادة إتاحته من جديد. أضف عرض جديد',[{ text: 'حسناً'}]) //edited based on comment from instructors.
     console.log("Do nothing")  
   }
   else if (offerStatus === 'متاح'){
@@ -892,7 +913,7 @@ CloseOffer = (postid) => {
                ); 
                }else{
                 return SellingPostsData.map(element => {
-                  if(element.offerorID == firebase.auth().currentUser.uid){
+                  if((element.offerorID == firebase.auth().currentUser.uid) && (element.offerStatus === 'متاح')){
                     return (
                       <View style={{ marginBottom:30}}>
                         <View style={styles.Post}>
@@ -913,7 +934,56 @@ CloseOffer = (postid) => {
                          <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                         </TouchableOpacity>
     
+                        <TouchableOpacity 
+                        style={styles.editStyle}
+                        onPress={()=> this.onPressEditIcon(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity,element.AnimalPrice)}>
+                        <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                        </TouchableOpacity>
+
+
                         <View style={styles.toggleStyle}>
+                        <ToggleSwitch
+                        isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                        onColor="green"
+                        offColor="red"
+                        label="إغلاق العرض"
+                        labelStyle={{ color: "black", fontWeight: "900" }}
+                        size="small"
+                        onToggle={isOn => {
+                          this.onToggle(isOn,element.offerStatus,element.postid);
+                        }}
+                        disable={this.ToggleDisable(element.offerStatus)}
+                        />
+                        </View>
+                        </View>
+    
+    
+                      </View>
+                      </View>
+                      
+                    );
+                  } else if(element.offerorID == firebase.auth().currentUser.uid){
+                    return (
+                      <View style={{ marginBottom:30}}>
+                        <View style={styles.Post}>
+                        <Image style={styles.PostPic}
+                      source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>السعر: </Text>{element.AnimalPrice +" ريال سعودي"}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
+    
+                        <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity 
+                         style={styles.iconStyle}
+                         onPress={()=> this.onPressTrashIcon(element.postid)}>
+                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                        </TouchableOpacity>
+    
+                        <View style={styles.toggleStyle2}>
                         <ToggleSwitch
                         isOn= {this.ToggleOnOrOff(element.offerStatus)}
                         onColor="green"
@@ -1230,7 +1300,7 @@ const styles = StyleSheet.create({
     //-----------------------------------
       toggleStyle: {
         padding:8,
-        left: 110,
+        left: 110, //--------------------------------------------- Edit offer
         paddingTop: 10,
       },
     //----------------------------------
@@ -1318,5 +1388,15 @@ const styles = StyleSheet.create({
         padding:8,
         paddingBottom:18,
       },
+//--------------------------------------------- Edit offer
+        toggleStyle2: {
+          padding:8,
+          left: 140, 
+          paddingTop: 10,
+        },
+        editStyle: {
+          left: 45,
+        },
+//--------------------------------------------- Edit offer
 
 });
