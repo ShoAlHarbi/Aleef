@@ -6,7 +6,7 @@ import { faEdit} from '@fortawesome/free-solid-svg-icons';
 import { color } from 'react-native-reanimated';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
-import ToggleSwitch from 'toggle-switch-react-native'
+import ToggleSwitch from 'toggle-switch-react-native';
 
 var AdoptionPostsData= [];
 var SellingPostsData= [];
@@ -154,7 +154,33 @@ export default class Profile extends Component{
         Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
       });
     }
+    // ----------Adoption post Edit-------------
+    onPressEditIcon0 = (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity) => {
+      this.props.navigation.navigate('تعديل عرض التبني بروفايل',{
+        postid: postid,
+        Name: Name,
+        AnimalPic: AnimalPic,
+        AnimalType: AnimalType,
+        AnimalSex: AnimalSex,
+        AnimalAge: AnimalAge,
+        AnimalCity: AnimalCity,
+      })
+    }
 
+    //----------Selling post Edit------------
+    onPressEditIcon1 = async (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity,AnimalPrice) => {
+      this.props.navigation.navigate('تعديل عرض البيع بروفايل',{
+        postid: postid,
+        Name: Name,
+        AnimalPic: AnimalPic,
+        AnimalType: AnimalType,
+        AnimalSex: AnimalSex,
+        AnimalAge: AnimalAge,
+        AnimalCity: AnimalCity,
+        AnimalPrice: AnimalPrice,
+      })
+      await this.renderSection();
+    }
     //.........Deletion adoption posts section........
     onPressTrashIcon0 = (postid) => {
         Alert.alert(
@@ -200,6 +226,7 @@ export default class Profile extends Component{
         SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
         firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
           this.renderSectionOne(); 
+          this.renderSectionOne();
           Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. ',[{ text: 'حسناً'}]) //added 2
         }); 
        }
@@ -305,23 +332,31 @@ export default class Profile extends Component{
         }
         else return AdoptionPostsData.map(element => {
           if(AdoptionPostsData.length==1){
-            return (
-              <View style={{ marginBottom:30 }}>
+            if(element.offerStatus === 'متاح'){
+              return (
+                <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                  <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                  <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                  <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
                   
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'row', }}>
                   <TouchableOpacity 
                    style={styles.iconStyle2}
                    onPress={()=> this.onPressTrashIcon0(element.postid)}>
                    <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+
+
+                  <TouchableOpacity 
+                  style={styles.editStyle}
+                  onPress={()=> this.onPressEditIcon0(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity)}>
+                  <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
                   </TouchableOpacity>
 
                   <View style={styles.toggleStyle}>
@@ -342,20 +377,63 @@ export default class Profile extends Component{
 
                 </View>
                 </View>
-              
-            );
+                
+              );
+            } else {
+              return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={styles.PostPic}
+                    source={{uri: element.AnimalPic}}/>
+                  <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
+                  
+                  <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon0(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+
+
+                  <View style={styles.toggleStyle2}>
+                  <ToggleSwitch
+                  isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                  onColor="green"
+                  offColor="red"
+                  label="إغلاق العرض"
+                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  size="small"
+                  onToggle={isOn => {
+                    this.onToggleAdoption(isOn,element.offerStatus,element.postid);
+                  }}
+                  disable={this.ToggleDisable(element.offerStatus)}
+                  />
+                  </View>
+                  </View>
+
+                </View>
+                </View>
+                
+              );
+            }
                 }
-               else return (
-                <View style={{ marginBottom:30, marginLeft:53}}>
+               else if(element.offerStatus === 'متاح'){
+                return (
+                  <View style={{ marginBottom:30, marginLeft: 53}}>
                     <View style={styles.Post}>
-                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                    <Image style={styles.PostPic}
                       source={{uri: element.AnimalPic}}/>
-                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
                     
                     <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity 
@@ -363,7 +441,14 @@ export default class Profile extends Component{
                      onPress={()=> this.onPressTrashIcon0(element.postid)}>
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
-
+  
+  
+                    <TouchableOpacity 
+                    style={styles.editStyle}
+                    onPress={()=> this.onPressEditIcon0(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity)}>
+                    <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+  
                     <View style={styles.toggleStyle}>
                     <ToggleSwitch
                     isOn= {this.ToggleOnOrOff(element.offerStatus)}
@@ -379,11 +464,53 @@ export default class Profile extends Component{
                     />
                     </View>
                     </View>
-
+  
                   </View>
                   </View>
-                
-              );
+                  
+                );
+              } else {
+                return (
+                  <View style={{ marginBottom:30, marginLeft:53}}>
+                    <View style={styles.Post}>
+                    <Image style={styles.PostPic}
+                      source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
+                    
+                    <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity 
+                     style={styles.iconStyle2}
+                     onPress={()=> this.onPressTrashIcon0(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+  
+  
+                    <View style={styles.toggleStyle2}>
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق العرض"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggleAdoption(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+                    </View>
+                    </View>
+  
+                  </View>
+                  </View>
+                  
+                );
+              }
         }).reverse();
     }
     // Handler عروض البيع
@@ -442,68 +569,125 @@ export default class Profile extends Component{
         }
         else return SellingPostsData.map(element => {
           if(SellingPostsData.length==1){
-               return (
+            if(element.offerStatus === 'متاح'){
+              return (
                 <View style={{ marginBottom:30}}>
-                    <View style={styles.Post}>
-                    <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                      source={{uri: element.AnimalPic}}/>
-                      <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                    <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                    <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                    <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                    <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
+                  <View style={styles.Post}>
+                  <Image style={styles.PostPic}
+                source={{uri: element.AnimalPic}}/>
+              <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+              <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+              <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+              <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+              <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+              <Text style={styles.textTitle}><Text style={styles.text}>السعر: </Text>{element.AnimalPrice +" ريال سعودي"}</Text>
+              <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
 
-                    <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity 
-                     style={styles.iconStyle2}
-                     onPress={()=> this.onPressTrashIcon1(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-                    </TouchableOpacity>
+                  <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon1(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
 
-                    <View style={styles.toggleStyle}>
-                    <ToggleSwitch
-                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
-                    onColor="green"
-                    offColor="red"
-                    label="إغلاق العرض"
-                    labelStyle={{ color: "black", fontWeight: "900" }}
-                    size="small"
-                    onToggle={isOn => {
-                      this.onToggleSelling(isOn,element.offerStatus,element.postid);
-                    }}
-                    disable={this.ToggleDisable(element.offerStatus)}
-                    />
-                    </View>
-                    </View>
+                  <TouchableOpacity 
+                  style={styles.editStyle}
+                  onPress={()=> this.onPressEditIcon1(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity,element.AnimalPrice)}>
+                  <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
 
 
+                  <View style={styles.toggleStyle}>
+                  <ToggleSwitch
+                  isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                  onColor="green"
+                  offColor="red"
+                  label="إغلاق العرض"
+                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  size="small"
+                  onToggle={isOn => {
+                    this.onToggleSelling(isOn,element.offerStatus,element.postid);
+                  }}
+                  disable={this.ToggleDisable(element.offerStatus)}
+                  />
                   </View>
                   </View>
+
+
+                </View>
+                </View>
                 
               );
+            } else return (
+              <View style={{ marginBottom:30}}>
+                <View style={styles.Post}>
+                <Image style={styles.PostPic}
+              source={{uri: element.AnimalPic}}/>
+            <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+            <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+            <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+            <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+            <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+            <Text style={styles.textTitle}><Text style={styles.text}>السعر: </Text>{element.AnimalPrice +" ريال سعودي"}</Text>
+            <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
+
+                <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity 
+                 style={styles.iconStyle2}
+                 onPress={()=> this.onPressTrashIcon1(element.postid)}>
+                 <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                </TouchableOpacity>
+
+                <View style={styles.toggleStyle2}>
+                <ToggleSwitch
+                isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                onColor="green"
+                offColor="red"
+                label="إغلاق العرض"
+                labelStyle={{ color: "black", fontWeight: "900" }}
+                size="small"
+                onToggle={isOn => {
+                  this.onToggleSelling(isOn,element.offerStatus,element.postid);
+                }}
+                disable={this.ToggleDisable(element.offerStatus)}
+                />
+                </View>
+                </View>
+
+
+              </View>
+              </View>
+              
+            );
               }
-                  else return (
-                    <View style={{ marginBottom:30, marginLeft:53}}>
+                  else if(element.offerStatus === 'متاح'){
+                    return (
+                      <View style={{ marginBottom:30, marginLeft:53}}>
                         <View style={styles.Post}>
-                        <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                          source={{uri: element.AnimalPic}}/>
-                          <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-                        <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                        <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-                        <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-                        <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-                        <Text style={styles.text}>{"السعر: "+element.AnimalPrice +" ريال سعودي"}</Text>
-                        <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-    
+                        <Image style={styles.PostPic}
+                      source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>السعر: </Text>{element.AnimalPrice +" ريال سعودي"}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
+      
                         <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity 
                          style={styles.iconStyle2}
                          onPress={()=> this.onPressTrashIcon1(element.postid)}>
                          <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                         </TouchableOpacity>
-    
+      
+                        <TouchableOpacity 
+                        style={styles.editStyle}
+                        onPress={()=> this.onPressEditIcon1(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity,element.AnimalPrice)}>
+                        <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                        </TouchableOpacity>
+      
+      
                         <View style={styles.toggleStyle}>
                         <ToggleSwitch
                         isOn= {this.ToggleOnOrOff(element.offerStatus)}
@@ -519,10 +703,51 @@ export default class Profile extends Component{
                         />
                         </View>
                         </View>
-    
-    
+      
+      
                       </View>
                       </View>
+                      
+                    );
+                  } else return (
+                    <View style={{ marginBottom:30, marginLeft:53}}>
+                      <View style={styles.Post}>
+                      <Image style={styles.PostPic}
+                    source={{uri: element.AnimalPic}}/>
+                  <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>السعر: </Text>{element.AnimalPrice +" ريال سعودي"}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
+      
+                      <View style={{flexDirection: 'row'}}>
+                      <TouchableOpacity 
+                       style={styles.iconStyle2}
+                       onPress={()=> this.onPressTrashIcon1(element.postid)}>
+                       <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                      </TouchableOpacity>
+      
+                      <View style={styles.toggleStyle2}>
+                      <ToggleSwitch
+                      isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                      onColor="green"
+                      offColor="red"
+                      label="إغلاق العرض"
+                      labelStyle={{ color: "black", fontWeight: "900" }}
+                      size="small"
+                      onToggle={isOn => {
+                        this.onToggleSelling(isOn,element.offerStatus,element.postid);
+                      }}
+                      disable={this.ToggleDisable(element.offerStatus)}
+                      />
+                      </View>
+                      </View>
+      
+      
+                    </View>
+                    </View>
                     
                   );
         }).reverse();
@@ -834,18 +1059,18 @@ const styles = StyleSheet.create({
         borderBottomColor: '#69C4C6',
     },
     Post:{
-        backgroundColor:'white',
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-             height: 1,
-          },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-        borderRadius: 15,
-        width:310
-        },
+      backgroundColor:'white',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 5,
+      },
+      shadowOpacity: 0.34,
+      shadowRadius: 6.27,
+      elevation: 9,
+      width:310,
+      borderRadius:16
+      },
     mandatoryTextStyle: { 
             textAlign: 'center',
             color: 'red',
@@ -855,11 +1080,46 @@ const styles = StyleSheet.create({
         mapStyle: {
                 width: 290, height: 180 ,marginLeft:10, marginBottom:12
               },
-
+//----------------------------------
+text:{
+  color:'black',
+  fontSize: 17,
+  marginRight:12,
+  marginBottom:5,
+},
+textTitle:{
+  color:'#3fa5a6', 
+  fontSize: 17,
+  marginRight:12,
+  marginBottom:5,
+},
+PostPic:{
+  borderRadius: 6,
+  width: 290, 
+  height: 160 ,
+  marginLeft:10,
+  marginTop:12,marginBottom:7
+  },
+  iconStyle2: {
+    padding:8,
+    paddingBottom:18,
+    left: 20
+  },
+  //---------------
               toggleStyle: {
                 padding:8,
-                left: 110,
+                left: 90,
                 paddingTop: 10,
+              },
+              //-------------------
+              toggleStyle2: {
+                padding:8,
+                left: 120, 
+                paddingTop: 10,
+              },
+              editStyle: {
+                left: 25,
+                bottom: -8
               },
     
 });
