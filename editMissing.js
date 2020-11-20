@@ -12,12 +12,14 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase';
 import { render } from 'react-dom';
 
-//INCOMPLETE - THIS IS STILL UNDER TESTING.
+//STILL INCOMPLETE - THIS IS STILL UNDER TESTING.
 //ERRORS
 
 var Name='';
 var UserLocation= [];
 //var sendNotification = false;
+var userLati=0;
+var userLong=0;
 
 export default function editMissing({ route,navigation }) {
 
@@ -157,7 +159,8 @@ async function uploadImageAsync(uri) {
 
 //-------------------------------------Notification start----------------------------
    //-----------------------To Find all near users and send notifications to them----------------------------------
-   function nearUsers (){         
+   function nearUsers (){ 
+    //var LoggedinUserToken =''; //A possible solution because of error (cant find varible)      
     var ref = firebase.database().ref("account");
         ref.on('value',  function (snapshot){
        var accountInfo = snapshot.val()
@@ -182,8 +185,8 @@ async function uploadImageAsync(uri) {
       console.log(dist+'km')
       if(dist<=3 && element.uID!=currenUID){
         firebase.database().ref('account/'+element.uID+'/push_token/data').on('value', (snapshot)=>{
-           LoggedinUserToken = snapshot.val()
-        })      
+            LoggedinUserToken = snapshot.val()
+        })
         // Push the notification
         console.log('The token is '+LoggedinUserToken)
         firebase.database().ref('account/'+currenUID).once('value').then(snapshot => {
