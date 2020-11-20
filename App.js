@@ -22,12 +22,19 @@ import allChatsScreen from './allChatsScreen';
 import SellingAdminScreen from './SellingAdminScreen';
 import profile from './profile' ;
 import editProfile from './editProfile';
-import NearReportsView from './NearReportsView';
-import NearReportScreen from './NearReportScreen'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications'
+import ManageUsers from './ManageUsers';
+
+import NearReportsView from './NearReportsView';
+import NearReportScreen from './NearReportScreen'
+
+import editAdoption from './editAdoption'; // EDIT
+import editSelling from './editSelling';  //EDIT
+import editMissing from './editMissing';  //EDIT
+
 
 const Stack = createStackNavigator();
 
@@ -188,9 +195,16 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        }} name="تعديل صفحة المستخدم" component={editProfile} />    
+        }} name="تعديل صفحة المستخدم" component={editProfile} />  
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="ادارة المستخدمين" component={ManageUsers} />   
 
-         <Stack.Screen options={{
+<Stack.Screen options={{
           headerShown: true,
           headerStyle: {
             backgroundColor: '#FFFCFC',
@@ -205,6 +219,34 @@ function App() {
             shadowColor: '#FFFCFC',
           },
         }} name="صفحة البلاغ" component={NearReportScreen} /> 
+
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل عرض التبني" component={editAdoption} /> 
+        
+
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل عرض البيع" component={editSelling} /> 
+        
+
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل البلاغ " component={editMissing} /> 
+
+
       </Stack.Navigator>
       
     </NavigationContainer>
