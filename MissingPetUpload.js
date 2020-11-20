@@ -6,7 +6,8 @@ import firebase from './firebase'
 import MapView,{ Marker } from 'react-native-maps';
 import { RadioButton } from 'react-native-paper';
 import {PermissionsAndroid} from 'react-native';
-import {Picker} from '@react-native-community/picker'; 
+import {Picker} from '@react-native-community/picker';
+import MissingPetsScreen from './MissingPetPosts';
 
 
 console.disableYellowBox = true;
@@ -130,7 +131,7 @@ export default class MissingPetUpload extends Component {
     );
   };
 
-  PublishMissingPetPost = () => {
+  PublishMissingPetPost = async () => {
         //-------------------new--------------------------                
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalTypecheck = ArabicExpression.test(this.state.AnimalType.trim());
@@ -159,7 +160,8 @@ export default class MissingPetUpload extends Component {
        offerStatus: this.state.offerStatus //-------------new: Status 2
       })
      })
-    this.nearUsers();   
+    this.nearUsers();
+    await new MissingPetsScreen().render();   
      this.props.navigation.navigate('الإبلاغ عن حيوان مفقود',{
        offerorID: this.state.userID, //also reporter ID
      })

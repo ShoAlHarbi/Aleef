@@ -6,6 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOutAlt, faComment, faUser } from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications';
+import AdoptionOffersScreen from './AdoptionOffersScreen';
+import SellingOffersScreen from './SellingOffersScreen';
+import MissingPetsScreen from './MissingPetPosts';
+
 
  
 export default class Homepage extends Component {
@@ -69,8 +73,12 @@ export default class Homepage extends Component {
             console.log('before exit async '+numOfUnreadChats)
             console.log('Global2 '+global.unreadChats)
       }
-
-          
+        // This function retrives the posts in all screens
+        renderOffers = async () =>{
+          await new AdoptionOffersScreen().render();
+          await new SellingOffersScreen().render();
+          await new MissingPetsScreen().render();
+        }  
         signOut = () => {
             firebase.auth().signOut().then(() => {
               this.props.navigation.navigate('مرحباً في أليف')
@@ -86,6 +94,8 @@ export default class Homepage extends Component {
               displayName: firebase.database().ref('account/'+firebase.auth().currentUser.uid+'/name'),
                 uid: firebase.auth().currentUser.uid
               }
+              // call the function to retrive posts
+              {this.renderOffers()}
               return (
                 <View style={styles.container}>
                   <View style={styles.container2}>
