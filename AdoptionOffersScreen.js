@@ -7,6 +7,7 @@ import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import ToggleSwitch from 'toggle-switch-react-native' 
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox } from 'react-native-paper';
 import { faEdit } from '@fortawesome/free-solid-svg-icons'; //----------------Edit offer
 
@@ -104,11 +105,11 @@ onToggle = (isOn,offerStatus,postid) => {
     }
 }
 
-CloseOffer = (postid) => {
+CloseOffer =   (postid) => {
   firebase.database().ref('/AdoptionPosts/'+postid).update({
     offerStatus: 'مغلق'
-  }).then((data) => {
-    this.readPostData(); 
+  }).then( (data) => {
+    this.readPostData();
     Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
   });
 }
@@ -1055,8 +1056,20 @@ CloseOffer = (postid) => {
           
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            
+            <View style={{
+              flexDirection:'row'
+            }}>
+
+            <TouchableOpacity 
+                style={{
+                  left: -40
+                }}
+                onPress={()=> { this.setState({ modalVisible: false})}}>
+                <FontAwesomeIcon icon={ faTimes }size={30} color={"#a6a6a6"}/>
+            </TouchableOpacity>
+
             <Text style={styles.modalText}>تصفية حسب نوع الحيوان</Text>
+            </View>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
               <Text>قطط</Text>
