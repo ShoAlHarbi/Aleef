@@ -10,7 +10,7 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase';
 import { render } from 'react-dom';
 
-export default function editSelling({ route,navigation }) {
+export default function editAdoption({ route,navigation }) {
 
     // Information we need from the offer that needs to be edited.
     const currenUID = firebase.auth().currentUser.uid // Current user
@@ -24,15 +24,12 @@ export default function editSelling({ route,navigation }) {
     const OGSex= route.params.AnimalSex;
     const OGCity = route.params.AnimalCity;    
     const OGAge = route.params.AnimalAge;
-    const OGPrice = route.params.AnimalPrice;
-
 
     const [AniPic, setAnimalPic] =useState(route.params.AnimalPic) // Set new pic
     const [AniType, setAnimalType] =useState(route.params.AnimalType) // Set new type
     const [AniSex, setAnimalSex] =useState(route.params.AnimalSex) // Set new gender
     const [AniCity, setAnimalCity] =useState(route.params.AnimalCity) // Set new city
     const [AniAge, setAnimalAge] =useState(route.params.AnimalAge) // Set new age
-    const [AniPrice, setAnimalPrice] =useState(route.params.AnimalPrice) // Set new price
     const [checked, setChecked] =useState('') // For grnder
     const [uploading, setUploading] =useState(false) // For pic
 
@@ -46,7 +43,6 @@ export default function editSelling({ route,navigation }) {
 
 
 //-------------------------------------Image methods start---------------------------
-
 async function SelectImage (){
   let SelectResult = await ImagePicker.launchImageLibraryAsync({
     allowsEditing: true,
@@ -159,21 +155,15 @@ function confirmEdit (){
   const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
   const AnimalAgecheck = ArabicExpression.test(AniAge);
 
-  const Priceexpression = /^[0-9\b]+$/ //Only English numbers
-  const Pricecheck = Priceexpression.test(AniPrice.trim());
-
-  if(OGType === AniType && OGSex=== AniSex && OGAge === AniAge.trim() && OGCity=== AniCity && OGPic === AniPic && OGPrice === AniPrice.trim() ){
+  if(OGType === AniType && OGSex=== AniSex && OGAge === AniAge.trim() && OGCity=== AniCity && OGPic === AniPic ){
     Alert.alert('', 'لم تقم بتعديل أي من بيانات العرض ليتم حفظها.',[{ text: 'حسناً'}])
   }
-  else if(AniType === 'غير محدد' || AniAge.trim() === '' || AniCity === 'غير محدد' || AniPrice.trim() === ''){
+  else if(AniType === 'غير محدد' || AniAge.trim() === '' || AniCity === 'غير محدد'  ){
     Alert.alert('', 'لا يمكنك التعديل بقيم فارغة أو غير محددة',[{ text: 'حسناً'}])
   }
   else if (AnimalAgecheck === false) {
     Alert.alert('', ' يسمح بحروف اللغة العربية والمسافة فقط في خانة عمر الحيوان.',[{ text: 'حسناً'}])
   }
-  else if (Pricecheck === false){
-    Alert.alert('', 'يجب أن يكون السعر عدد صحيح مكون من 0-9',[{ text: 'حسناً'}])
-  } 
 else{
   Alert.alert(
     "",
@@ -193,15 +183,14 @@ else{
 
 function edit (){
 
-  firebase.database().ref('/SellingPosts/'+postid).update({
+  firebase.database().ref('/AdoptionPosts/'+postid).update({
     AnimalType: AniType,
     AnimalSex: AniSex,
     AnimalAge: AniAge.trim(),
     City: AniCity,
     PetPicture: AniPic,
-    price: AniPrice.trim(),
   }).then((data) => {
-    Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
+    Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
   });
   navigation.navigate('الصفحة الشخصية')
 }
@@ -232,7 +221,6 @@ function edit (){
        <Picker.Item label="كلب" value="كلب" />
        </Picker>
         
-
 
 
         <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>جنس الحيوان:</Text>
@@ -291,16 +279,6 @@ function edit (){
   <Picker.Item label="حائل" value="حائل" />
   <Picker.Item label="مكة المكرمة" value="مكة المكرمة" />
 </Picker>
-
-<Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>السعر:</Text>
-<TextInput
-          placeholder="السعر (ريال سعودي)"
-          placeholderTextColor="#a3a3a3"
-          style={styles.inputField}
-          value={AniPrice}
-          onChangeText={(val) => setAnimalPrice(val)}
-          keyboardType = 'numeric'
-        />
 
 
 <TouchableOpacity onPress={() => SelectImage()}
