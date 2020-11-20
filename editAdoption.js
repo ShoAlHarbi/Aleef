@@ -43,11 +43,6 @@ export default function editAdoption({ route,navigation }) {
 
 
 //-------------------------------------Image methods start---------------------------
-/*async function componentDidMount(){
-  await Permissions.askAsync(Permissions.CAMERA_ROLL);
-}*/
-
-
 async function SelectImage (){
   let SelectResult = await ImagePicker.launchImageLibraryAsync({
     allowsEditing: true,
@@ -226,7 +221,6 @@ function edit (){
        <Picker.Item label="كلب" value="كلب" />
        </Picker>
         
-
 
 
         <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>جنس الحيوان:</Text>
