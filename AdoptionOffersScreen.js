@@ -37,6 +37,9 @@ export default class AdoptionOffersScreen extends Component {
             isJeddah: false,
             isHail: false,
             isMakkah: false,
+            // Offer status check
+            isAvailable: false,
+            isClosed: false,
           }
         }
 
@@ -61,7 +64,6 @@ onPressEditIcon = (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCi
 }
 
 //------------------------------EDIT 1 end----------------------------------
-
 
 
 //------------------------------------------------------------------------------
@@ -186,6 +188,10 @@ CloseOffer =   (postid) => {
           var jeddah = this.state.isJeddah
           var hail = this.state.isHail
           var makkah = this.state.isMakkah
+          
+          // Offer status variables
+          var available= this.state.isAvailable
+          var closed = this.state.isClosed
 
             var ref = firebase.database().ref("AdoptionPosts");
             ref.on('value',  function (snapshot) {
@@ -208,6 +214,8 @@ CloseOffer =   (postid) => {
               var name;
               console.log(post)
               
+              // -----------------------Available AND Closed offers case--------------------------
+              if((!available && !closed) || (available && closed)){
               // ------------City cases------------
               if (riyadh || qassim || medina || eastern || jeddah || hail || makkah){
               // Riyadh case
@@ -864,11 +872,1405 @@ CloseOffer =   (postid) => {
                   offerStatus: Status,//COPY Status------------------------------
                 }  
               } 
-            } }
+            } } 
+            //-----------------------------------Available Offers Case----------------------------
+            else if(available){
+               // ------------City cases------------
+               if (riyadh || qassim || medina || eastern || jeddah || hail || makkah){
+                // Riyadh case
+                if(riyadh==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'الرياض')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Riyadh case
+  
+                // Qassim case
+                if(qassim==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'القصيم')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Qassim case
+  
+                // Medina case
+                if(medina==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'المدينة المنورة')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Medina case 
+  
+                // Eastern region case
+                if(eastern==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'المنطقة الشرقية')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Eartern region case
+  
+                // Jeddah case
+                if(jeddah==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'جدة')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Jeddah case
+  
+                // Hail case
+                if(hail==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'حائل')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Hail case
+  
+                // Makkah case
+                if(makkah==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                    if(post[postInfo].City !== 'مكة المكرمة')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Makkah case
+                console.log('Array length '+AdoptionPostsAfterCities.length)
+                console.log(postKeys2)
+                // If no posts were found, we will assign null to AdoptionPostsAfterCities
+                if(postKeys2.length==0){
+                  AdoptionPostsAfterCities = null
+                }else AdoptionPostsData = AdoptionPostsAfterCities
+              } // End City cases
+  
+              
+                // ------------Animal type cases-------------
+                // If the filter by Animal type AND City
+                if(postKeys2.length>0 && (fish || cat || rabbit || bird || dog)){
+                  AdoptionPostsData = [];
+                // Cat Case
+                if(cat==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'قط')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // cat case end 
+  
+              // rabbit case
+              if(rabbit==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'أرنب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // rabbit case end
+  
+              // Dog caase start
+              if(dog==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'كلب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Dog case end
+  
+              // Bird case start
+              if(bird==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  console.log(postKeys2[i])
+                  if(post[postInfo].AnimalType !== 'عصفور')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Bird case end
+  
+              // Fish case start 
+              if(fish==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'سمك')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Fish end start
+              if(AdoptionPostsAfterType.length==0){
+                AdoptionPostsAfterType = null 
+              }
+              else if(AdoptionPostsAfterType.length>0) 
+                AdoptionPostsData = AdoptionPostsAfterType
+              
+                console.log('before Exist')
+                console.log(AdoptionPostsAfterType)
+            } 
+            // If the filter only by Animal type
+            else if(fish || cat || rabbit || bird || dog){
+              AdoptionPostsData = [];
+              if(cat==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'قط')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // cat case end 
+  
+              // rabbit case
+              if(rabbit==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'أرنب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // rabbit case end
+  
+              // Dog caase start
+              if(dog==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'كلب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Dog case end
+  
+              // Bird case start
+              if(bird==true){
+                console.log('Bird is true')
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'عصفور')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Bird case end
+  
+              // Fish case start 
+              if(fish==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'سمك')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Fish end start
+              
+              if( AdoptionPostsAfterType.length ==0){
+                AdoptionPostsAfterType = null
+              }
+              else if(AdoptionPostsAfterType.length>0)
+                AdoptionPostsData = AdoptionPostsAfterType
+            }// End filter by Animal type
+  
+  
+            if(AdoptionPostsAfterType == null ){
+              AdoptionPostsData = null
+            }
+            if(AdoptionPostsAfterCities == null ){
+              AdoptionPostsData = null
+            }else
+            if(!fish && !cat && !rabbit && !bird && !dog && !riyadh && !qassim && !medina && !eastern && !jeddah && !hail && !makkah){
+                // ---------No Filter case-----------
+                AdoptionPostsData = [];
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'متاح')
+                      continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsData[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                } 
+              } 
+            } 
+            // ---------------------------------Closed Offers Case-------------------------
+            else if(closed){
+               // ------------City cases------------
+               if (riyadh || qassim || medina || eastern || jeddah || hail || makkah){
+                // Riyadh case
+                if(riyadh==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'الرياض')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Riyadh case
+  
+                // Qassim case
+                if(qassim==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'القصيم')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Qassim case
+  
+                // Medina case
+                if(medina==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'المدينة المنورة')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Medina case 
+  
+                // Eastern region case
+                if(eastern==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'المنطقة الشرقية')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Eartern region case
+  
+                // Jeddah case
+                if(jeddah==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'جدة')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Jeddah case
+  
+                // Hail case
+                if(hail==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'حائل')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Hail case
+  
+                // Makkah case
+                if(makkah==true){
+                  for(var i = 0; i< postKeys.length;i++){
+                    var postInfo = postKeys[i];
+                    if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                    if(post[postInfo].City !== 'مكة المكرمة')
+                      continue;
+                    //---------This to save the post info in variables----------
+                    postKeys2.push(postKeys[i])
+                    var AniType= post[postInfo].AnimalType; 
+                    var AniSex= post[postInfo].AnimalSex; 
+                    var AniAge= post[postInfo].AnimalAge; 
+                    var AniCity= post[postInfo].City; 
+                    var AniPic= post[postInfo].PetPicture; 
+                    var UserName = post[postInfo].uName;
+                    var offerorID = post[postInfo].userId; 
+                    var postidentification = postInfo;  
+                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                      name= snapshot.val()
+                    })
+                    //----------------Adoption Posts Array-----------------------
+                    AdoptionPostsAfterCities[i]={
+                      AnimalType: AniType,
+                      AnimalSex: AniSex,
+                      AnimalAge: AniAge,
+                      AnimalCity: AniCity,
+                      AnimalPic: AniPic,
+                      Name: name,
+                      offerorID: offerorID,
+                      postid: postidentification,
+                      offerStatus: Status,//COPY Status------------------------------
+                    }  
+                  }         
+                } // end Makkah case
+                console.log('Array length '+AdoptionPostsAfterCities.length)
+                console.log(postKeys2)
+                // If no posts were found, we will assign null to AdoptionPostsAfterCities
+                if(postKeys2.length==0){
+                  AdoptionPostsAfterCities = null
+                }else AdoptionPostsData = AdoptionPostsAfterCities
+              } // End City cases
+  
+              
+                // ------------Animal type cases-------------
+                // If the filter by Animal type AND City
+                if(postKeys2.length>0 && (fish || cat || rabbit || bird || dog)){
+                  AdoptionPostsData = [];
+                // Cat Case
+                if(cat==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'قط')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // cat case end 
+  
+              // rabbit case
+              if(rabbit==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'أرنب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // rabbit case end
+  
+              // Dog caase start
+              if(dog==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'كلب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Dog case end
+  
+              // Bird case start
+              if(bird==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  console.log(postKeys2[i])
+                  if(post[postInfo].AnimalType !== 'عصفور')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Bird case end
+  
+              // Fish case start 
+              if(fish==true){
+                for(var i = 0; i< postKeys2.length;i++){
+                  var postInfo = postKeys2[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'سمك')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Fish end start
+              if(AdoptionPostsAfterType.length==0){
+                AdoptionPostsAfterType = null 
+              }
+              else if(AdoptionPostsAfterType.length>0) 
+                AdoptionPostsData = AdoptionPostsAfterType
+              
+                console.log('before Exist')
+                console.log(AdoptionPostsAfterType)
+            } 
+            // If the filter only by Animal type
+            else if(fish || cat || rabbit || bird || dog){
+              AdoptionPostsData = [];
+              if(cat==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'قط')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // cat case end 
+  
+              // rabbit case
+              if(rabbit==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'أرنب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // rabbit case end
+  
+              // Dog caase start
+              if(dog==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'كلب')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Dog case end
+  
+              // Bird case start
+              if(bird==true){
+                console.log('Bird is true')
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'عصفور')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Bird case end
+  
+              // Fish case start 
+              if(fish==true){
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  if(post[postInfo].AnimalType !== 'سمك')
+                    continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsAfterType[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                }         
+              } // Fish end start
+              
+              if( AdoptionPostsAfterType.length ==0){
+                AdoptionPostsAfterType = null
+              }
+              else if(AdoptionPostsAfterType.length>0)
+                AdoptionPostsData = AdoptionPostsAfterType
+            }// End filter by Animal type
+  
+  
+            if(AdoptionPostsAfterType == null ){
+              AdoptionPostsData = null
+            }
+            if(AdoptionPostsAfterCities == null ){
+              AdoptionPostsData = null
+            }else
+            if(!fish && !cat && !rabbit && !bird && !dog && !riyadh && !qassim && !medina && !eastern && !jeddah && !hail && !makkah){
+                // ---------No Filter case-----------
+                AdoptionPostsData = [];
+                for(var i = 0; i< postKeys.length;i++){
+                  var postInfo = postKeys[i];
+                  if(post[postInfo].offerStatus !== 'مغلق')
+                      continue;
+                  //---------This to save the post info in variables----------
+                  var AniType= post[postInfo].AnimalType; 
+                  var AniSex= post[postInfo].AnimalSex; 
+                  var AniAge= post[postInfo].AnimalAge; 
+                  var AniCity= post[postInfo].City; 
+                  var AniPic= post[postInfo].PetPicture; 
+                  var UserName = post[postInfo].uName;
+                  var offerorID = post[postInfo].userId; 
+                  var postidentification = postInfo;  
+                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
+                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
+                    name= snapshot.val()
+                  })
+                  //----------------Adoption Posts Array-----------------------
+                  AdoptionPostsData[i]={
+                    AnimalType: AniType,
+                    AnimalSex: AniSex,
+                    AnimalAge: AniAge,
+                    AnimalCity: AniCity,
+                    AnimalPic: AniPic,
+                    Name: name,
+                    offerorID: offerorID,
+                    postid: postidentification,
+                    offerStatus: Status,//COPY Status------------------------------
+                  }  
+                } 
+              } 
+            }
+          
+          }
   
           ); 
 
-          if(AdoptionPostsData == null){
+          if(AdoptionPostsData == null || AdoptionPostsData.length==0){
               return(
               <View style={{ marginBottom:30}}>
               <View style={styles.Post}>
@@ -1044,7 +2446,21 @@ CloseOffer =   (postid) => {
                     </TouchableOpacity>
                     </View>
 
+                    {/* <View style={styles.Container4}>
+                        <TouchableOpacity style={styles.button3}
+                        onPress={() => this.segmentClicked(1)}>
+                            <Text style={this.state.activeIndex == 1 ? styles.activeText: styles.inactiveText}>العروض المغلقة </Text>
+                        </TouchableOpacity>
+                    
+                        <TouchableOpacity style={styles.button3}
+                        onPress={() => this.segmentClicked(0)}>
+                            <Text style={this.state.activeIndex == 0 ? styles.activeText: styles.inactiveText}> العروض المتاحة</Text>
+                        </TouchableOpacity>
+                    
+                </View> */}
+
                     {this.readPostData()} 
+
                     
                     <Modal
         animationType="slide"
@@ -1074,6 +2490,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>قطط</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isCat ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isCat: !this.state.isCat }); }}
@@ -1083,6 +2500,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>كلاب</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isDog ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isDog: !this.state.isDog }); }}
@@ -1092,6 +2510,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>عصافير</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isBird ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isBird: !this.state.isBird }); }}
@@ -1101,6 +2520,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>أرانب</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isRabbit ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isRabbit: !this.state.isRabbit }); }}
@@ -1110,6 +2530,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>سمك</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isFish ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isFish: !this.state.isFish }); }}
@@ -1122,6 +2543,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>الرياض</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isRiyadh ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isRiyadh: !this.state.isRiyadh }); }}
@@ -1131,6 +2553,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>القصيم</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isQassim ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isQassim: !this.state.isQassim }); }}
@@ -1140,6 +2563,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>المدينة المنورة</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isMedina ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isMedina: !this.state.isMedina }); }}
@@ -1149,6 +2573,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>المنطقة الشرقية</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isEastern ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isEastern: !this.state.isEastern }); }}
@@ -1158,6 +2583,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>جدة</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isJeddah ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isJeddah: !this.state.isJeddah }); }}
@@ -1167,6 +2593,7 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>حائل</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isHail ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isHail: !this.state.isHail }); }}
@@ -1176,9 +2603,33 @@ CloseOffer =   (postid) => {
             <View style={styles.ModalCon}>
               <Text>مكة المكرمة</Text>
               <Checkbox
+              color= {'#69C4C6'}
               title='optForReceipts'
               status={this.state.isMakkah ? 'checked' : 'unchecked'}
               onPress={() => { this.setState({ isMakkah: !this.state.isMakkah }); }}
+            />
+            </View>
+            </View>
+
+            <Text style={styles.modalText}>تصفية حسب حالة العرض</Text>
+            <View style={styles.checkBoxContainer}>
+            <View style={styles.ModalCon}>
+              <Text>متوفر</Text>
+              <Checkbox
+              color= {'#69C4C6'}
+              title='optForReceipts'
+              status={this.state.isAvailable ? 'checked' : 'unchecked'}
+              onPress={() => { this.setState({ isAvailable: !this.state.isAvailable }); }}
+            />
+            </View>
+
+            <View style={styles.ModalCon}>
+              <Text>مغلق</Text>
+              <Checkbox
+              color= {'#69C4C6'}
+              title='optForReceipts'
+              status={this.state.isClosed ? 'checked' : 'unchecked'}
+              onPress={() => { this.setState({ isClosed: !this.state.isClosed }); }}
             />
             </View>
             </View>
@@ -1276,7 +2727,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 10,
   },
   modalView: {
     margin: 20,
@@ -1285,7 +2736,7 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
-    height: 650,
+    height: 735,
     width: 350,
     shadowOffset: {
       width: 0,
@@ -1367,4 +2818,5 @@ const styles = StyleSheet.create({
           left: 45,
         },
   //--------------------------------------------- Edit offer
+
 });
