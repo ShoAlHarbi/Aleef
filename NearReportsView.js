@@ -14,6 +14,7 @@ var ReporterID=0;
 var ReporterName='';
 var ReportPic='';
 var ReportStatus='';
+var AniType='';
 export default class NearReportsView extends Component {
         constructor(props) {
           super(props);
@@ -40,7 +41,7 @@ export default class NearReportsView extends Component {
               })
             })
           }
-         GoToReport=()=>{this.props.navigation.navigate('صفحة البلاغ')}
+
         GetNearMarkers =() => {
         var ref = firebase.database().ref("MissingPetPosts");
         ref.on('value',  function (snapshot){
@@ -54,17 +55,19 @@ export default class NearReportsView extends Component {
         ReporterName=posts[PostInfo].uName;
         ReportPic=posts[PostInfo].PetPicture;
         ReportStatus=posts[PostInfo].offerStatus;
+        AniType=posts[PostInfo].AnimalType;
         PostLocations[i]={
           PLat: PostLati,
           PLong:PostLong,
           UID: ReporterID,
           RepName:ReporterName,
           PetPic:ReportPic,
-          RepStat:ReportStatus
+          RepStat:ReportStatus,
+          PetType:AniType
         }
         }
         })
-        PostLocations.map(element => {//map the array to calculate the distance for each user and send them notification
+        PostLocations.map(element => {
             var geodist = require('geodist')
             var UserLoc= {lat: this.state.UserLocation.latitude, lon: this.state.UserLocation.longitude}//this is current user location
             var reportLoc = {lat: element.PLat, lon:element.PLong}//this is the report location
@@ -72,17 +75,20 @@ export default class NearReportsView extends Component {
             if(dist<=3 && this.state.userID!=element.UID && element.RepStat === 'متاح'){
                 this.state.NearPosts.push({
                     PLat: element.PLat,
-                    PLong:element.PLong,
-                    RName:element.RepName,
-                    RPic:element.PetPic,
+                    PLong: element.PLong,
+                    RName: element.RepName,
+                    RPic: element.PetPic,
+                    RID: element.UID,
+                    PType: element.PetType,
+                    RStatus: element.RepStat
                   })
             }
         });
             return this.state.NearPosts.map(element =>
              <Marker 
              coordinate={{ latitude:element.PLat ,longitude:element.PLong}}>
-             <Callout tooltip={true} onPress={()=> this.GoToReport()}>
-             <Text><Image style={styles.PostPic} source={{uri: element.RPic}}/></Text>
+             <Callout tooltip={true} onPress={()=> this.props.navigation.navigate('معلومات البلاغ',{ReportPic:element.RPic,Reporter:element.RName,ReporterID:element.RID,AniType:element.PType,ReportState:element.RStatus})}>
+             <Text style={{paddingBottom:50}}><Image style={styles.PostPic} source={{uri: element.RPic}}/></Text>
              </Callout>
              </Marker>
                )
@@ -133,9 +139,9 @@ const styles = StyleSheet.create({
       height: Dimensions.get('window').height,
     },
     PostPic:{
-      height: 280,
-      width:180,   
-      borderRadius:16,
+      height: 120,
+      width:120,   
+      borderRadius:16
     },
     MarkerTip:{
     backgroundColor:'white',
