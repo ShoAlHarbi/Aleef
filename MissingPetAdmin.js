@@ -99,12 +99,12 @@ export default class MissingPetAdmin extends Component {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -143,7 +143,7 @@ export default class MissingPetAdmin extends Component {
                 <View style={styles.container}>
                   <View style={styles.container2}>
                   <View><Image
-                        style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
+                        style={{ width: 65, height: 70,marginBottom:18, marginTop:30 }}
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
@@ -173,12 +173,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: 'bold',
     },
-    text:{
-      color:'black',
-      fontSize: 17,
-      marginRight:12,
-      marginBottom:5,
-    },
 
     button: {
         backgroundColor: '#69C4C6',
@@ -198,29 +192,48 @@ const styles = StyleSheet.create({
   },
   Post:{
     backgroundColor:'white',
-      shadowColor: "#000",
-      shadowOffset: {
+    shadowColor: "#000",
+    shadowOffset: {
       width: 0,
-       height: 1,
-      },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    borderRadius: 15,
-    width:310
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 9,
+    width:310,
+    borderRadius:16
     },
     iconStyle: {
       padding:8,
       left: 30
     },
     mapStyle: {
-      width: 290, height: 180 ,marginLeft:10, marginBottom:12
+      width: 290, height: 125 ,marginLeft:10, marginBottom:8
     },
-    //--------------------------------------
+
     mandatoryTextStyle: { 
      color: 'red',
      fontSize: 13,
      marginTop: 5,
-    }
-    ///--------------------------------------
+    },
+    text:{
+      color:'black',
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    textTitle:{
+      color:'#3fa5a6', 
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    PostPic:{
+      borderRadius: 6,
+      width: 290, 
+      height: 160 ,
+      marginLeft:10,
+      marginTop:12,marginBottom:7
+      },
+
 });

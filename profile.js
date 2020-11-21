@@ -807,12 +807,12 @@ export default class Profile extends Component{
             return (
               <View style={{ marginBottom:30}}>
               <View style={styles.Post}>
-              <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                source={{uri: element.AnimalPic}}/>
-              <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-              <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-              <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-              <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+              <Image style={styles.PostPic}
+               source={{uri: element.AnimalPic}}/>
+               <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+               <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+               <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+               <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
               <MapView style={styles.mapStyle}
               region={{
                 latitude: element.LatA,
@@ -860,12 +860,12 @@ export default class Profile extends Component{
           else return (
             <View style={{ marginBottom:30, marginLeft: 53}}>
             <View style={styles.Post}>
-            <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-              source={{uri: element.AnimalPic}}/>
-            <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-            <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-            <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-            <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+            <Image style={styles.PostPic}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
             <MapView style={styles.mapStyle}
             region={{
               latitude: element.LatA,
@@ -950,7 +950,7 @@ export default class Profile extends Component{
 
                 
                 
-                <ScrollView style={{ backgroundColor:'#FFFCFC'}}
+                <ScrollView style={{ backgroundColor:'#FFFCFC',width:400,marginLeft:75}}
                  refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -958,7 +958,6 @@ export default class Profile extends Component{
                   />
                  }
                 >
-                
                 {this.renderSection()}
                 </ScrollView>
                 
@@ -976,7 +975,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // justifyContent: 'center',
         flex: 1,
-        
     },
     container2: {
       backgroundColor: '#FFFCFC',
@@ -1000,12 +998,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 17,
         fontWeight: 'bold',
-    },
-    text:{
-        color:'black',
-        fontSize: 17,
-        marginRight:12,
-        marginBottom:5,
     },
 
     button: {
@@ -1069,16 +1061,18 @@ const styles = StyleSheet.create({
       shadowRadius: 6.27,
       elevation: 9,
       width:310,
-      borderRadius:16
+      borderRadius:16,
+      marginTop:10,
+      marginLeft:10
       },
     mandatoryTextStyle: { 
             textAlign: 'center',
             color: 'red',
-            fontSize: 13,
+            fontSize: 15,
             marginTop: 5,
             },
         mapStyle: {
-                width: 290, height: 180 ,marginLeft:10, marginBottom:12
+                width: 290, height: 125 ,marginLeft:10, marginBottom:12
               },
 //----------------------------------
 text:{
