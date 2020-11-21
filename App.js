@@ -27,10 +27,12 @@ import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications'
 import ManageUsers from './ManageUsers';
-import editAdoption from './editAdoption'; // EDIT
-import editSelling from './editSelling';  //EDIT
+import editAdoption from './editAdoption'; 
+import editSelling from './editSelling';
 import editAdoption2 from './editAdoption2';
 import editSelling2 from './editSelling2';
+import editMissing from './editMissing';
+
 
 const Stack = createStackNavigator();
 
@@ -235,6 +237,14 @@ function App() {
           title: 'تعديل عرض البيع'
         }} name="تعديل عرض البيع بروفايل" component={editSelling2} />
         
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل البلاغ " component={editMissing} /> 
+
 
       </Stack.Navigator>
       
