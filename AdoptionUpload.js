@@ -159,7 +159,7 @@ export default class AdoptionUpload extends Component {
      this.props.navigation.navigate('عروض التبني',{
        offerorID: this.state.userID
      })
-     Alert.alert('', 'تمت اضافة العرض بنجاح. الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+     Alert.alert('', 'تمت اضافة العرض بنجاح',[{ text: 'حسناً'}])
     }
     }
 

@@ -165,7 +165,7 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        })} name="الإبلاغ عن حيوان مفقود" component={MissingPetPosts} />
+        })} name="البلاغات" component={MissingPetPosts} />
 
          <Stack.Screen options={({route})=>({
           headerShown: true,

@@ -248,7 +248,7 @@ function edit (){
     Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة البلاغات',[{ text: 'حسناً'}])
   });
   nearUsers();   
-  navigation.navigate('الإبلاغ عن حيوان مفقود')
+  navigation.navigate('البلاغات')
 }
 //-------------------------------------edit methods ends----------------------------
 

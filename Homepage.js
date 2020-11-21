@@ -88,7 +88,7 @@ export default class Homepage extends Component {
           AdoptionOffers = () => this.props.navigation.navigate('عروض التبني')
           SellingOffers = () => this.props.navigation.navigate('عروض البيع')
           AllChats = () => this.props.navigation.navigate('جميع المحادثات')
-          MissingPetPosts = () => this.props.navigation.navigate('الإبلاغ عن حيوان مفقود')
+          MissingPetPosts = () => this.props.navigation.navigate('البلاغات')
            render(){
             this.state = { 
               displayName: firebase.database().ref('account/'+firebase.auth().currentUser.uid+'/name'),

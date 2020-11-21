@@ -162,10 +162,10 @@ export default class MissingPetUpload extends Component {
      })
     this.nearUsers();
     await new MissingPetsScreen().render();   
-     this.props.navigation.navigate('الإبلاغ عن حيوان مفقود',{
+     this.props.navigation.navigate('البلاغات',{
        offerorID: this.state.userID, //also reporter ID
      })
-     Alert.alert('', 'تمت اضافة البلاغ بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+     Alert.alert('', 'تمت اضافة البلاغ بنجاح',[{ text: 'حسناً'}])
     } 
     }
     //-----------------------To Find all near users and send notifications to them----------------------------------

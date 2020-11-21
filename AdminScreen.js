@@ -108,15 +108,18 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        backgroundColor: '#69C4C6',
-        padding: 10,
-        width: 185,
-        alignItems: "center",
-        marginTop: 5,
-        marginBottom: 60,
-        borderRadius: 20,
+      backgroundColor: '#69C4C6',
+      padding: 10,
+      // width: 185,
+      alignItems: "center",
+      marginTop: 5,
+      marginBottom: 20,
+      borderRadius: 20,
 
-    },
+      height: 80,
+      justifyContent: 'center',
+      width: 200
+  },
     button2: {
       padding: 8,
       width: 125,
