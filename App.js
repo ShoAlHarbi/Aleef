@@ -32,6 +32,8 @@ import editSelling from './editSelling';
 import editAdoption2 from './editAdoption2';
 import editSelling2 from './editSelling2';
 import editMissing from './editMissing';
+import NearReportsView from './NearReportsView';
+import NearReportScreen from './NearReportScreen';
 
 
 const Stack = createStackNavigator();
@@ -245,6 +247,21 @@ function App() {
           },
         }} name="تعديل البلاغ " component={editMissing} /> 
 
+     <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="بلاغات قريبة مني" component={NearReportsView} />  
+
+      <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="معلومات البلاغ" component={NearReportScreen} /> 
 
       </Stack.Navigator>
       
