@@ -12,9 +12,21 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase';
 import { render } from 'react-dom';
 
-//STILL INCOMPLETE - THIS IS STILL UNDER TESTING.
-//ERRORS
+/*
+//To add in Apps
+import editMissing from './editMissing';  //EDIT
 
+
+
+      <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل البلاغ " component={editMissing} /> 
+
+*/
 var Name='';
 var UserLocation= [];
 //var sendNotification = false;
@@ -160,7 +172,7 @@ async function uploadImageAsync(uri) {
 //-------------------------------------Notification start----------------------------
    //-----------------------To Find all near users and send notifications to them----------------------------------
    function nearUsers (){ 
-    //var LoggedinUserToken =''; //A possible solution because of error (cant find varible)      
+    var LoggedinUserToken =''; //A possible solution because of error (cant find varible)      
     var ref = firebase.database().ref("account");
         ref.on('value',  function (snapshot){
        var accountInfo = snapshot.val()
