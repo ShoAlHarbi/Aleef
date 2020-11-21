@@ -12,21 +12,7 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase';
 import { render } from 'react-dom';
 
-/*
-//To add in Apps
-import editMissing from './editMissing';  //EDIT
 
-
-
-      <Stack.Screen options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: '#FFFCFC',
-            shadowColor: '#FFFCFC',
-          },
-        }} name="تعديل البلاغ " component={editMissing} /> 
-
-*/
 var Name='';
 var UserLocation= [];
 //var sendNotification = false;
@@ -229,7 +215,7 @@ function confirmEdit (){
 
 
   if(OGType === AniType &&  OGPic === AniPic && OGLat=== AniLat && OGLong === AniLong ){
-    Alert.alert('', 'لم تقم بتعديل أي من بيانات العرض ليتم حفظها.',[{ text: 'حسناً'}])
+    Alert.alert('', 'لم تقم بتعديل أي من بيانات البلاغ ليتم حفظها.',[{ text: 'حسناً'}])
   }
   else if(AniType === 'غير محدد'){
     Alert.alert('', 'لا يمكنك التعديل بقيم فارغة أو غير محددة',[{ text: 'حسناً'}])
