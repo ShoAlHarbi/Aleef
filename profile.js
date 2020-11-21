@@ -324,7 +324,7 @@ export default class Profile extends Component{
         if(AdoptionPostsData.length==0){
             return(
                 <View style={{ marginBottom:30}}>
-                <View style={styles.Post}>
+                <View style={styles.Post2}>
                 <Text style={styles.mandatoryTextStyle}>لا توجد لديك عروض تبني.</Text>
                 </View>
                 </View>
@@ -335,7 +335,7 @@ export default class Profile extends Component{
             if(element.offerStatus === 'متاح'){
               return (
                 <View style={{ marginBottom:30}}>
-                  <View style={styles.Post}>
+                  <View style={styles.Post1}>
                   <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
                   <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
@@ -383,7 +383,7 @@ export default class Profile extends Component{
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={styles.PostPic}
+                  <Image style={styles.Post1}
                     source={{uri: element.AnimalPic}}/>
                   <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
@@ -561,7 +561,7 @@ export default class Profile extends Component{
         if(SellingPostsData.length==0){
             return(
                 <View style={{ marginBottom:30}}>
-                <View style={styles.Post}>
+                <View style={styles.Post2}>
                 <Text style={styles.mandatoryTextStyle}>لا توجد لديك عروض بيع.</Text>
                 </View>
                 </View>
@@ -572,7 +572,7 @@ export default class Profile extends Component{
             if(element.offerStatus === 'متاح'){
               return (
                 <View style={{ marginBottom:30}}>
-                  <View style={styles.Post}>
+                  <View style={styles.Post1}>
                   <Image style={styles.PostPic}
                 source={{uri: element.AnimalPic}}/>
               <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
@@ -620,7 +620,7 @@ export default class Profile extends Component{
               );
             } else return (
               <View style={{ marginBottom:30}}>
-                <View style={styles.Post}>
+                <View style={styles.Post1}>
                 <Image style={styles.PostPic}
               source={{uri: element.AnimalPic}}/>
             <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
@@ -796,7 +796,7 @@ export default class Profile extends Component{
         if(MissingPetPostsData.length==0){
             return(
                 <View style={{ marginBottom:30}}>
-                <View style={styles.Post}>
+                <View style={styles.Post2}>
                 <Text style={styles.mandatoryTextStyle}>لا توجد لديك بلاغات.</Text>
                 </View>
                 </View>
@@ -806,7 +806,7 @@ export default class Profile extends Component{
           if(MissingPetPostsData.length==1){
             return (
               <View style={{ marginBottom:30}}>
-              <View style={styles.Post}>
+              <View style={styles.Post1}>
               <Image style={styles.PostPic}
                source={{uri: element.AnimalPic}}/>
                <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
@@ -949,8 +949,8 @@ export default class Profile extends Component{
                 </View>
 
                 
-                
-                <ScrollView style={{ backgroundColor:'#FFFCFC',width:400,marginLeft:75}}
+               
+                <ScrollView style={{ backgroundColor:'#FFFCFC',width:400,marginRight:13.5}}
                  refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -960,6 +960,8 @@ export default class Profile extends Component{
                 >
                 {this.renderSection()}
                 </ScrollView>
+               
+               
                 
                 
 
@@ -1063,7 +1065,36 @@ const styles = StyleSheet.create({
       width:310,
       borderRadius:16,
       marginTop:10,
-      marginLeft:10
+      },
+      Post1:{
+        backgroundColor:'white',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        elevation: 9,
+        width:310,
+        borderRadius:16,
+        marginTop:10,
+        marginLeft:53
+      },
+      Post2:{
+        backgroundColor:'white',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        elevation: 9,
+        width:310,
+        borderRadius:16,
+        marginTop:10,
+        marginLeft:53
       },
     mandatoryTextStyle: { 
             textAlign: 'center',
