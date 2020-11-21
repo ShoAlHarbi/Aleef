@@ -382,8 +382,8 @@ export default class Profile extends Component{
             } else {
               return (
                 <View style={{ marginBottom:30}}>
-                  <View style={styles.Post}>
-                  <Image style={styles.Post1}
+                  <View style={styles.Post1}>
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
                   <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
@@ -960,11 +960,6 @@ export default class Profile extends Component{
                 >
                 {this.renderSection()}
                 </ScrollView>
-               
-               
-                
-                
-
             </View>
             
         )
