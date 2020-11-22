@@ -2572,6 +2572,7 @@ CloseOffer = (postid) => {
                   onRequestClose={() => {
                     this.setState({ modalVisible: false})
                 }}>
+                  <ScrollView style={{ backgroundColor:'#FFFCFC' }}>
           
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -2750,6 +2751,7 @@ CloseOffer = (postid) => {
             </TouchableHighlight>
           </View>
         </View>
+        </ScrollView>
       </Modal>
 
                 </View>
@@ -2843,7 +2845,7 @@ const styles = StyleSheet.create({
       padding: 35,
       alignItems: 'center',
       shadowColor: '#000',
-      height: 735,
+      height: 745,
       width: 350,
       shadowOffset: {
         width: 0,

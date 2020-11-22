@@ -2446,18 +2446,6 @@ CloseOffer =   (postid) => {
                     </TouchableOpacity>
                     </View>
 
-                    {/* <View style={styles.Container4}>
-                        <TouchableOpacity style={styles.button3}
-                        onPress={() => this.segmentClicked(1)}>
-                            <Text style={this.state.activeIndex == 1 ? styles.activeText: styles.inactiveText}>العروض المغلقة </Text>
-                        </TouchableOpacity>
-                    
-                        <TouchableOpacity style={styles.button3}
-                        onPress={() => this.segmentClicked(0)}>
-                            <Text style={this.state.activeIndex == 0 ? styles.activeText: styles.inactiveText}> العروض المتاحة</Text>
-                        </TouchableOpacity>
-                    
-                </View> */}
 
                     {this.readPostData()} 
 
@@ -2469,7 +2457,9 @@ CloseOffer =   (postid) => {
         onRequestClose={() => {
           this.setState({ modalVisible: false})
         }}>
-          
+           <ScrollView
+           style={{ backgroundColor:'#FFFCFC' }}
+           >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <View style={{
@@ -2646,6 +2636,7 @@ CloseOffer =   (postid) => {
             </TouchableHighlight>
           </View>
         </View>
+        </ScrollView>
       </Modal>
       
 
@@ -2736,7 +2727,7 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
-    height: 735,
+    height: 745,
     width: 350,
     shadowOffset: {
       width: 0,
