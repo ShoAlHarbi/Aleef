@@ -32,6 +32,7 @@ import editSelling from './editSelling';
 import editAdoption2 from './editAdoption2';
 import editSelling2 from './editSelling2';
 import editMissing from './editMissing';
+import editMissing2 from './editMissing2';
 import NearReportsView from './NearReportsView';
 import NearReportScreen from './NearReportScreen';
 
@@ -246,6 +247,15 @@ function App() {
             shadowColor: '#FFFCFC',
           },
         }} name="تعديل البلاغ " component={editMissing} /> 
+
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+          title: 'تعديل البلاغ'
+        }} name="تعديل البلاغ بروفايل " component={editMissing2} /> 
 
      <Stack.Screen options={{
           headerShown: true,

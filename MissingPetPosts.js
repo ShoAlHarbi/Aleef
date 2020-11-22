@@ -109,9 +109,10 @@ onToggle = (isOn,offerStatus,postid) => {
 CloseOffer = (postid) => {
   firebase.database().ref('/MissingPetPosts/'+postid).update({
     offerStatus: 'مغلق'
-  }).then((data) => {
+  }).then(async(data) => {
+    await this._onRefresh();
     this.readPostData(); 
-    Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح, الرجاء تحديث صفحة عروض البلاغات',[{ text: 'حسناً'}])
+    Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح.',[{ text: 'حسناً'}])
   });
 }
 //------------------------------------------------------------
@@ -138,9 +139,10 @@ CloseOffer = (postid) => {
 
          onPressDelete = (postid) => {
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
-           firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
+           firebase.database().ref('/MissingPetPosts/'+postid).remove().then(async (data) => {
+             await this._onRefresh();
              this.readPostData(); 
-             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح.',[{ text: 'حسناً'}])
            });
          }
 
