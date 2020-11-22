@@ -86,7 +86,7 @@ export default class LogInScreen extends Component {
     return (
       <View style={styles.container}>
         <Image
-          style={{ width: 200, height: 200 }}
+          style={{ width: 300, height: 165,marginLeft:35 }}
           source={require('./assets/AleefLogo.png')}
         />
         <TextInput
@@ -157,8 +157,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   textStyle2: {
-    color: '#5F5F5F',
+    color: '#283958',
     fontSize: 17,
+    textDecorationLine: 'underline',
   },
   inputField: {
     borderWidth: .5,
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
 
   },
   mandatoryTextStyle: {
-    color: 'red',
+    color: '#FF7D4B',
     fontSize: 13,
     marginTop: 5,
   },

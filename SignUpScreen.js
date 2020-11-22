@@ -103,7 +103,7 @@ export default class SignUpScreen extends Component {
       <View style={styles.container}>
         <View >
           <Image
-            style={{ width: 200, height: 200, marginBottom: 30, }}
+            style={{ width: 300, height: 165,marginLeft:35 }}
             source={require('./assets/AleefLogo.png')}
           />
         </View>
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
 
   mandatoryTextStyle: {
-    color: 'red',
+    color: '#FF7D4B',
     fontSize: 13,
     marginTop: 5,
   },
