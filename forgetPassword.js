@@ -30,7 +30,7 @@ export default class ForgetPassword extends Component {
     return (
       <View style={styles.container}>
           <Image
-          style={{ width: 200, height: 200,marginBottom: 10 }}
+          style={{ width: 300, height: 165,marginLeft:35 }}
           source={require('./assets/AleefLogo.png')}
           />
          <TextInput
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   mandatoryTextStyle: {
-    color: 'red',
+    color: '#FF7D4B',
     fontSize: 13,
     marginBottom: 20,
   },

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity,} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,ImageBackground} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOutAlt, faComment, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -100,37 +100,52 @@ export default class Homepage extends Component {
                 <View style={styles.container}>
                   <View style={styles.container2}>
                   <View><TouchableOpacity  onPress={() => this.signOut()} style={styles.button2}>
-                      <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#5F5F5F"}/>
+                      <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#283958"}/>
                     </TouchableOpacity>                 
                   </View>
-                  <Image style={{ width: 65, height: 70,marginTop:50, marginRight:195,}}
-                   source={require('./assets/AleefLogoCat.png')}/>   
+                  <Image style={{ width: 75, height: 85,marginTop:50, marginRight:195,}}
+                   source={require('./assets/AleefLogoCat.png')}/>  
                   </View>
                  
                    <View style={styles.container3}>
                    <TouchableOpacity onPress={() => this.AdoptionOffers()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>عروض التبني</Text>
+                     <ImageBackground
+                       style={{ width:200, height: 80, }}
+                       source={require('./assets/Adopt.png')} 
+                     >
+                       <Text style={styles.textStyle}>عروض التبني</Text>
+                     </ImageBackground>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.SellingOffers()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>عروض البيع</Text>
+                    <ImageBackground
+                       style={{ width:200, height: 80, }}
+                       source={require('./assets/Buy.png')} 
+                     >
+                       <Text style={styles.textStyle}>عروض البيع</Text>
+                     </ImageBackground>
                     </TouchableOpacity>
                     
                     <TouchableOpacity onPress={() => this.MissingPetPosts()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>الإبلاغ عن حيوان مفقود</Text>
+                    <ImageBackground
+                       style={{ width:200, height: 80, }}
+                       source={require('./assets/lost.png')} 
+                     >
+                       <Text style={styles.textStyle}>البلاغات</Text>
+                     </ImageBackground>
                     </TouchableOpacity>
 
                    </View>
                    <View style={{ flexDirection: 'row', position:'absolute', top:625 }} >
                    <TouchableOpacity onPress={() => this.props.navigation.navigate('جميع المحادثات')} style = {styles.sideIcons}>
-                    <FontAwesomeIcon icon={ faComment }size={40} color={"#5F5F5F"} />
+                    <FontAwesomeIcon icon={ faComment }size={40} color={"#283958"} />
                     <Text style={global.unreadChats==0?styles.text3: styles.text2}>{global.unreadChats}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('الصفحة الشخصية')} style = {styles.sideIcons}>
-                     <FontAwesomeIcon  icon={ faUser }size={40} color={"#5F5F5F"}/>
+                     <FontAwesomeIcon  icon={ faUser }size={40} color={"#283958"}/>
                   </TouchableOpacity>
                    </View>
                 </View>
@@ -160,14 +175,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width:200,
     flexDirection: 'column',
-    marginBottom: 100,
+    marginBottom: 80,
     padding:150,
 },
     textStyle:{
-        color: 'white',
-        fontSize: 17,
+        color: '#283958',
+        fontSize: 19,
         fontWeight: 'bold',
-      
+        marginTop:27,
+        marginRight:10
     },
     text:{
         color:'black',
@@ -176,17 +192,16 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        backgroundColor: '#69C4C6',
+        backgroundColor: '#D4ECEC',
         padding: 10,
-        // width: 185,
         alignItems: "center",
         marginTop: 5,
         marginBottom: 60,
         borderRadius: 20,
-
-        height: 80,
+        height: 95,
         justifyContent: 'center',
-        width: 200
+        width: 220
+        
     },
     button2: {
       padding: 8,
