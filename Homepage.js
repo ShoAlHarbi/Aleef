@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     borderColor: 'black', 
   },
   text2: {
-    color: '#ff6600',
+    color: '#D4ECEC',
     fontSize: 25,
     fontWeight: 'bold',
     // backgroundColor: '#69C4C6',
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     marginLeft: 3
   },
   text3: {
-    color: '#5F5F5F',
+    color: '#283958',
     fontSize: 25,
     fontWeight: 'bold',
     // backgroundColor: '#69C4C6',
