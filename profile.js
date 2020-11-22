@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Alert,StyleSheet, Text, View, Image, TouchableOpacity, Button,ScrollView,RefreshControl} from 'react-native';
 import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faEdit} from '@fortawesome/free-solid-svg-icons';
+import { faBoxTissue, faEdit} from '@fortawesome/free-solid-svg-icons';
 import { color } from 'react-native-reanimated';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
@@ -29,7 +29,7 @@ export default class Profile extends Component{
     }
      
 
-    componentDidMount(){
+    async componentDidMount(){
         firebase.database().ref('account/'+firebase.auth().currentUser.uid)
         .on('value',(snapshot)=>{
             this.setState({
@@ -38,7 +38,10 @@ export default class Profile extends Component{
             })
             
         });
+        await this.render();
+        await this._onRefresh();
     }
+    
 
     _onRefresh = () => {
       setTimeout(() => this.setState({ refreshing: false }), 1000);
@@ -131,30 +134,33 @@ export default class Profile extends Component{
     CloseOfferAdoption = (postid) => {
       firebase.database().ref('/AdoptionPosts/'+postid).update({
         offerStatus: 'مغلق'
-      }).then((data) => {
+      }).then(async(data) => {
+        await this._onRefresh();
         this.renderSectionZero(); 
-        Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
+        Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح.',[{ text: 'حسناً'}])
       });
     }
 
     CloseOfferSelling = (postid) => {
       firebase.database().ref('/SellingPosts/'+postid).update({
         offerStatus: 'مغلق'
-      }).then((data) => {
+      }).then(async(data) => {
+        await this._onRefresh();
         this.renderSectionOne(); 
-        Alert.alert('', 'لقد تم إغلاق عرض البيع بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
+        Alert.alert('', 'لقد تم إغلاق عرض البيع بنجاح.',[{ text: 'حسناً'}])
       });
     }
 
     CloseOfferReport = (postid) => {
       firebase.database().ref('/MissingPetPosts/'+postid).update({
         offerStatus: 'مغلق'
-      }).then((data) => {
+      }).then(async (data) => {
+        await this._onRefresh();
         this.renderSectionTwo(); 
-        Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح, الرجاء تحديث الصفحة',[{ text: 'حسناً'}])
+        Alert.alert('', 'لقد تم إغلاق البلاغ بنجاح.',[{ text: 'حسناً'}])
       });
     }
-    // ----------Adoption post Edit-------------
+    // ----------Adoption posts Edit-------------
     onPressEditIcon0 = (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity) => {
       this.props.navigation.navigate('تعديل عرض التبني بروفايل',{
         postid: postid,
@@ -167,7 +173,7 @@ export default class Profile extends Component{
       })
     }
 
-    //----------Selling post Edit------------
+    //----------Selling posts Edit------------
     onPressEditIcon1 = async (postid,Name,AnimalType,AnimalSex,AnimalPic,AnimalAge,AnimalCity,AnimalPrice) => {
       this.props.navigation.navigate('تعديل عرض البيع بروفايل',{
         postid: postid,
@@ -180,6 +186,23 @@ export default class Profile extends Component{
         AnimalPrice: AnimalPrice,
       })
       await this.renderSection();
+    }
+
+    //----------------------Mising pets posts Edit-----------------------
+    onPressEditIcon2 = async (postid,Name,AnimalType,AnimalPic,Lat,Long) => {
+       this.props.navigation.navigate('تعديل البلاغ بروفايل ',{
+        postid: postid,
+        Name: Name,
+        AnimalPic: AnimalPic,
+        AnimalType: AnimalType,
+        Lat: Lat,
+        Long: Long,
+        region: this.state.region,
+    
+      })
+      await this._onRefresh();
+      await this.renderSection();
+      this.componentDidUpdate();
     }
     //.........Deletion adoption posts section........
     onPressTrashIcon0 = (postid) => {
@@ -199,8 +222,8 @@ export default class Profile extends Component{
       }
       onPressDelete0 = (postid) => { // start new method
         AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
-        firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
-          this.renderSectionZero();
+        firebase.database().ref('/AdoptionPosts/'+postid).remove().then(async(data) => {
+          await this._onRefresh();
           this.renderSection();
           Alert.alert('', 'لقد تم حذف عرض التبني بنجاح.',[{ text: 'حسناً'}])
         });
@@ -224,8 +247,8 @@ export default class Profile extends Component{
       }
       onPressDelete1 = (postid) => { // start new method
         SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
-        firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
-          this.renderSectionOne(); 
+        firebase.database().ref('/SellingPosts/'+postid).remove().then(async(data) => {
+          await this._onRefresh(); 
           this.renderSectionOne();
           Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. ',[{ text: 'حسناً'}]) //added 2
         }); 
@@ -249,8 +272,9 @@ export default class Profile extends Component{
        }
        onPressDelete2 = (postid) => { //new method
         MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
-         firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
-           this.renderSectionTwo(); 
+         firebase.database().ref('/MissingPetPosts/'+postid).remove().then(async(data) => {
+          await this._onRefresh(); 
+          this.renderSectionTwo(); 
            Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح.',[{ text: 'حسناً'}])
          });
        }
@@ -803,116 +827,124 @@ export default class Profile extends Component{
                  ); 
         }
         else return MissingPetPostsData.map(element => {
-          if(MissingPetPostsData.length==1){
+          if(element.offerStatus === 'متاح'){
             return (
-              <View style={{ marginBottom:30}}>
-              <View style={styles.Post1}>
-              <Image style={styles.PostPic}
-               source={{uri: element.AnimalPic}}/>
-               <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
-               <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
-               <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-               <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
-              <MapView style={styles.mapStyle}
-              region={{
-                latitude: element.LatA,
-                longitude: element.LongA,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01
-              }}
-              provider="google"
-              showsUserLocation={true}
-              showsMyLocationButton={true}
-              zoomControlEnabled={true}
-              moveOnMarkerPress={true}
-              >
-              <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
-              </MapView>
-
-              <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity 
-                 style={styles.iconStyle2}
-                 onPress={()=> this.onPressTrashIcon2(element.postid)}>
-                 <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-                </TouchableOpacity>
-
-                <View style={styles.toggleStyle}>
-                <ToggleSwitch
-                isOn= {this.ToggleOnOrOff(element.offerStatus)}
-                onColor="green"
-                offColor="red"
-                label="إغلاق البلاغ"
-                labelStyle={{ color: "black", fontWeight: "900" }}
-                size="small"
-                onToggle={isOn => {
-                  this.onToggleReport(isOn,element.offerStatus,element.postid);
+              <View style={{ marginBottom:30, marginLeft:53}}>
+                <View style={styles.Post}>
+                <Image style={styles.PostPic}
+                  source={{uri: element.AnimalPic}}/>
+                  <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                  <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                <MapView style={styles.mapStyle}
+                region={{
+                  latitude: element.LatA,
+                  longitude: element.LongA,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01
                 }}
-                disable={this.ToggleDisable(element.offerStatus)}
-                />
-                </View>
-                </View>
+                provider="google"
+                showsUserLocation={true}
+                showsMyLocationButton={true}
+                zoomControlEnabled={true}
+                moveOnMarkerPress={true}
+                >
+                <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                </MapView>
+
+                <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon2(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity 
+                  style={styles.editStyle}
+                onPress={()=> this.onPressEditIcon2(element.postid,element.Name,element.AnimalType,element.AnimalPic,element.LatA,element.LongA)}>
+                  <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
 
 
-            </View>
-            </View>
-              );
-          }
-          else return (
-            <View style={{ marginBottom:30, marginLeft: 53}}>
-            <View style={styles.Post}>
-            <Image style={styles.PostPic}
-                    source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
-                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
-                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
-            <MapView style={styles.mapStyle}
-            region={{
-              latitude: element.LatA,
-              longitude: element.LongA,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01
-            }}
-            provider="google"
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            zoomControlEnabled={true}
-            moveOnMarkerPress={true}
-            >
-            <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
-            </MapView>
+                  <View style={styles.toggleStyle}>
+                  <ToggleSwitch
+                  isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                  onColor="green"
+                  offColor="red"
+                  label="إغلاق البلاغ"
+                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  size="small"
+                  onToggle={isOn => {
+                    this.onToggleReport(isOn,element.offerStatus,element.postid);
+                  }}
+                  disable={this.ToggleDisable(element.offerStatus)}
+                  />
+                  </View>
+                  </View>
 
-            <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity 
-               style={styles.iconStyle2}
-               onPress={()=> this.onPressTrashIcon2(element.postid)}>
-               <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
-              </TouchableOpacity>
 
-              <View style={styles.toggleStyle}>
-              <ToggleSwitch
-              isOn= {this.ToggleOnOrOff(element.offerStatus)}
-              onColor="green"
-              offColor="red"
-              label="إغلاق البلاغ"
-              labelStyle={{ color: "black", fontWeight: "900" }}
-              size="small"
-              onToggle={isOn => {
-                this.onToggleReport(isOn,element.offerStatus,element.postid);
-              }}
-              disable={this.ToggleDisable(element.offerStatus)}
-              />
               </View>
-              </View>
-
-
-          </View>
-          </View>
+              </View>          
             );
+          } else{
+            return (
+              <View style={{ marginBottom:30, marginLeft:53}}>
+                <View style={styles.Post}>
+                <Image style={styles.PostPic}
+                  source={{uri: element.AnimalPic}}/>
+                  <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                  <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                  <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                <MapView style={styles.mapStyle}
+                region={{
+                  latitude: element.LatA,
+                  longitude: element.LongA,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01
+                }}
+                provider="google"
+                showsUserLocation={true}
+                showsMyLocationButton={true}
+                zoomControlEnabled={true}
+                moveOnMarkerPress={true}
+                >
+                <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                </MapView>
+
+                <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity 
+                   style={styles.iconStyle2}
+                   onPress={()=> this.onPressTrashIcon2(element.postid)}>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                  </TouchableOpacity>
+
+                  <View style={styles.toggleStyle2}>
+                  <ToggleSwitch
+                  isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                  onColor="green"
+                  offColor="red"
+                  label="إغلاق البلاغ"
+                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  size="small"
+                  onToggle={isOn => {
+                    this.onToggleReport(isOn,element.offerStatus,element.postid);
+                  }}
+                  disable={this.ToggleDisable(element.offerStatus)}
+                  />
+                  </View>
+                  </View>
+
+
+              </View>
+              </View>          
+            );
+          }
         }).reverse();
     }
 
-    render(){
+     render(){
         return(
            
             <View style={styles.container}>
