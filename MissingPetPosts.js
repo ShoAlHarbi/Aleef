@@ -5,11 +5,12 @@ import firebase from './firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import MapView,{ Marker } from 'react-native-maps';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import ToggleSwitch from 'toggle-switch-react-native' //COPY Status-----------------------------
+import { faTrashAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import ToggleSwitch from 'toggle-switch-react-native'
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Checkbox } from 'react-native-paper';
+import { faEdit } from '@fortawesome/free-solid-svg-icons'; // ----------------- Edit offer
 
 
 var MissingPetPostsData= [];
@@ -42,6 +43,23 @@ export default class MissingPetPosts extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
+        NearReports = () => this.props.navigation.navigate('بلاغات قريبة مني')
+
+
+//------------------------ EDIT 1 start-------------------------------------
+onPressEditIcon = (postid,Name,AnimalType,AnimalPic,Lat,Long) => {
+  this.props.navigation.navigate('تعديل البلاغ ',{
+    postid: postid,
+    Name: Name,
+    AnimalPic: AnimalPic,
+    AnimalType: AnimalType,
+    Lat: Lat,
+    Long: Long,
+    region: this.state.region,
+
+  })
+}
+//------------------------------EDIT 1 end----------------------------------
 
 
 //------------------------------------------------------------------------------
@@ -65,7 +83,7 @@ ToggleDisable = (offerStatus) => {
 
 onToggle = (isOn,offerStatus,postid) => {
   if (offerStatus === 'مغلق'){
-    Alert.alert('', 'هذا البلاغ مغلق ولا يمكن إعادة إتاحته من جديد.',[{ text: 'حسناً'}])
+    Alert.alert('', 'هذا البلاغ مغلق ولا يمكن إعادة إتاحته من جديد. أضف بلاغ جديد',[{ text: 'حسناً'}]) //edited based on comment from instructors.
     console.log("Do nothing")  
   }
   else if (offerStatus === 'متاح'){
@@ -394,16 +412,16 @@ CloseOffer = (postid) => {
              ); 
              }else{      
           return MissingPetPostsData.map(element => {
-            if(element.offerorID == firebase.auth().currentUser.uid){
+            if((element.offerorID == firebase.auth().currentUser.uid) && (element.offerStatus === 'متاح')){
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                  <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -427,7 +445,67 @@ CloseOffer = (postid) => {
                      <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
 
+                    <TouchableOpacity 
+                    style={styles.editStyle}
+                    onPress={()=> this.onPressEditIcon(element.postid,element.Name,element.AnimalType,element.AnimalPic,element.LatA,element.LongA)}>
+                    <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+
+
                     <View style={styles.toggleStyle}>
+                    <ToggleSwitch
+                    isOn= {this.ToggleOnOrOff(element.offerStatus)}
+                    onColor="green"
+                    offColor="red"
+                    label="إغلاق البلاغ"
+                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    size="small"
+                    onToggle={isOn => {
+                      this.onToggle(isOn,element.offerStatus,element.postid);
+                    }}
+                    disable={this.ToggleDisable(element.offerStatus)}
+                    />
+                    </View>
+                    </View>
+
+
+                </View>
+                </View>          
+              );
+            } else if(element.offerorID == firebase.auth().currentUser.uid){
+              return (
+                <View style={{ marginBottom:30}}>
+                  <View style={styles.Post}>
+                  <Image style={styles.PostPic}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                  <MapView style={styles.mapStyle}
+                  region={{
+                    latitude: element.LatA,
+                    longitude: element.LongA,
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
+                  }}
+                  provider="google"
+                  showsUserLocation={true}
+                  showsMyLocationButton={true}
+                  zoomControlEnabled={true}
+                  moveOnMarkerPress={true}
+                  >
+                  <Marker coordinate={{ latitude:element.LatA,longitude: element.LongA}}/>
+                  </MapView>
+
+                  <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity 
+                     style={styles.iconStyle}
+                     onPress={()=> this.onPressTrashIcon(element.postid)}>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                    </TouchableOpacity>
+
+                    <View style={styles.toggleStyle2}>
                     <ToggleSwitch
                     isOn= {this.ToggleOnOrOff(element.offerStatus)}
                     onColor="green"
@@ -452,12 +530,12 @@ CloseOffer = (postid) => {
             return (
               <View style={{ marginBottom:30}}>
                 <View style={styles.Post}>
-                <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                  source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                  <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                  <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                  <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                <Image style={styles.PostPic}
+                    source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -486,12 +564,12 @@ CloseOffer = (postid) => {
               return (
                 <View style={{ marginBottom:30}}>
                   <View style={styles.Post}>
-                  <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
+                  <Image style={styles.PostPic}
                     source={{uri: element.AnimalPic}}/>
-                    <Text style={styles.text}>{"اسم صاحب البلاغ: "+element.Name}</Text>
-                    <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-                    <Text style={styles.text}>{"حالة البلاغ: "+element.offerStatus}</Text>
-                    <Text style={styles.text}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                     <MapView style={styles.mapStyle}
                     region={{
                       latitude: element.LatA,
@@ -547,6 +625,11 @@ CloseOffer = (postid) => {
                      onPress={()=> { this.setState({ modalVisible: true})}}>
                      <FontAwesomeIcon icon={ faFilter }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
+                    <TouchableOpacity 
+                     style={{paddingBottom:12,paddingLeft:6}}
+                    onPress={()=> this.NearReports()}>
+                    <FontAwesomeIcon icon={ faMapMarkerAlt }size={33} color={"#69C4C6"}/>
+                    </TouchableOpacity>
                     </View>
 
 
@@ -563,7 +646,21 @@ CloseOffer = (postid) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             
+          <View style={{
+              flexDirection:'row'
+            }}>
+
+            <TouchableOpacity 
+                style={{
+                  left: -40
+                }}
+                onPress={()=> { this.setState({ modalVisible: false})}}>
+                <FontAwesomeIcon icon={ faTimes }size={30} color={"#a6a6a6"}/>
+            </TouchableOpacity>
+
             <Text style={styles.modalText}>تصفية حسب نوع الحيوان</Text>
+            </View>
+            
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
               <Text>قطط</Text>
@@ -666,6 +763,7 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         marginTop: 15,
         borderRadius: 20,
+        marginLeft:42
 
     },
     button2: {
@@ -676,16 +774,16 @@ const styles = StyleSheet.create({
   },
   Post:{
     backgroundColor:'white',
-      shadowColor: "#000",
-      shadowOffset: {
+    shadowColor: "#000",
+    shadowOffset: {
       width: 0,
-       height: 1,
-      },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-    borderRadius: 15,
-    width:310
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 9,
+    width:310,
+    borderRadius:16
     },
     iconStyle: {
       padding:8,
@@ -695,7 +793,7 @@ const styles = StyleSheet.create({
       padding:8,
     },
     mapStyle: {
-      width: 290, height: 180 ,marginLeft:10, marginBottom:12
+      width: 290, height: 125 ,marginLeft:10, marginBottom:8
     },
     mandatoryTextStyle: { 
      color: 'red',
@@ -706,7 +804,7 @@ const styles = StyleSheet.create({
       //-----------------------------------
       toggleStyle: {
         padding:8,
-        left: 110,
+        left: 80, //--------------------------------------------- Edit offer
         paddingTop: 10,
       },
     //----------------------------------
@@ -770,5 +868,39 @@ const styles = StyleSheet.create({
     checkBoxContainer: {
       alignSelf: 'flex-end',
       alignItems: 'flex-end'
-    }
+    },
+    text:{
+      color:'black',
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    textTitle:{
+      color:'#3fa5a6', 
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    PostPic:{
+      borderRadius: 6,
+      width: 290, 
+      height: 160 ,
+      marginLeft:10,
+      marginTop:12,marginBottom:7
+      },
+      iconStyle2: {
+        padding:8,
+        paddingBottom:18,
+      },
+//--------------------------------------------- Edit offer
+        toggleStyle2: {
+          padding:8,
+          left: 120, 
+          paddingTop: 10,
+        },
+        editStyle: {
+          padding:8,
+          left: 35,
+        },
+  //--------------------------------------------- Edit offer
 });

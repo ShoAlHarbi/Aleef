@@ -6,6 +6,7 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase'
 import { RadioButton } from 'react-native-paper';
 import {Picker} from '@react-native-community/picker'; 
+import SellingOffersScreen from './SellingOffersScreen';
 console.disableYellowBox = true;
 
 var Name='';
@@ -115,7 +116,7 @@ export default class SellingUpload extends Component {
     );
   };
 
-  PublishSellingPost = () => {
+  PublishSellingPost = async() => {
         //-------------------new--------------------------
         const Priceexpression = /^[0-9\b]+$/ //Only English numbers
         const Pricecheck = Priceexpression.test(this.state.Price.trim());
@@ -146,7 +147,7 @@ export default class SellingUpload extends Component {
           }
        else{
       //----------------------new--------------------------    
-    firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
+    await firebase.database().ref('account/'+this.state.userID).once('value').then(snapshot => {
      Name= snapshot.val().name
      firebase.database().ref('SellingPosts/').push().set(
       {
@@ -159,8 +160,10 @@ export default class SellingUpload extends Component {
        price: this.state.Price.trim(),
        uName: Name,
        offerStatus: this.state.offerStatus //-------------new: Status 2
+       
       })
      })
+     await new SellingOffersScreen().render();
      this.props.navigation.navigate('عروض البيع') 
      //
     Alert.alert('', 'تم رفع العرض بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
@@ -198,7 +201,7 @@ export default class SellingUpload extends Component {
 
 
 
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>جنس الحيوان:</Text>
+        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*جنس الحيوان:</Text>
         <View style={{flexDirection:'row'}}>
           <Text style={{color: '#5F5F5F',fontSize: 15,paddingTop:6}}>غير معروف</Text>
           <RadioButton

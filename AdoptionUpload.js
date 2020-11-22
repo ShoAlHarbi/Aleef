@@ -6,6 +6,7 @@ import uuid from 'react-native-uuid';
 import firebase from './firebase'
 import { RadioButton } from 'react-native-paper';
 import {Picker} from '@react-native-community/picker'; 
+import AdoptionOffersScreen from './AdoptionOffersScreen';
 console.disableYellowBox = true;
 
 var Name='';
@@ -115,7 +116,7 @@ export default class AdoptionUpload extends Component {
     );
   };
 
-  PublishAdoptionPost = () => {
+  PublishAdoptionPost = async () => {
         //-------------------new--------------------------                
         const ArabicExpression = /^[\u0621-\u064A\040/\s/]+$/ //Arabic letters and space only for type,sex,age and city.
         const AnimalAgecheck = ArabicExpression.test(this.state.AnimalAge.trim());
@@ -154,10 +155,11 @@ export default class AdoptionUpload extends Component {
        offerStatus: this.state.offerStatus //-------------new: Status 2
       })
      })
+     await new AdoptionOffersScreen().render();
      this.props.navigation.navigate('عروض التبني',{
        offerorID: this.state.userID
      })
-     Alert.alert('', 'تمت اضافة العرض بنجاح. الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+     Alert.alert('', 'تمت اضافة العرض بنجاح',[{ text: 'حسناً'}])
     }
     }
 

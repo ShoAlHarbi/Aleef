@@ -27,6 +27,14 @@ import { faComments} from '@fortawesome/free-solid-svg-icons';
 import * as Permissions from 'expo-permissions';
 import * as Notifications from 'expo-notifications'
 import ManageUsers from './ManageUsers';
+import editAdoption from './editAdoption'; 
+import editSelling from './editSelling';
+import editAdoption2 from './editAdoption2';
+import editSelling2 from './editSelling2';
+import editMissing from './editMissing';
+import NearReportsView from './NearReportsView';
+import NearReportScreen from './NearReportScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -157,7 +165,7 @@ function App() {
             backgroundColor: '#FFFCFC',
             shadowColor: '#FFFCFC',
           },
-        })} name="الإبلاغ عن حيوان مفقود" component={MissingPetPosts} />
+        })} name="البلاغات" component={MissingPetPosts} />
 
          <Stack.Screen options={({route})=>({
           headerShown: true,
@@ -196,7 +204,65 @@ function App() {
           },
         }} name="ادارة المستخدمين" component={ManageUsers} />   
 
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل عرض التبني" component={editAdoption} /> 
+
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+          title: 'تعديل عرض التبني'
+        }} name="تعديل عرض التبني بروفايل" component={editAdoption2} /> 
         
+
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل عرض البيع" component={editSelling} />
+
+<Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+          title: 'تعديل عرض البيع'
+        }} name="تعديل عرض البيع بروفايل" component={editSelling2} />
+        
+        <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="تعديل البلاغ " component={editMissing} /> 
+
+     <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="بلاغات قريبة مني" component={NearReportsView} />  
+
+      <Stack.Screen options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#FFFCFC',
+            shadowColor: '#FFFCFC',
+          },
+        }} name="معلومات البلاغ" component={NearReportScreen} /> 
+
       </Stack.Navigator>
       
     </NavigationContainer>

@@ -98,15 +98,14 @@ export default class AdoptionAdminScreen extends Component {
           return (
             <View style={{ marginBottom:30}}>
               <View style={styles.Post}>
-              <Image style={{ width: 290, height: 180 ,marginLeft:10, marginTop:12,}}
-                source={{uri: element.AnimalPic}}/>
-                <Text style={styles.text}>{"اسم صاحب العرض: "+element.Name}</Text>
-              <Text style={styles.text}>{"نوع الحيوان: "+element.AnimalType}</Text>
-              <Text style={styles.text}>{"جنس الحيوان: "+element.AnimalSex}</Text>
-              <Text style={styles.text}>{"عمر الحيوان: "+element.AnimalAge}</Text>
-              <Text style={styles.text}>{"المدينة: "+element.AnimalCity}</Text>
-              <Text style={styles.text}>{"حالة العرض: "+element.offerStatus}</Text>
-
+              <Image style={styles.PostPic}
+                      source={{uri: element.AnimalPic}}/>
+                    <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب العرض: </Text>{element.Name}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>جنس الحيوان: </Text>{element.AnimalSex}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>عمر الحيوان: </Text>{element.AnimalAge}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>المدينة: </Text>{element.AnimalCity}</Text>
+                    <Text style={styles.textTitle}><Text style={styles.text}>حالة العرض: </Text>{element.offerStatus}</Text>
             <TouchableOpacity 
             style={styles.iconStyle}
             onPress={()=> this.onPressTrashIcon(element.postid)}>
@@ -133,7 +132,7 @@ export default class AdoptionAdminScreen extends Component {
           <View style={styles.container}>
             <View style={styles.container2}>
             <View><Image
-                  style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
+                  style={{ width: 65, height: 70,marginBottom:18, marginTop:30 }}
                   source={require('./assets/AleefLogoCat.png')}/>
             </View>
             </View>
@@ -163,12 +162,6 @@ textStyle:{
   fontSize: 17,
   fontWeight: 'bold',
 },
-text:{
-  color:'black',
-  fontSize: 17,
-  marginRight:12,
-  marginBottom:5,
-},
 
 button: {
   backgroundColor: '#69C4C6',
@@ -187,25 +180,44 @@ marginLeft: 80,
 marginBottom:200
 },
 Post:{
-backgroundColor:'white',
-shadowColor: "#000",
-shadowOffset: {
-width: 0,
-height: 1,
-},
-shadowOpacity: 0.22,
-shadowRadius: 2.22,
-elevation: 3,
-borderRadius: 15,
-width:310
-},
+  backgroundColor:'white',
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 5,
+  },
+  shadowOpacity: 0.34,
+  shadowRadius: 6.27,
+  elevation: 9,
+  width:310,
+  borderRadius:16
+  },
 iconStyle: {
-padding:20,
+padding:8,
 left: 30
 },
    mandatoryTextStyle: { 
     color: 'red',
     fontSize: 13,
     marginTop: 5,
-    }
+    },
+    text:{
+      color:'black',
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    textTitle:{
+      color:'#3fa5a6', 
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    PostPic:{
+      borderRadius: 6,
+      width: 290, 
+      height: 160 ,
+      marginLeft:10,
+      marginTop:12,marginBottom:7
+      },
 });
