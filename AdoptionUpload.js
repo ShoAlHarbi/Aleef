@@ -171,11 +171,11 @@ export default class AdoptionUpload extends Component {
         <View style={styles.container}>
 
         <Image
-        style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
+        style={{width: 75, height: 85,marginBottom:10, marginTop:15}}
         source={require('./assets/AleefLogoCat.png')}/>
 
         
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*نوع الحيوان:</Text>
+        <Text style={{marginLeft:154, marginBottom:5,color: '#283958',fontSize: 15,}}>*نوع الحيوان:</Text>
         <Picker
         selectedValue={this.state.AnimalType}
         style={{height: 50, width: 160}}
@@ -190,23 +190,23 @@ export default class AdoptionUpload extends Component {
        <Picker.Item label="كلب" value="كلب" />
        </Picker>
         
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*جنس الحيوان:</Text>
+        <Text style={{marginLeft:145, marginBottom:5,color: '#283958',fontSize: 15,}}>*جنس الحيوان:</Text>
         <View style={{flexDirection:'row'}}>
-          <Text style={{color: '#5F5F5F',fontSize: 15,paddingTop:6}}>غير معروف</Text>
+          <Text style={{color: '#283958',fontSize: 15,paddingTop:6}}>غير معروف</Text>
           <RadioButton
           value="غير معروف"
           status={checked === 'غير معروف' ? 'checked' : 'unchecked'}
           color={'#69C4C6'}
           onPress={() => { this.setState({ checked: 'غير معروف', AnimalSex: 'غير معروف'}); }}
         />
-        <Text style={{color: '#5F5F5F',fontSize: 15,marginLeft:12,paddingTop:6}} >ذكر</Text>
+        <Text style={{color: '#283958',fontSize: 15,marginLeft:12,paddingTop:6}} >ذكر</Text>
         <RadioButton
           value="ذكر"
           status={checked === 'ذكر' ? 'checked' : 'unchecked'}
           color={'#69C4C6'}
           onPress={() => { this.setState({ checked: 'ذكر', AnimalSex: 'ذكر' }); }}
         />
-        <Text style={{color: '#5F5F5F',fontSize: 15, marginLeft:12,paddingTop:6}}>أنثى</Text>
+        <Text style={{color: '#283958',fontSize: 15, marginLeft:12,paddingTop:6}}>أنثى</Text>
         <RadioButton
           value="أنثى"
           status={checked === 'أنثى' ? 'checked' : 'unchecked'}
@@ -221,7 +221,7 @@ export default class AdoptionUpload extends Component {
           value={this.state.AnimalAge}
           onChangeText={(val) => this.updateInputVal(val, 'AnimalAge')}
         />
-<Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*المدينة:</Text>
+<Text style={{marginLeft:178, marginTop:6,color: '#283958',fontSize: 15,}}>*المدينة:</Text>
 <Picker
   selectedValue={this.state.City}
   style={{height: 50, width: 160}}
@@ -289,6 +289,7 @@ const styles = StyleSheet.create({
   inputField: {
     borderWidth: .5,
     width: 250,
+    marginTop:9,
     borderColor: '#cccccc',
     borderRadius: 20,
     textAlign: 'center',
@@ -297,7 +298,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   mandatoryTextStyle: {
-    color: 'red',
+    color: '#FF7D4B',
     fontSize: 13,
     marginTop: 5,
   },
@@ -306,8 +307,8 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 150,
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 22,
+    marginBottom: 50,
     borderRadius: 20,
 },
 textStyle: {
@@ -316,11 +317,11 @@ textStyle: {
   fontWeight: 'bold',
 },
 textStyleUploadPhoto: {
-  color: '#5F5F5F',
-  fontSize: 16,
+  color: '#283958',
+  fontSize: 15,
 },
 buttonUploadPhoto: {
-  backgroundColor: '#e3e3e3',
+  backgroundColor: '#D4ECEC',
   padding: 10,
   width: 150,
   alignItems: "center",

@@ -769,7 +769,7 @@ CloseOffer = (postid) => {
                     <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -790,13 +790,13 @@ CloseOffer = (postid) => {
                   <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                     </TouchableOpacity>
 
                     <TouchableOpacity 
                     style={styles.editStyle}
                     onPress={()=> this.onPressEditIcon(element.postid,element.Name,element.AnimalType,element.AnimalPic,element.LatA,element.LongA)}>
-                    <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                    <FontAwesomeIcon icon={ faEdit }size={32} color={"#69C4C6"}/>
                     </TouchableOpacity>
 
 
@@ -806,7 +806,7 @@ CloseOffer = (postid) => {
                     onColor="green"
                     offColor="red"
                     label="إغلاق البلاغ"
-                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    labelStyle={{ color: '#283958', fontWeight: "900" }}
                     size="small"
                     onToggle={isOn => {
                       this.onToggle(isOn,element.offerStatus,element.postid);
@@ -829,7 +829,7 @@ CloseOffer = (postid) => {
                     <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -850,7 +850,7 @@ CloseOffer = (postid) => {
                   <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                     </TouchableOpacity>
 
                     <View style={styles.toggleStyle2}>
@@ -859,7 +859,7 @@ CloseOffer = (postid) => {
                     onColor="green"
                     offColor="red"
                     label="إغلاق البلاغ"
-                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    labelStyle={{ color: '#283958', fontWeight: "900" }}
                     size="small"
                     onToggle={isOn => {
                       this.onToggle(isOn,element.offerStatus,element.postid);
@@ -883,7 +883,7 @@ CloseOffer = (postid) => {
                     <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -917,7 +917,7 @@ CloseOffer = (postid) => {
                     <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                     <MapView style={styles.mapStyle}
                     region={{
                       latitude: element.LatA,
@@ -953,7 +953,7 @@ CloseOffer = (postid) => {
                 <View style={styles.container}>
                   <View style={styles.container2}>
                   <View><Image
-                        style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
+                        style={{ width: 75, height: 85,marginBottom:10, marginTop:15 }}
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
@@ -976,7 +976,7 @@ CloseOffer = (postid) => {
                     <TouchableOpacity 
                      style={{paddingBottom:12,paddingLeft:6}}
                     onPress={()=> this.NearReports()}>
-                    <FontAwesomeIcon icon={ faMapMarkerAlt }size={33} color={"#69C4C6"}/>
+                    <FontAwesomeIcon icon={ faMapMarkerAlt }size={33} color={"#FF7D4B"}/>
                     </TouchableOpacity>
                     </View>
 
@@ -1011,7 +1011,7 @@ CloseOffer = (postid) => {
             
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>قطط</Text>
+              <Text style={styles.text1}>قطط</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -1021,7 +1021,7 @@ CloseOffer = (postid) => {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>كلاب</Text>
+              <Text style={styles.text1}>كلاب</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -1031,7 +1031,7 @@ CloseOffer = (postid) => {
             </View>
             
             <View style={styles.ModalCon}>
-              <Text>عصافير</Text>
+              <Text style={styles.text1}>عصافير</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -1041,7 +1041,7 @@ CloseOffer = (postid) => {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>أرانب</Text>
+              <Text style={styles.text1}>أرانب</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -1056,7 +1056,7 @@ CloseOffer = (postid) => {
             <Text style={styles.modalText}>تصفية حسب حالة البلاغ</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>متوفر</Text>
+              <Text style={styles.text1}>متاح</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -1066,7 +1066,7 @@ CloseOffer = (postid) => {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>مغلق</Text>
+              <Text style={styles.text1}>مغلق</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -1117,8 +1117,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     text:{
-      color:'black',
+      color:'#283958',
       fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    text1:{
+      color:'#283958',
+      fontSize: 15,
       marginRight:12,
       marginBottom:5,
     },
@@ -1159,22 +1165,16 @@ const styles = StyleSheet.create({
     },
     iconStyle2: {
       padding:8,
+      paddingBottom:18,
     },
-    mapStyle: {
-      width: 290, height: 125 ,marginLeft:10, marginBottom:8
-    },
+   
     mandatoryTextStyle: { 
      color: 'red',
      fontSize: 13,
      marginTop: 5,
      textAlign: 'center',
     },
-      //-----------------------------------
-      toggleStyle: {
-        padding:8,
-        left: 80, //--------------------------------------------- Edit offer
-        paddingTop: 10,
-      },
+      
     //----------------------------------
     centeredView: {
       flex: 1,
@@ -1217,6 +1217,7 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontWeight: 'bold',
       fontSize: 18,
+      color:'#3fa5a6',
     },
     dialogContentView: {
       flex: 1,
@@ -1238,8 +1239,14 @@ const styles = StyleSheet.create({
       alignItems: 'flex-end'
     },
     text:{
-      color:'black',
+      color:'#283958',
       fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
+    text1:{
+      color:'#283958',
+      fontSize: 15,
       marginRight:12,
       marginBottom:5,
     },
@@ -1256,11 +1263,11 @@ const styles = StyleSheet.create({
       marginLeft:10,
       marginTop:12,marginBottom:7
       },
-      iconStyle2: {
+      toggleStyle: {
         padding:8,
-        paddingBottom:18,
+        left: 75, 
+        paddingTop: 10,
       },
-//--------------------------------------------- Edit offer
         toggleStyle2: {
           padding:8,
           left: 120, 
@@ -1271,4 +1278,7 @@ const styles = StyleSheet.create({
           left: 35,
         },
   //--------------------------------------------- Edit offer
+  mapStyle: {
+    width: 290, height: 125 ,marginLeft:10, marginBottom:8
+  },
 });

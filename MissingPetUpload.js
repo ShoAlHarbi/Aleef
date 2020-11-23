@@ -224,11 +224,11 @@ export default class MissingPetUpload extends Component {
         <ScrollView style={{ backgroundColor:'#FFFCFC' }}>
         <View style={styles.container}>
         <Image
-        style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
+        style={{width: 75, height: 85,marginBottom:10, marginTop:15}}
         source={require('./assets/AleefLogoCat.png')}/>
         
         
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>*نوع الحيوان:</Text>
+        <Text style={{marginLeft:145, marginBottom:5,color: '#283958',fontSize: 15,}}>*نوع الحيوان:</Text>
         <Picker
         selectedValue={this.state.AnimalType}
         style={{height: 50, width: 160}}
@@ -250,7 +250,7 @@ export default class MissingPetUpload extends Component {
                     </TouchableOpacity>
                     {this.RenderImage()}
                     {this.RenderUploading()}
-                    <Text style={{color: '#5F5F5F', fontSize: 16, marginBottom:10, marginTop:10}}>*تحديد موقع اخر مشاهدة للحيوان</Text>
+                    <Text style={{color: '#283958', fontSize: 15, marginBottom:10, marginTop:10,marginLeft:35}}>*تحديد موقع اخر مشاهدة للحيوان</Text>
                         <MapView style={styles.mapStyle} 
                          initialRegion={this.state.region}
                          provider="google"
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   mandatoryTextStyle: {
-    color: 'red',
+    color: '#FF7D4B',
     fontSize: 13,
     marginTop: 5,
   },
@@ -332,8 +332,8 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 150,
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 22,
+    marginBottom: 50,
     borderRadius: 20,
 },
 textStyle: {
@@ -342,11 +342,11 @@ textStyle: {
   fontWeight: 'bold',
 },
 textStyleUploadPhoto: {
-  color: '#5F5F5F',
-  fontSize: 16,
+  color: '#283958',
+  fontSize: 15,
 },
 buttonUploadPhoto: {
-  backgroundColor: '#e3e3e3',
+  backgroundColor: '#D4ECEC',
   padding: 10,
   width: 150,
   alignItems: "center",
@@ -355,8 +355,8 @@ buttonUploadPhoto: {
   borderRadius: 20,
 },
 mapStyle: {
-  width: 300,
-  height: 220,
+  width: 250,
+  height: 180,
 },
 itemStyle: {
   textAlign: 'center',
