@@ -29,7 +29,7 @@ export default class NearReportScreen extends Component {
               return (
                 <View style={styles.container}>
                   <View><Image
-                        style={{ width: 65, height: 70,marginBottom:10, marginTop:30 }}
+                        style={{  width: 75, height: 85,marginBottom:10, marginTop:50}}
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   <View style={styles.Post}>
@@ -38,7 +38,7 @@ export default class NearReportScreen extends Component {
                   <Text style={styles.textTitle}><Text style={styles.text}>   اسم صاحب البلاغ: </Text>{Reporter}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>   نوع الحيوان: </Text>{AniType}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>   حالة البلاغ: </Text>{ReportState}</Text>
-                  <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                  <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: latitude,
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     text:{
-      color:'black',
+      color:'#283958',
       fontSize: 17,
       marginRight:12,
       marginBottom:5,
