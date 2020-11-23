@@ -373,7 +373,7 @@ export default class Profile extends Component{
                   <TouchableOpacity 
                    style={styles.iconStyle2}
                    onPress={()=> this.onPressTrashIcon0(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                   </TouchableOpacity>
 
 
@@ -389,7 +389,7 @@ export default class Profile extends Component{
                   onColor="green"
                   offColor="red"
                   label="إغلاق العرض"
-                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  labelStyle={{ color: "#283958", fontWeight: "900" }}
                   size="small"
                   onToggle={isOn => {
                     this.onToggleAdoption(isOn,element.offerStatus,element.postid);
@@ -420,7 +420,7 @@ export default class Profile extends Component{
                   <TouchableOpacity 
                    style={styles.iconStyle2}
                    onPress={()=> this.onPressTrashIcon0(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                   </TouchableOpacity>
 
 
@@ -430,7 +430,7 @@ export default class Profile extends Component{
                   onColor="green"
                   offColor="red"
                   label="إغلاق العرض"
-                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  labelStyle={{ color: "#283958", fontWeight: "900" }}
                   size="small"
                   onToggle={isOn => {
                     this.onToggleAdoption(isOn,element.offerStatus,element.postid);
@@ -463,14 +463,14 @@ export default class Profile extends Component{
                     <TouchableOpacity 
                      style={styles.iconStyle2}
                      onPress={()=> this.onPressTrashIcon0(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                     </TouchableOpacity>
   
   
                     <TouchableOpacity 
                     style={styles.editStyle}
                     onPress={()=> this.onPressEditIcon0(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity)}>
-                    <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                    <FontAwesomeIcon icon={ faEdit }size={32} color={"#69C4C6"}/>
                     </TouchableOpacity>
   
                     <View style={styles.toggleStyle}>
@@ -479,7 +479,7 @@ export default class Profile extends Component{
                     onColor="green"
                     offColor="red"
                     label="إغلاق العرض"
-                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    labelStyle={{ color: "#283958", fontWeight: "900" }}
                     size="small"
                     onToggle={isOn => {
                       this.onToggleAdoption(isOn,element.offerStatus,element.postid);
@@ -510,7 +510,7 @@ export default class Profile extends Component{
                     <TouchableOpacity 
                      style={styles.iconStyle2}
                      onPress={()=> this.onPressTrashIcon0(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                     </TouchableOpacity>
   
   
@@ -520,7 +520,7 @@ export default class Profile extends Component{
                     onColor="green"
                     offColor="red"
                     label="إغلاق العرض"
-                    labelStyle={{ color: "black", fontWeight: "900" }}
+                    labelStyle={{ color: "#283958", fontWeight: "900" }}
                     size="small"
                     onToggle={isOn => {
                       this.onToggleAdoption(isOn,element.offerStatus,element.postid);
@@ -611,13 +611,13 @@ export default class Profile extends Component{
                   <TouchableOpacity 
                    style={styles.iconStyle2}
                    onPress={()=> this.onPressTrashIcon1(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                   </TouchableOpacity>
 
                   <TouchableOpacity 
                   style={styles.editStyle}
                   onPress={()=> this.onPressEditIcon1(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity,element.AnimalPrice)}>
-                  <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                  <FontAwesomeIcon icon={ faEdit }size={32} color={"#69C4C6"}/>
                   </TouchableOpacity>
 
 
@@ -627,7 +627,7 @@ export default class Profile extends Component{
                   onColor="green"
                   offColor="red"
                   label="إغلاق العرض"
-                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  labelStyle={{ color: "#283958", fontWeight: "900" }}
                   size="small"
                   onToggle={isOn => {
                     this.onToggleSelling(isOn,element.offerStatus,element.postid);
@@ -659,7 +659,7 @@ export default class Profile extends Component{
                 <TouchableOpacity 
                  style={styles.iconStyle2}
                  onPress={()=> this.onPressTrashIcon1(element.postid)}>
-                 <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                 <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                 </TouchableOpacity>
 
                 <View style={styles.toggleStyle2}>
@@ -668,7 +668,7 @@ export default class Profile extends Component{
                 onColor="green"
                 offColor="red"
                 label="إغلاق العرض"
-                labelStyle={{ color: "black", fontWeight: "900" }}
+                labelStyle={{ color: "#283958", fontWeight: "900" }}
                 size="small"
                 onToggle={isOn => {
                   this.onToggleSelling(isOn,element.offerStatus,element.postid);
@@ -702,13 +702,13 @@ export default class Profile extends Component{
                         <TouchableOpacity 
                          style={styles.iconStyle2}
                          onPress={()=> this.onPressTrashIcon1(element.postid)}>
-                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                         </TouchableOpacity>
       
                         <TouchableOpacity 
                         style={styles.editStyle}
                         onPress={()=> this.onPressEditIcon1(element.postid,element.Name,element.AnimalType,element.AnimalSex,element.AnimalPic,element.AnimalAge,element.AnimalCity,element.AnimalPrice)}>
-                        <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                        <FontAwesomeIcon icon={ faEdit }size={32} color={"#69C4C6"}/>
                         </TouchableOpacity>
       
       
@@ -718,7 +718,7 @@ export default class Profile extends Component{
                         onColor="green"
                         offColor="red"
                         label="إغلاق العرض"
-                        labelStyle={{ color: "black", fontWeight: "900" }}
+                        labelStyle={{ color: "#283958", fontWeight: "900" }}
                         size="small"
                         onToggle={isOn => {
                           this.onToggleSelling(isOn,element.offerStatus,element.postid);
@@ -750,7 +750,7 @@ export default class Profile extends Component{
                       <TouchableOpacity 
                        style={styles.iconStyle2}
                        onPress={()=> this.onPressTrashIcon1(element.postid)}>
-                       <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                       <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                       </TouchableOpacity>
       
                       <View style={styles.toggleStyle2}>
@@ -759,7 +759,7 @@ export default class Profile extends Component{
                       onColor="green"
                       offColor="red"
                       label="إغلاق العرض"
-                      labelStyle={{ color: "black", fontWeight: "900" }}
+                      labelStyle={{ color: "#283958", fontWeight: "900" }}
                       size="small"
                       onToggle={isOn => {
                         this.onToggleSelling(isOn,element.offerStatus,element.postid);
@@ -836,7 +836,7 @@ export default class Profile extends Component{
                   <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                  <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                  <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                 <MapView style={styles.mapStyle}
                 region={{
                   latitude: element.LatA,
@@ -857,13 +857,13 @@ export default class Profile extends Component{
                 <TouchableOpacity 
                    style={styles.iconStyle2}
                    onPress={()=> this.onPressTrashIcon2(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                   </TouchableOpacity>
 
                   <TouchableOpacity 
                   style={styles.editStyle}
                 onPress={()=> this.onPressEditIcon2(element.postid,element.Name,element.AnimalType,element.AnimalPic,element.LatA,element.LongA)}>
-                  <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                  <FontAwesomeIcon icon={ faEdit }size={32} color={"#69C4C6"}/>
                   </TouchableOpacity>
 
 
@@ -873,7 +873,7 @@ export default class Profile extends Component{
                   onColor="green"
                   offColor="red"
                   label="إغلاق البلاغ"
-                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  labelStyle={{ color: "#283958", fontWeight: "900" }}
                   size="small"
                   onToggle={isOn => {
                     this.onToggleReport(isOn,element.offerStatus,element.postid);
@@ -896,7 +896,7 @@ export default class Profile extends Component{
                   <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                   <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                  <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                  <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                 <MapView style={styles.mapStyle}
                 region={{
                   latitude: element.LatA,
@@ -917,7 +917,7 @@ export default class Profile extends Component{
                 <TouchableOpacity 
                    style={styles.iconStyle2}
                    onPress={()=> this.onPressTrashIcon2(element.postid)}>
-                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                   <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                   </TouchableOpacity>
 
                   <View style={styles.toggleStyle2}>
@@ -926,7 +926,7 @@ export default class Profile extends Component{
                   onColor="green"
                   offColor="red"
                   label="إغلاق البلاغ"
-                  labelStyle={{ color: "black", fontWeight: "900" }}
+                  labelStyle={{ color: "#283958", fontWeight: "900" }}
                   size="small"
                   onToggle={isOn => {
                     this.onToggleReport(isOn,element.offerStatus,element.postid);
@@ -955,7 +955,7 @@ export default class Profile extends Component{
                 <TouchableOpacity
                      onPress={() => this.props.navigation.navigate('تعديل صفحة المستخدم')}
                      style={styles.iconStyle}>
-                     <FontAwesomeIcon icon={ faEdit }size={30} color={"#69C4C6"}/>
+                     <FontAwesomeIcon icon={ faEdit }size={32} color={"#69C4C6"}/>
                     </TouchableOpacity>
                 <View style={styles.textContainer}>
                     <Text style={styles.text}>
@@ -999,87 +999,101 @@ export default class Profile extends Component{
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#FFFCFC',
-        alignItems: 'center',
-        // justifyContent: 'center',
-        flex: 1,
-    },
-    container2: {
+  container: {
       backgroundColor: '#FFFCFC',
       alignItems: 'center',
-      justifyContent: 'center',
+      // justifyContent: 'center',
       flex: 1,
-      flexDirection: 'row',
-      marginBottom:50,
   },
-  container3: {
+  container2: {
     backgroundColor: '#FFFCFC',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    width:200,
-    flexDirection: 'column',
-    marginBottom: 100,
-    padding:150,
+    flexDirection: 'row',
+    marginBottom:50,
 },
-    textStyle:{
-        color: 'white',
-        fontSize: 17,
-        fontWeight: 'bold',
-    },
-
-    button: {
-        backgroundColor: '#69C4C6',
-        padding: 10,
-        width: 185,
-        alignItems: "center",
-        marginTop: 5,
-        marginBottom: 60,
-        borderRadius: 20,
-
-    },
-    button2: {
-      padding: 8,
-      width: 125,
-      marginLeft: 160,
-      marginTop:50
+container3: {
+  backgroundColor: '#FFFCFC',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 1,
+  width:200,
+  flexDirection: 'column',
+  marginBottom: 100,
+  padding:150,
+},
+  textStyle:{
+      color: 'white',
+      fontSize: 17,
+      fontWeight: 'bold',
   },
-  inactiveText: {
-    fontSize: 18,
-    color:'black',
-    textDecorationLine: 'underline'
+
+  button: {
+      backgroundColor: '#69C4C6',
+      padding: 10,
+      width: 185,
+      alignItems: "center",
+      marginTop: 5,
+      marginBottom: 60,
+      borderRadius: 20,
+
+  },
+  button2: {
+    padding: 8,
+    width: 125,
+    marginLeft: 160,
+    marginTop:50
 },
-    activeText: {
-        textDecorationLine: 'underline',
-        fontSize: 18,
-        color: '#69C4C6'
+inactiveText: {
+  fontSize: 18,
+  color:'#283958',
+  textDecorationLine: 'underline'
+},
+  activeText: {
+      textDecorationLine: 'underline',
+      fontSize: 18,
+      color: '#3fa5a6'
+  },
+  iconStyle: {
+      position: 'absolute',
+      padding:8,
+      left: 30,
+      marginLeft: 220,
+      marginTop: 150
     },
-    iconStyle: {
-        position: 'absolute',
-        padding:8,
-        left: 30,
-        marginLeft: 220,
-        marginTop: 150
-      },
-      iconStyle2: {
-        padding:8,
-        left: 30
-      },
-      Container4:{
-        flexDirection: 'row',
-        alignContent: 'space-between',
-        alignItems: 'baseline',
-        borderTopColor: '#d9d9d9',
-        borderTopWidth: 1,
-        marginTop: 15
-      },
-      button3: {
-        alignSelf: 'center',
-        margin: 25,
-        borderBottomColor: '#69C4C6',
+    iconStyle2: {
+      padding:8,
+      left: 30
     },
-    Post:{
+    Container4:{
+      flexDirection: 'row',
+      alignContent: 'space-between',
+      alignItems: 'baseline',
+      borderTopColor: '#d9d9d9',
+      borderTopWidth: 1,
+      marginTop: 15
+    },
+    button3: {
+      alignSelf: 'center',
+      margin: 25,
+      borderBottomColor: '#69C4C6',
+  },
+  Post:{
+    backgroundColor:'white',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 9,
+    width:310,
+    borderRadius:16,
+    marginTop:10,
+    },
+    Post1:{
       backgroundColor:'white',
       shadowColor: "#000",
       shadowOffset: {
@@ -1092,86 +1106,77 @@ const styles = StyleSheet.create({
       width:310,
       borderRadius:16,
       marginTop:10,
+      marginLeft:53
+    },
+    Post2:{
+      backgroundColor:'white',
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 5,
       },
-      Post1:{
-        backgroundColor:'white',
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-        elevation: 9,
-        width:310,
-        borderRadius:16,
-        marginTop:10,
-        marginLeft:53
-      },
-      Post2:{
-        backgroundColor:'white',
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-        elevation: 9,
-        width:310,
-        borderRadius:16,
-        marginTop:10,
-        marginLeft:53
-      },
-    mandatoryTextStyle: { 
-            textAlign: 'center',
-            color: 'red',
-            fontSize: 15,
-            marginTop: 5,
+      shadowOpacity: 0.34,
+      shadowRadius: 6.27,
+      elevation: 9,
+      width:310,
+      borderRadius:16,
+      marginTop:10,
+      marginLeft:53
+    },
+  mandatoryTextStyle: { 
+          textAlign: 'center',
+          color: '#FF7D4B',
+          fontSize: 15,
+          marginTop: 5,
+          },
+      mapStyle: {
+              width: 290, height: 125 ,marginLeft:10, marginBottom:12
             },
-        mapStyle: {
-                width: 290, height: 125 ,marginLeft:10, marginBottom:12
-              },
 //----------------------------------
 text:{
-  color:'black',
-  fontSize: 17,
-  marginRight:12,
-  marginBottom:5,
+color:'#283958',
+fontSize: 17,
+marginRight:12,
+marginBottom:5,
 },
 textTitle:{
-  color:'#3fa5a6', 
-  fontSize: 17,
-  marginRight:12,
-  marginBottom:5,
+color:'#3fa5a6', 
+fontSize: 17,
+marginRight:12,
+marginBottom:5,
 },
 PostPic:{
-  borderRadius: 6,
-  width: 290, 
-  height: 160 ,
-  marginLeft:10,
-  marginTop:12,marginBottom:7
-  },
-  iconStyle2: {
-    padding:8,
-    paddingBottom:18,
-    left: 20
-  },
-  //---------------
-              toggleStyle: {
-                padding:8,
-                left: 90,
-                paddingTop: 10,
-              },
-              //-------------------
-              toggleStyle2: {
-                padding:8,
-                left: 120, 
-                paddingTop: 10,
-              },
-              editStyle: {
-                left: 25,
-                bottom: -8
-              },
-    
+borderRadius: 6,
+width: 290, 
+height: 160 ,
+marginLeft:10,
+marginTop:12,marginBottom:7
+},
+iconStyle2: {
+  padding:8,
+  paddingBottom:18,
+  left: 20
+},
+//---------------
+            toggleStyle: {
+              padding:8,
+              left: 90,
+              paddingTop: 10,
+            },
+            //-------------------
+            toggleStyle2: {
+              padding:8,
+              left: 120, 
+              paddingTop: 10,
+            },
+            editStyle: {
+              left: 25,
+              bottom: -8
+            },
+            toggleStyle3:{
+              padding:8,
+              left: 125, 
+              paddingTop: 10, 
+            }
+  
 });

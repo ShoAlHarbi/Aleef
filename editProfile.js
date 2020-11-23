@@ -352,7 +352,7 @@ export default class editProfile extends Component{
                     </TouchableOpacity>
                     
                     <TouchableOpacity style={{
-                      backgroundColor: 'red',
+                      backgroundColor: '#FF7D4B',
                       padding: 10,
                       width: 185,
                       alignItems: "center",
@@ -433,8 +433,8 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 185,
         alignItems: "center",
-        marginTop: 50,
-        marginBottom: 60,
+        marginTop: 20,
+        marginBottom: 55,
         borderRadius: 20,
 
     },
