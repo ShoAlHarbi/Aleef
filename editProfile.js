@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusSquare} from '@fortawesome/free-solid-svg-icons';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'react-native-uuid';
-import { database } from 'firebase';
+import { auth, database } from 'firebase';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -110,6 +111,77 @@ export default class editProfile extends Component{
       state[prop1] = val;
       this.setState(state);
     }
+
+    deleteAccountConf = ()=>{
+      Alert.alert(
+        "",
+        "هل انت متأكد من حذف حسابك الشخصي؟",
+        [
+          {
+            text: "لا",
+            onPress: () => console.log("لا"),
+            style: "cancel"
+          },
+          { text: "نعم", onPress: () => this.deleteAccount() }
+        ],
+        { cancelable: false }
+      );
+    }
+
+    deletePosts = ()=>{
+      //Remove adoption posts
+      firebase.database().ref("AdoptionPosts").orderByChild("userId").equalTo(firebase.auth().currentUser.uid)
+      .once("value", snapshot => {
+        if (snapshot.exists()){
+          let postids = Object.keys(snapshot.val())
+          postids.map(element => { 
+            firebase.database().ref("AdoptionPosts/"+element).remove()
+          })         
+        }
+      });
+
+      //remove selling posts 
+      firebase.database().ref("SellingPosts").orderByChild("userId").equalTo(firebase.auth().currentUser.uid)
+      .once("value", snapshot => {
+        if (snapshot.exists()){
+          let postids = Object.keys(snapshot.val())
+          postids.map(element => { 
+            firebase.database().ref("SellingPosts/"+element).remove()
+          })         
+        }
+      });
+
+      //remove missing posts
+      firebase.database().ref("MissingPetPosts").orderByChild("userId").equalTo(firebase.auth().currentUser.uid)
+      .once("value", snapshot => {
+        if (snapshot.exists()){
+          let postids = Object.keys(snapshot.val())
+          postids.map(element => { 
+            firebase.database().ref("MissingPetPosts/"+element).remove()
+          })         
+        }
+
+      });
+      
+    }
+
+    deleteAccount = ()=>{
+      {this.deletePosts()}
+        let userid = firebase.auth().currentUser.uid
+        let authref = firebase.auth().currentUser
+        firebase.auth().signOut().then(()=>{
+          this.props.navigation.navigate('مرحباً في أليف')
+        })
+        authref.delete().then(() => {
+            Alert.alert('', 'تم حذف حسابك وجميع البيانات الخاصة بك',[{ text: 'حسناً'}])
+            firebase.database().ref('account/'+userid).update({
+              Email:"undefined"
+            })
+          })
+
+
+    }
+
 
     updateInfo = async ()=>{
 
@@ -228,6 +300,7 @@ export default class editProfile extends Component{
       if(!exist){
         this.setInfo()
         Alert.alert('', 'تم حفظ التغييرات بنجاح',[{ text: 'حسناً'}])
+        this.props.navigation.navigate('الصفحة الشخصية')
       }
       }
     }
@@ -276,6 +349,18 @@ export default class editProfile extends Component{
                     <TouchableOpacity style={styles.button}
                     onPress={() => this.updateInfo()}>
                         <Text style={styles.textStyle}>حفظ التغييرات</Text>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity style={{
+                      backgroundColor: 'red',
+                      padding: 10,
+                      width: 185,
+                      alignItems: "center",
+                      marginBottom: 80,
+                      borderRadius: 20,
+                    }}
+                    onPress={() => this.deleteAccountConf()}>
+                      <Text style={styles.textStyle}> حذف الحساب</Text>
                     </TouchableOpacity>
                   
             </View>

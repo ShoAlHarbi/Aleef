@@ -106,7 +106,13 @@ export default class ManageUsers extends Component {
                    </TouchableOpacity>
                    </View>
                 </View>)}
-                else{ 
+                else if (item.email === 'undefined'){ 
+                  return
+                }
+                else if (item.email === 'admin@gmail.com'){ 
+
+                }
+                else{
                   return(
                     <View style={styles.Post} >
                        <Text style={{textAlign: 'right', fontWeight: 'bold' }} >اسم المستخدم:</Text>
