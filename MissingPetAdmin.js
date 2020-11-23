@@ -59,9 +59,10 @@ export default class MissingPetAdmin extends Component {
 
          onPressDelete = (postid) => { //new method
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
-           firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
-             this.readPostData(); 
-             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+           firebase.database().ref('/MissingPetPosts/'+postid).remove().then(async(data) => {
+            await this._onRefresh();
+            this.readPostData(); 
+             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح.',[{ text: 'حسناً'}])
            });
          }  //new method
 
@@ -839,7 +840,7 @@ export default class MissingPetAdmin extends Component {
             <Text style={styles.modalText}>تصفية حسب حالة البلاغ</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>متوفر</Text>
+              <Text>متاح</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'

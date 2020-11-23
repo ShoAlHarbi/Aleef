@@ -69,9 +69,10 @@ export default class SellingAdminScreen extends Component {
 
         onPressDelete = (postid) => {
           SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
-          firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
-            this.readPostData(); 
-            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}]) //added 2
+          firebase.database().ref('/SellingPosts/'+postid).remove().then(async (data) => {
+            await this._onRefresh();
+            this.readPostData();
+            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح.',[{ text: 'حسناً'}]) //added 2
           }); 
          } 
 
@@ -2521,7 +2522,7 @@ export default class SellingAdminScreen extends Component {
             <Text style={styles.modalText}>تصفية حسب حالة العرض</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>متوفر</Text>
+              <Text>متاح</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
