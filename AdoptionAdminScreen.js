@@ -60,9 +60,10 @@ export default class AdoptionAdminScreen extends Component {
 
   onPressDelete = (postid) => { 
     AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
-    firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
-      this.readPostData(); 
-      Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+    firebase.database().ref('/AdoptionPosts/'+postid).remove().then(async (data) => {
+      await this._onRefresh();
+      this.readPostData();  
+      Alert.alert('', 'لقد تم حذف عرض التبني بنجاح.',[{ text: 'حسناً'}])
     });
    } 
 
@@ -2414,7 +2415,7 @@ export default class AdoptionAdminScreen extends Component {
             <Text style={styles.modalText}>تصفية حسب حالة العرض</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>متوفر</Text>
+              <Text>متاح</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'

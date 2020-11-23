@@ -2,7 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import AdoptionOffersScreen from './AdoptionOffersScreen';
+import SellingOffersScreen from './SellingOffersScreen';
+import MissingPetsScreen from './MissingPetPosts';
 
 
 import firebase from './firebase';
@@ -26,12 +29,22 @@ export default class AdminScreen extends Component {
           MissingPetPosts = () => this.props.navigation.navigate('جميع البلاغات')
           MangeAllUsers = () => this.props.navigation.navigate('ادارة المستخدمين')
 
+          renderOffers = async () =>{
+            await new AdoptionOffersScreen().render();
+            await new SellingOffersScreen().render();
+            await new SellingOffersScreen()._onRefresh();
+            await new MissingPetsScreen().render();
+          }
 
           render(){
             this.state = { 
               displayName: firebase.auth().currentUser.displayName,
                 uid: firebase.auth().currentUser.uid
-              }  
+              } 
+              
+              // call the function to retrive posts
+              {this.renderOffers()}
+
               return (
                 <View style={styles.container}>
                   <View style={styles.container2}>
