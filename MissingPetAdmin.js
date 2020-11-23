@@ -28,7 +28,6 @@ export default class MissingPetAdmin extends Component {
       modalVisible: false,
         // Animal type check
         isCat: false,
-        isFish: false,
         isDog: false,
         isRabbit: false,
         isBird: false,
@@ -87,7 +86,6 @@ export default class MissingPetAdmin extends Component {
           var cat = this.state.isCat
           var dog = this.state.isDog
           var rabbit = this.state.isRabbit
-          var fish = this.state.isFish
           var bird = this.state.isBird
 
           // Offer status variables
@@ -117,7 +115,7 @@ export default class MissingPetAdmin extends Component {
             // -----------------------Available AND Closed offers case--------------------------
             if((!available && !closed) || (available && closed)){
             // ------------Animal type cases-------------
-               if(fish || cat || rabbit || bird || dog){
+               if(cat || rabbit || bird || dog){
               MissingPetPostsData = [];
               if(cat==true){
                 for(var i = 0; i< postKeys.length;i++){
@@ -247,37 +245,6 @@ export default class MissingPetAdmin extends Component {
               }         
             } // Bird case end
 
-            // Fish case start 
-            if(fish==true){
-              for(var i = 0; i< postKeys.length;i++){
-                var postInfo = postKeys[i];
-                if(post[postInfo].AnimalType !== 'سمك')
-                  continue;
-                //---------This to save the post info in variables----------
-                var AniType= post[postInfo].AnimalType; 
-                  var AniPic= post[postInfo].PetPicture; 
-                  var Long= post[postInfo].longitude; 
-                  var Lat= post[postInfo].latitude;
-                  var UserName = post[postInfo].uName;
-                  var offerorID = post[postInfo].userId;  
-                  var postidentification = postInfo;  
-                  var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                  firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                    name= snapshot.val()
-                  })
-                  //----------------Adoption Posts Array-----------------------
-                  MissingPetPostsAfterType[i]={
-                    AnimalType: AniType,
-                    AnimalPic: AniPic,
-                    LongA: Long,
-                    LatA: Lat,
-                    Name:name,
-                    offerorID: offerorID,
-                    postid: postidentification,
-                    offerStatus: Status,//COPY Status------------------------------
-                }  
-              }         
-            } // Fish end start
             
             if( MissingPetPostsAfterType.length ==0){
               MissingPetPostsAfterType = null
@@ -290,7 +257,7 @@ export default class MissingPetAdmin extends Component {
             MissingPetPostsData = null
           }
           
-          if(!fish && !cat && !rabbit && !bird && !dog ){
+          if(!cat && !rabbit && !bird && !dog ){
               // ---------No Filter case-----------
               MissingPetPostsData = [];
               for(var i = 0; i< postKeys.length;i++){
@@ -322,7 +289,7 @@ export default class MissingPetAdmin extends Component {
             } }
             // --------------------------Available Reports case--------------------------
             else if(available){
-              if(fish || cat || rabbit || bird || dog){
+              if(cat || rabbit || bird || dog){
                 MissingPetPostsData = [];
                 if(cat==true){
                   for(var i = 0; i< postKeys.length;i++){
@@ -460,39 +427,7 @@ export default class MissingPetAdmin extends Component {
                 }         
               } // Bird case end
   
-              // Fish case start 
-              if(fish==true){
-                for(var i = 0; i< postKeys.length;i++){
-                  var postInfo = postKeys[i];
-                  if(post[postInfo].offerStatus !== 'متاح')
-                      continue;
-                  if(post[postInfo].AnimalType !== 'سمك')
-                    continue;
-                  //---------This to save the post info in variables----------
-                  var AniType= post[postInfo].AnimalType; 
-                    var AniPic= post[postInfo].PetPicture; 
-                    var Long= post[postInfo].longitude; 
-                    var Lat= post[postInfo].latitude;
-                    var UserName = post[postInfo].uName;
-                    var offerorID = post[postInfo].userId;  
-                    var postidentification = postInfo;  
-                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                      name= snapshot.val()
-                    })
-                    //----------------Adoption Posts Array-----------------------
-                    MissingPetPostsAfterType[i]={
-                      AnimalType: AniType,
-                      AnimalPic: AniPic,
-                      LongA: Long,
-                      LatA: Lat,
-                      Name:name,
-                      offerorID: offerorID,
-                      postid: postidentification,
-                      offerStatus: Status,//COPY Status------------------------------
-                  }  
-                }         
-              } // Fish end start
+
               
               if( MissingPetPostsAfterType.length ==0){
                 MissingPetPostsAfterType = null
@@ -505,7 +440,7 @@ export default class MissingPetAdmin extends Component {
               MissingPetPostsData = null
             }
             
-            if(!fish && !cat && !rabbit && !bird && !dog ){
+            if(!cat && !rabbit && !bird && !dog ){
                 // ---------No Filter case-----------
                 MissingPetPostsData = [];
                 for(var i = 0; i< postKeys.length;i++){
@@ -540,7 +475,7 @@ export default class MissingPetAdmin extends Component {
             } 
             //----------------------------------------Closed Reports Case------------------------------
             else if(closed){
-              if(fish || cat || rabbit || bird || dog){
+              if(cat || rabbit || bird || dog){
                 MissingPetPostsData = [];
                 if(cat==true){
                   for(var i = 0; i< postKeys.length;i++){
@@ -678,39 +613,6 @@ export default class MissingPetAdmin extends Component {
                 }         
               } // Bird case end
   
-              // Fish case start 
-              if(fish==true){
-                for(var i = 0; i< postKeys.length;i++){
-                  var postInfo = postKeys[i];
-                  if(post[postInfo].offerStatus !== 'مغلق')
-                      continue;
-                  if(post[postInfo].AnimalType !== 'سمك')
-                    continue;
-                  //---------This to save the post info in variables----------
-                  var AniType= post[postInfo].AnimalType; 
-                    var AniPic= post[postInfo].PetPicture; 
-                    var Long= post[postInfo].longitude; 
-                    var Lat= post[postInfo].latitude;
-                    var UserName = post[postInfo].uName;
-                    var offerorID = post[postInfo].userId;  
-                    var postidentification = postInfo;  
-                    var Status = post[postInfo].offerStatus;//COPY Status------------------------------
-                    firebase.database().ref('account/'+offerorID+'/name').on('value',snapshot=>{
-                      name= snapshot.val()
-                    })
-                    //----------------Adoption Posts Array-----------------------
-                    MissingPetPostsAfterType[i]={
-                      AnimalType: AniType,
-                      AnimalPic: AniPic,
-                      LongA: Long,
-                      LatA: Lat,
-                      Name:name,
-                      offerorID: offerorID,
-                      postid: postidentification,
-                      offerStatus: Status,//COPY Status------------------------------
-                  }  
-                }         
-              } // Fish end start
               
               if( MissingPetPostsAfterType.length ==0){
                 MissingPetPostsAfterType = null
@@ -723,7 +625,7 @@ export default class MissingPetAdmin extends Component {
               MissingPetPostsData = null
             }
             
-            if(!fish && !cat && !rabbit && !bird && !dog ){
+            if(!cat && !rabbit && !bird && !dog ){
                 // ---------No Filter case-----------
                 MissingPetPostsData = [];
                 for(var i = 0; i< postKeys.length;i++){
@@ -763,7 +665,7 @@ export default class MissingPetAdmin extends Component {
             return(
             <View style={{ marginBottom:30}}>
             <View style={styles.Post}>
-            <Text style={styles.mandatoryTextStyle}>لا توجد عروض بيع حاليا.</Text>
+            <Text style={styles.mandatoryTextStyle}>لا توجد بلاغات حاليا.</Text>
             </View>
             </View>
              ); 
@@ -931,18 +833,10 @@ export default class MissingPetAdmin extends Component {
             />
             </View>
 
-            <View style={styles.ModalCon}>
-              <Text>سمك</Text>
-              <Checkbox
-              color= {'#69C4C6'}
-              title='optForReceipts'
-              status={this.state.isFish ? 'checked' : 'unchecked'}
-              onPress={() => { this.setState({ isFish: !this.state.isFish }); }}
-            />
-            </View>
+
             </View>
 
-            <Text style={styles.modalText}>تصفية حسب حالة العرض</Text>
+            <Text style={styles.modalText}>تصفية حسب حالة البلاغ</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
               <Text>متوفر</Text>
