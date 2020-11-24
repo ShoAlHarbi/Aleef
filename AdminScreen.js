@@ -1,11 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity,ImageBackground } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import AdoptionOffersScreen from './AdoptionOffersScreen';
-import SellingOffersScreen from './SellingOffersScreen';
-import MissingPetsScreen from './MissingPetPosts';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUsersCog } from '@fortawesome/free-solid-svg-icons'
 
 
 import firebase from './firebase';
@@ -29,52 +27,56 @@ export default class AdminScreen extends Component {
           MissingPetPosts = () => this.props.navigation.navigate('جميع البلاغات')
           MangeAllUsers = () => this.props.navigation.navigate('ادارة المستخدمين')
 
-          renderOffers = async () =>{
-            await new AdoptionOffersScreen().render();
-            await new SellingOffersScreen().render();
-            await new SellingOffersScreen()._onRefresh();
-            await new MissingPetsScreen().render();
-          }
 
           render(){
             this.state = { 
               displayName: firebase.auth().currentUser.displayName,
                 uid: firebase.auth().currentUser.uid
-              } 
-              
-              // call the function to retrive posts
-              {this.renderOffers()}
-
+              }  
               return (
                 <View style={styles.container}>
                   <View style={styles.container2}>
                   <View><TouchableOpacity  onPress={() => this.signOut()} style={styles.button2}>
-                      <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#5F5F5F"}/>
+                      <FontAwesomeIcon icon={ faSignOutAlt }size={40} color={"#283958"}/>
                     </TouchableOpacity>
                   </View>
-                  <Image style={{ width: 65, height: 70,marginTop:50, marginRight:195,}}
+                  <Image style={{ width: 75, height: 85,marginTop:50, marginRight:195,}}
                    source={require('./assets/AleefLogoCat.png')}/>   
                   </View>
 
                    <View style={styles.container3}>
                    <TouchableOpacity onPress={() => this.AdoptionOffers()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>عروض التبني</Text>
+                   <ImageBackground
+                       style={{ width:200, height: 80, }}
+                       source={require('./assets/Adopt.png')} 
+                     >
+                       <Text style={styles.textStyle}>عروض التبني</Text>
+                     </ImageBackground>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => this.SellingOffers()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>عروض البيع</Text>
+                    <ImageBackground
+                       style={{ width:200, height: 80, }}
+                       source={require('./assets/Buy.png')} 
+                     >
+                       <Text style={styles.textStyle}>عروض البيع</Text>
+                     </ImageBackground>
                     </TouchableOpacity>
                     
                     <TouchableOpacity onPress={() => this.MissingPetPosts()}
                        style={styles.button}>
-                    <Text style={styles.textStyle}>الإبلاغ عن حيوان مفقود</Text>
+                     <ImageBackground
+                       style={{ width:200, height: 80, }}
+                       source={require('./assets/lost.png')} 
+                     >
+                       <Text style={styles.textStyle}>البلاغات</Text>
+                     </ImageBackground>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.MangeAllUsers()}
-                       style={styles.button}>
-                    <Text style={styles.textStyle}>ادارة المستخدمين</Text>
+                    <TouchableOpacity onPress={() => this.MangeAllUsers()}>
+                    <FontAwesomeIcon icon={ faUsersCog }size={65} color={"#283958"}/>
                     </TouchableOpacity>
 
                    </View>
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flex: 1,
       flexDirection: 'row',
-      marginBottom:50,
+      marginBottom:100,
   },
   container3: {
     backgroundColor: '#FFFCFC',
@@ -106,14 +108,16 @@ const styles = StyleSheet.create({
     flex: 1,
     width:200,
     flexDirection: 'column',
-    marginBottom: 100,
+    marginBottom: 10,
     padding:150,
 },
-    textStyle:{
-        color: 'white',
-        fontSize: 17,
-        fontWeight: 'bold',
-    },
+textStyle:{
+  color: '#283958',
+  fontSize: 19,
+  fontWeight: 'bold',
+  marginTop:27,
+  marginRight:10
+},
     text:{
         color:'black',
         fontSize: 20,
@@ -121,17 +125,16 @@ const styles = StyleSheet.create({
     },
 
     button: {
-      backgroundColor: '#69C4C6',
+      backgroundColor: '#D4ECEC',
       padding: 10,
-      // width: 185,
       alignItems: "center",
       marginTop: 5,
-      marginBottom: 20,
+      marginBottom: 40,
       borderRadius: 20,
-
-      height: 80,
+      height: 95,
       justifyContent: 'center',
-      width: 200
+      width: 220
+      
   },
     button2: {
       padding: 8,
