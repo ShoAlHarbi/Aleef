@@ -59,9 +59,10 @@ export default class MissingPetAdmin extends Component {
 
          onPressDelete = (postid) => { //new method
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
-           firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
+           firebase.database().ref('/MissingPetPosts/'+postid).remove().then(async (data) => {
+            await this._onRefresh();
              this.readPostData(); 
-             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح.',[{ text: 'حسناً'}])
            });
          }  //new method
 
