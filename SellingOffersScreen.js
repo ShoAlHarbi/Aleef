@@ -2811,7 +2811,7 @@ CloseOffer = (postid) => {
           },
         iconStyle: {
           left: 30,
-          bottom:5
+          bottom:6
         },
         iconStyle2: {
           padding:8,
@@ -2821,6 +2821,7 @@ CloseOffer = (postid) => {
             padding:8,
             left: 105, //--------------------------------------------- Edit offer
             paddingTop: 10,
+            bottom:5
           },
         //----------------------------------
         centeredView: {
@@ -2920,9 +2921,11 @@ CloseOffer = (postid) => {
                 padding:8,
                 left: 135, 
                 paddingTop: 10,
+                bottom:5
               },
               editStyle: {
                 left: 45,
+                bottom:5.7
               },
         //--------------------------------------------- Edit offer
       

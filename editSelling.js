@@ -213,11 +213,11 @@ function edit (){
        <View style={styles.container}>
 
         <Image
-        style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
+        style={{ width: 75, height: 85,marginBottom:10, marginTop:15}}
         source={require('./assets/AleefLogoCat.png')}/>
 
         
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>نوع الحيوان:</Text>
+        <Text style={{marginLeft:155, marginBottom:5,color: '#283958',fontSize: 15,}}>نوع الحيوان:</Text>
         <Picker
         selectedValue={AniType}
         style={{height: 50, width: 160}}
@@ -235,9 +235,9 @@ function edit (){
 
 
 
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>جنس الحيوان:</Text>
+        <Text style={{marginLeft:148, marginBottom:5,color: '#283958',fontSize: 15,}}>جنس الحيوان:</Text>
         <View style={{flexDirection:'row'}}>
-          <Text style={{color: '#5F5F5F',fontSize: 15,paddingTop:6}}>غير معروف</Text>
+          <Text style={{color: '#283958',fontSize: 15,paddingTop:6}}>غير معروف</Text>
           <RadioButton.Group value={AniSex}>
           <RadioButton
           value="غير معروف"
@@ -245,14 +245,14 @@ function edit (){
           color={'#69C4C6'}
           onPress={() => { setChecked('غير معروف'), setAnimalSex('غير معروف') }}
         />
-        <Text style={{color: '#5F5F5F',fontSize: 15,marginLeft:12,paddingTop:6}} >ذكر</Text>
+        <Text style={{color: '#283958',fontSize: 15,marginLeft:12,paddingTop:6}} >ذكر</Text>
         <RadioButton
           value="ذكر"
           status={checked === 'ذكر' ? 'checked' : 'unchecked'}
           color={'#69C4C6'}
           onPress={() =>  { setChecked('ذكر'), setAnimalSex('ذكر') }}
         />
-        <Text style={{color: '#5F5F5F',fontSize: 15, marginLeft:12,paddingTop:6}}>أنثى</Text>
+        <Text style={{color: '#283958',fontSize: 15, marginLeft:12,paddingTop:6}}>أنثى</Text>
         <RadioButton
           value="أنثى"
           status={checked === 'أنثى' ? 'checked' : 'unchecked'}
@@ -264,7 +264,7 @@ function edit (){
 
 
 
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>عمر الحيوان:</Text>
+        <Text style={{marginLeft:154, marginBottom:5,color: '#283958',fontSize: 15,marginTop:6}}>عمر الحيوان:</Text>
           <TextInput
           placeholder="عمر الحيوان (مثال: ستة أشهر)"
           placeholderTextColor="#a3a3a3"
@@ -275,7 +275,7 @@ function edit (){
 
 
 
-<Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>المدينة:</Text>
+<Text style={{marginLeft:177, marginBottom:5,color: '#283958',fontSize: 15,marginTop:6}}>المدينة:</Text>
 <Picker
   selectedValue={AniCity}
   style={{height: 50, width: 160}}
@@ -292,7 +292,7 @@ function edit (){
   <Picker.Item label="مكة المكرمة" value="مكة المكرمة" />
 </Picker>
 
-<Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>السعر:</Text>
+<Text style={{marginLeft:180, marginBottom:5,color: '#283958',fontSize: 15,}}>السعر:</Text>
 <TextInput
           placeholder="السعر (ريال سعودي)"
           placeholderTextColor="#a3a3a3"
@@ -324,52 +324,56 @@ function edit (){
         }
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFCFC',
-    alignItems: 'center',
-    justifyContent: 'center',
-},
-inputField: {
-  borderWidth: .5,
-  width: 250,
-  borderColor: '#cccccc',
-  borderRadius: 20,
-  textAlign: 'center',
-  backgroundColor: 'white',
-  padding: 2,
-  margin: 5,
-},
-button: {
-  backgroundColor: '#69C4C6',
-  padding: 10,
-  width: 150,
-  alignItems: "center",
-  marginTop: 10,
-  marginBottom: 10,
-  borderRadius: 20,
-},
-textStyle: {
-color: 'white',
-fontSize: 17,
-fontWeight: 'bold',
-},
-textStyleUploadPhoto: {
-color: '#5F5F5F',
-fontSize: 16,
-},
-buttonUploadPhoto: {
-backgroundColor: '#e3e3e3',
-padding: 10,
-width: 150,
-alignItems: "center",
-marginTop: 10,
-marginBottom: 10,
-borderRadius: 20,
-},
-itemStyle: {
-textAlign: 'center',
-}
-
-          });          
+        const styles = StyleSheet.create({
+          container: {
+              flex: 1,
+              backgroundColor: '#FFFCFC',
+              alignItems: 'center',
+              justifyContent: 'center',
+          },
+          inputField: {
+            borderWidth: .5,
+            width: 250,
+            marginTop:9,
+            borderColor: '#cccccc',
+            borderRadius: 20,
+            textAlign: 'center',
+            backgroundColor: 'white',
+            padding: 2,
+            margin: 5,
+          },
+          mandatoryTextStyle: {
+            color: '#FF7D4B',
+            fontSize: 13,
+            marginTop: 5,
+          },
+          button: {
+            backgroundColor: '#69C4C6',
+            padding: 10,
+            width: 150,
+            alignItems: "center",
+            marginTop: 22,
+            marginBottom: 50,
+            borderRadius: 20,
+        },
+        textStyle: {
+          color: 'white',
+          fontSize: 17,
+          fontWeight: 'bold',
+        },
+        textStyleUploadPhoto: {
+          color: '#283958',
+          fontSize: 15,
+        },
+        buttonUploadPhoto: {
+          backgroundColor: '#D4ECEC',
+          padding: 10,
+          width: 150,
+          alignItems: "center",
+          marginTop: 15,
+          borderRadius: 20,
+        },
+        itemStyle: {
+          textAlign: 'center',
+        }
+        })         
