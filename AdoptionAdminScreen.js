@@ -60,9 +60,10 @@ export default class AdoptionAdminScreen extends Component {
 
   onPressDelete = (postid) => { 
     AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
-    firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
+    firebase.database().ref('/AdoptionPosts/'+postid).remove().then(async(data) => {
+      await this._onRefresh();
       this.readPostData(); 
-      Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+      Alert.alert('', 'لقد تم حذف عرض التبني بنجاح.',[{ text: 'حسناً'}])
     });
    } 
 
@@ -2510,7 +2511,7 @@ left:120
 },
 //--------------------------------------
 mandatoryTextStyle: { 
-color: '#FF7D4B',
+color: 'red',
 fontSize: 13,
 marginTop: 5,
 textAlign: 'center',

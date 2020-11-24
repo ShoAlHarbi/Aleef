@@ -59,9 +59,10 @@ export default class MissingPetAdmin extends Component {
 
          onPressDelete = (postid) => { //new method
           MissingPetPostsData= MissingPetPostsData.filter(item => item.postid !== postid)
-           firebase.database().ref('/MissingPetPosts/'+postid).remove().then((data) => {
-             this.readPostData(); 
-             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح. الرجاء تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+           firebase.database().ref('/MissingPetPosts/'+postid).remove().then(async(data) => {
+            await this._onRefresh();
+            this.readPostData(); 
+             Alert.alert('', 'لقد تم حذف بلاغ الحيوان المفقود بنجاح.',[{ text: 'حسناً'}])
            });
          }  //new method
 
@@ -680,7 +681,7 @@ export default class MissingPetAdmin extends Component {
                     <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                   <MapView style={styles.mapStyle}
                   region={{
                     latitude: element.LatA,
@@ -699,7 +700,7 @@ export default class MissingPetAdmin extends Component {
                   <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
               </View>
            
@@ -714,7 +715,7 @@ export default class MissingPetAdmin extends Component {
                     <Text style={styles.textTitle}><Text style={styles.text}>اسم صاحب البلاغ: </Text>{element.Name}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>نوع الحيوان: </Text>{element.AnimalType}</Text>
                     <Text style={styles.textTitle}><Text style={styles.text}>حالة البلاغ: </Text>{element.offerStatus}</Text>
-                    <Text style={{color:'#283958', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
+                    <Text style={{color:'black', fontSize: 17,marginRight:12,marginBottom:6}}>{"موقع اخر مشاهدة للحيوان: "}</Text>
                     <MapView style={styles.mapStyle}
                     region={{
                       latitude: element.LatA,
@@ -733,7 +734,7 @@ export default class MissingPetAdmin extends Component {
                     <TouchableOpacity 
                      style={styles.iconStyle}
                      onPress={()=> this.onPressTrashIcon(element.postid)}>
-                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
+                     <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
                     </TouchableOpacity>
                 </View>
              
@@ -755,7 +756,7 @@ export default class MissingPetAdmin extends Component {
           <View style={styles.container}>
             <View style={styles.container2}>
             <View><Image
-                  style={{  width: 75, height: 85,marginBottom:10, marginTop:15 }}
+                  style={{ width: 65, height: 70,marginBottom:18, marginTop:30 }}
                   source={require('./assets/AleefLogoCat.png')}/>
             </View>
             </View>
@@ -794,7 +795,7 @@ export default class MissingPetAdmin extends Component {
             
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text style={styles.text1}>قطط</Text>
+              <Text>قطط</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -804,7 +805,7 @@ export default class MissingPetAdmin extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text style={styles.text1}>كلاب</Text>
+              <Text>كلاب</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -824,7 +825,7 @@ export default class MissingPetAdmin extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text style={styles.text1}>أرانب</Text>
+              <Text>أرانب</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -839,7 +840,7 @@ export default class MissingPetAdmin extends Component {
             <Text style={styles.modalText}>تصفية حسب حالة البلاغ</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text style={styles.text1}>متاح</Text>
+              <Text>متاح</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -849,7 +850,7 @@ export default class MissingPetAdmin extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text style={styles.text1}>مغلق</Text>
+              <Text>مغلق</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -969,7 +970,7 @@ const styles = StyleSheet.create({
     },
 
     mandatoryTextStyle: { 
-     color: '#FF7D4B',
+     color: 'red',
      fontSize: 13,
      marginTop: 5,
      textAlign: 'center'
@@ -980,18 +981,12 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       },
       
-      text:{
-        color:'#283958',
-        fontSize: 17,
-        marginRight:12,
-        marginBottom:5,
-      },
-      text1:{
-        color:'#283958',
-        fontSize: 15,
-        marginRight:12,
-        marginBottom:5,
-      },
+    text:{
+      color:'black',
+      fontSize: 17,
+      marginRight:12,
+      marginBottom:5,
+    },
     textTitle:{
       color:'#3fa5a6', 
       fontSize: 17,
@@ -1013,11 +1008,10 @@ elevation: 2,
 margin: 20,
 width: 150,
 },
-iconStyle2: {
-  padding:8,
-  marginBottom:10,
-  left:120
-  },
+      iconStyle2: {
+        padding:8,
+        left: 150
+        },
 
         ModalCon: {
           flexDirection: 'row',
@@ -1034,7 +1028,6 @@ iconStyle2: {
           textAlign: 'center',
           fontWeight: 'bold',
           fontSize: 18,
-          color:'#3fa5a6'
           },
 
 });
