@@ -88,37 +88,31 @@ export default class ManageUsers extends Component {
           render(){
             
             return(
-              <View style={{flex:1, alignSelf:'center', justifyContent:'center'}}>
-              <FlatList style={{width:'100%'}}
+              <View style={{flex:1, alignSelf:'center', justifyContent:'center',backgroundColor:'#FFFCFC', width:380}}>
+              <FlatList style={{width:'100%', marginLeft:40}}
               data={this.state.AllUsers}
               keyExtractor={(item)=>item.userid}
               renderItem={({item})=>{
               if ( item.status === 'disabled'){ 
               return(
                 <View style={styles.Post} >
-                   <Text style={{textAlign: 'right', fontWeight: 'bold' }} >اسم المستخدم:</Text>
-                   <Text style={{textAlign: 'right'}} >{item.name}</Text>
-                   <Text style={{textAlign: 'right', fontWeight: 'bold'}} >البريد الالكتروني:</Text>
-                   <Text style={{textAlign: 'right'}} >{item.email}</Text>
+                   <Text style={{textAlign: 'right', fontWeight: 'bold',color:'#3fa5a6' }} >اسم المستخدم:</Text>
+                   <Text style={{textAlign: 'right',color:'#283958'}} >{item.name}</Text>
+                   <Text style={{textAlign: 'right', fontWeight: 'bold',color:'#3fa5a6'}} >البريد الالكتروني:</Text>
+                   <Text style={{textAlign: 'right',color:'#283958'}} >{item.email}</Text>
                    <View>
                    <TouchableOpacity style={styles.button} onPress={() => this.enoption(item.userid)} > 
                    <Text style={{color:'white', fontWeight: 'bold'}}>اعادة التفعيل</Text> 
                    </TouchableOpacity>
                    </View>
                 </View>)}
-                else if (item.email === 'undefined'){ 
-                  return
-                }
-                else if (item.email === 'admin@gmail.com'){ 
-
-                }
-                else{
+                else{ 
                   return(
                     <View style={styles.Post} >
-                       <Text style={{textAlign: 'right', fontWeight: 'bold' }} >اسم المستخدم:</Text>
-                       <Text style={{textAlign: 'right'}} >{item.name}</Text>
-                       <Text style={{textAlign: 'right', fontWeight: 'bold'}} >البريد الالكتروني:</Text>
-                       <Text style={{textAlign: 'right'}} >{item.email}</Text>
+                       <Text style={{textAlign: 'right', fontWeight: 'bold',color:'#3fa5a6' }} >اسم المستخدم:</Text>
+                       <Text style={{textAlign: 'right',color:'#283958'}} >{item.name}</Text>
+                       <Text style={{textAlign: 'right', fontWeight: 'bold',color:'#3fa5a6'}} >البريد الالكتروني:</Text>
+                       <Text style={{textAlign: 'right',color:'#283958'}} >{item.email}</Text>
                        <View>
                        <TouchableOpacity style={styles.button} onPress={() => this.disoption(item.userid)} > 
                        <Text style={{color:'white', fontWeight: 'bold'}}>الغاء التفعيل</Text> 
