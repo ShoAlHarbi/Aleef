@@ -262,11 +262,11 @@ async function edit (){
        <View style={styles.container}>
 
         <Image
-        style={{ width: 65, height: 70,marginBottom:30,marginTop:30,}}
+        style={{width: 75, height: 85,marginBottom:10, marginTop:15}}
         source={require('./assets/AleefLogoCat.png')}/>
 
         
-        <Text style={{marginLeft:145, marginBottom:5,color: '#5F5F5F',fontSize: 15,}}>نوع الحيوان:</Text>
+        <Text style={{marginLeft:145, marginBottom:5,color: '#283958',fontSize: 15,}}>نوع الحيوان:</Text>
         <Picker
         selectedValue={AniType}
         style={{height: 50, width: 160}}
@@ -288,7 +288,7 @@ async function edit (){
                     {RenderUploading()}
 
 
-                    <Text style={{color: '#5F5F5F', fontSize: 16, marginBottom:10, marginTop:10}}>تحديد موقع اخر مشاهدة للحيوان</Text>
+                    <Text style={{color: '#283958', fontSize: 16, marginBottom:10, marginTop:10}}>تحديد موقع اخر مشاهدة للحيوان</Text>
                         <MapView style={styles.mapStyle} 
                          initialRegion={{
                           latitude:  24.774265,
@@ -361,23 +361,22 @@ fontSize: 17,
 fontWeight: 'bold',
 },
 textStyleUploadPhoto: {
-color: '#5F5F5F',
-fontSize: 16,
+  color: '#283958',
+  fontSize: 15,
 },
 buttonUploadPhoto: {
-backgroundColor: '#e3e3e3',
-padding: 10,
-width: 150,
-alignItems: "center",
-marginTop: 10,
-marginBottom: 10,
-borderRadius: 20,
+  backgroundColor: '#D4ECEC',
+  padding: 10,
+  width: 150,
+  alignItems: "center",
+  marginTop: 15,
+  borderRadius: 20,
 },
 itemStyle: {
 textAlign: 'center',
 },
 mapStyle: {
-  width: 300,
-  height: 220,
+  width: 250,
+  height: 180,
 },
  });          
