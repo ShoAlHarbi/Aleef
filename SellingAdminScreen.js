@@ -69,10 +69,9 @@ export default class SellingAdminScreen extends Component {
 
         onPressDelete = (postid) => {
           SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
-          firebase.database().ref('/SellingPosts/'+postid).remove().then(async (data) => {
-            await this._onRefresh();
-            this.readPostData();
-            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح.',[{ text: 'حسناً'}]) //added 2
+          firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
+            this.readPostData(); 
+            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}]) //added 2
           }); 
          } 
 
@@ -2310,7 +2309,7 @@ export default class SellingAdminScreen extends Component {
                     <TouchableOpacity 
                          style={styles.iconStyle}
                          onPress={()=> this.onPressTrashIcon(element.postid)}>
-                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                         </TouchableOpacity>
                     </View>
                  
@@ -2333,7 +2332,7 @@ export default class SellingAdminScreen extends Component {
                     <TouchableOpacity 
                          style={styles.iconStyle}
                          onPress={()=> this.onPressTrashIcon(element.postid)}>
-                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#69C4C6"}/>
+                         <FontAwesomeIcon icon={ faTrashAlt }size={30} color={"#FF7D4B"}/>
                         </TouchableOpacity>
                       </View>
                    
@@ -2357,7 +2356,7 @@ export default class SellingAdminScreen extends Component {
                 <View style={styles.container}>
                   <View style={styles.container2}>
                   <View><Image
-                        style={{ width: 65, height: 70,marginBottom:18, marginTop:30 }}
+                        style={{ width: 75, height: 85,marginBottom:10, marginTop:15 }}
                         source={require('./assets/AleefLogoCat.png')}/>
                   </View>
                   </View>
@@ -2396,7 +2395,7 @@ export default class SellingAdminScreen extends Component {
             </View>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>قطط</Text>
+              <Text style={styles.text1}>قطط</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2406,7 +2405,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>كلاب</Text>
+              <Text style={styles.text1}>كلاب</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2416,7 +2415,7 @@ export default class SellingAdminScreen extends Component {
             </View>
             
             <View style={styles.ModalCon}>
-              <Text>عصافير</Text>
+              <Text style={styles.text1}>عصافير</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2426,7 +2425,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>أرانب</Text>
+              <Text style={styles.text1}>أرانب</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2436,7 +2435,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>سمك</Text>
+              <Text style={styles.text1}>سمك</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2449,7 +2448,7 @@ export default class SellingAdminScreen extends Component {
             <Text style={styles.modalText}>تصفية حسب المدينة</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>الرياض</Text>
+              <Text style={styles.text1}>الرياض</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2459,7 +2458,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>القصيم</Text>
+              <Text style={styles.text1}>القصيم</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2469,7 +2468,7 @@ export default class SellingAdminScreen extends Component {
             </View>
             
             <View style={styles.ModalCon}>
-              <Text>المدينة المنورة</Text>
+              <Text style={styles.text1}>المدينة المنورة</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2479,7 +2478,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>المنطقة الشرقية</Text>
+              <Text style={styles.text1}>المنطقة الشرقية</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2489,7 +2488,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>جدة</Text>
+              <Text style={styles.text1}>جدة</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2499,7 +2498,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>حائل</Text>
+              <Text style={styles.text1}>حائل</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2509,7 +2508,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>مكة المكرمة</Text>
+              <Text style={styles.text1}>مكة المكرمة</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2522,7 +2521,7 @@ export default class SellingAdminScreen extends Component {
             <Text style={styles.modalText}>تصفية حسب حالة العرض</Text>
             <View style={styles.checkBoxContainer}>
             <View style={styles.ModalCon}>
-              <Text>متاح</Text>
+              <Text style={styles.text1}>متاح</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2532,7 +2531,7 @@ export default class SellingAdminScreen extends Component {
             </View>
 
             <View style={styles.ModalCon}>
-              <Text>مغلق</Text>
+              <Text style={styles.text1}>مغلق</Text>
               <Checkbox
               color= {'#69C4C6'}
               title='optForReceipts'
@@ -2563,145 +2562,153 @@ export default class SellingAdminScreen extends Component {
         } 
         }
     
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#FFFCFC',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-    },
-    container2: {
-      backgroundColor: '#FFFCFC',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 1,
-      flexDirection: 'row'
-  },
-
-    button: {
-        backgroundColor: '#69C4C6',
-        padding: 10,
-        width: 150,
-        alignItems: "center",
-        marginBottom: 25,
-        marginTop: 15,
-        borderRadius: 20,
-
-    },
-    button2: {
-      padding: 8,
-      width: 115,
-      marginLeft: 80,
-      marginBottom:200
-  },
-  Post:{
-    backgroundColor:'white',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 9,
-    width:310,
-    borderRadius:16
-    },
-    iconStyle: {
-      padding:8,
-      left: 30
-    },
-    iconStyle2: {
-      padding:8,
-      left: 150
-    },
-   //--------------------------------------
-    mandatoryTextStyle: { 
-    color: 'red',
-    fontSize: 13,
-    marginTop: 5,
-    textAlign: 'center',
-    },
-  //--------------------------------------
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    height: 745,
-    width: 350,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    margin: 20,
-    width: 150,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  dialogContentView: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  button_1: {
-    width: '40%',
-    height: 30,
-  },
-
-  ModalCon: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    
-  },
-  checkBoxContainer: {
-    alignSelf: 'flex-end',
-    alignItems: 'flex-end'
-  },
-  text:{
-    color:'black',
-    fontSize: 17,
-    marginRight:12,
-    marginBottom:5,
-  },
-  textTitle:{
-    color:'#3fa5a6', 
-    fontSize: 17,
-    marginRight:12,
-    marginBottom:5,
-  },
-  PostPic:{
-    borderRadius: 6,
-    width: 290, 
-    height: 160 ,
-    marginLeft:10,
-    marginTop:12,marginBottom:7
-    },
-
-});
+        const styles = StyleSheet.create({
+          container: {
+            backgroundColor: '#FFFCFC',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flex: 1,
+          },
+          container2: {
+          backgroundColor: '#FFFCFC',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          flexDirection: 'row'
+          },
+          
+          button: {
+            backgroundColor: '#69C4C6',
+            padding: 10,
+            width: 150,
+            alignItems: "center",
+            marginBottom: 25,
+            marginTop: 15,
+            borderRadius: 20,
+          
+          },
+          button2: {
+          padding: 8,
+          width: 115,
+          marginLeft: 80,
+          marginBottom:200
+          },
+          Post:{
+          backgroundColor:'white',
+          shadowColor: "#000",
+          shadowOffset: {
+          width: 0,
+          height: 5,
+          },
+          shadowOpacity: 0.34,
+          shadowRadius: 6.27,
+          elevation: 9,
+          width:310,
+          borderRadius:16
+          },
+          iconStyle: {
+          padding:8,
+          left: 30
+          },
+          iconStyle2: {
+          padding:8,
+          marginBottom:10,
+          left:120
+          },
+          //--------------------------------------
+          mandatoryTextStyle: { 
+          color: '#FF7D4B',
+          fontSize: 13,
+          marginTop: 5,
+          textAlign: 'center',
+          },
+          //--------------------------------------
+          centeredView: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 10,
+          },
+          modalView: {
+          margin: 20,
+          backgroundColor: 'white',
+          borderRadius: 20,
+          padding: 35,
+          alignItems: 'center',
+          shadowColor: '#000',
+          height: 745,
+          width: 350,
+          shadowOffset: {
+          width: 0,
+          height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          },
+          openButton: {
+          backgroundColor: '#F194FF',
+          borderRadius: 20,
+          padding: 10,
+          elevation: 2,
+          margin: 20,
+          width: 150,
+          },
+          textStyle: {
+          color: 'white',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          },
+          modalText: {
+            marginBottom: 15,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 18,
+            color:'#3fa5a6'
+          },
+          dialogContentView: {
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          },
+          button_1: {
+          width: '40%',
+          height: 30,
+          },
+          
+          ModalCon: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          
+          },
+          checkBoxContainer: {
+          alignSelf: 'flex-end',
+          alignItems: 'flex-end'
+          },
+          text:{
+            color:'#283958',
+            fontSize: 17,
+            marginRight:12,
+            marginBottom:5,
+          },
+          text1:{
+            color:'#283958',
+            fontSize: 15,
+            marginRight:12,
+            marginBottom:5,
+          },
+          textTitle:{
+          color:'#3fa5a6', 
+          fontSize: 17,
+          marginRight:12,
+          marginBottom:5,
+          },
+          PostPic:{
+          borderRadius: 6,
+          width: 290, 
+          height: 160 ,
+          marginLeft:10,
+          marginTop:12,marginBottom:7
+          },
+          
+          });
