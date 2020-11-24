@@ -190,7 +190,7 @@ function edit (){
     City: AniCity,
     PetPicture: AniPic,
   }).then((data) => {
-    Alert.alert('', 'تم حفظ التغييرات بنجاح',[{ text: 'حسناً'}])
+    Alert.alert('', 'تم حفظ التغييرات بنجاح.',[{ text: 'حسناً'}])
   });
   navigation.navigate('عروض التبني')
 }

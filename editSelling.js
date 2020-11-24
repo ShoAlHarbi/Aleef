@@ -201,7 +201,7 @@ function edit (){
     PetPicture: AniPic,
     price: AniPrice.trim(),
   }).then((data) => {
-    Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
+    Alert.alert('', 'تم حفظ التغييرات بنجاح.',[{ text: 'حسناً'}])
   });
   navigation.navigate('عروض البيع')
 }
