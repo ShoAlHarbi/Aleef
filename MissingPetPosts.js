@@ -47,6 +47,12 @@ export default class MissingPetPosts extends Component {
 
         NearReports = () => this.props.navigation.navigate('بلاغات قريبة مني')
 
+        componentDidMount = async()=>{
+          await this._onRefresh();
+        }
+        componentDidUpdate = async () =>{
+          await this._onRefresh();
+        }
 
 //------------------------ EDIT 1 start-------------------------------------
 onPressEditIcon = (postid,Name,AnimalType,AnimalPic,Lat,Long) => {

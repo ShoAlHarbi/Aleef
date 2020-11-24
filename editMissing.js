@@ -245,7 +245,7 @@ function edit (){
     latitude: AniLat,
     longitude: AniLong,
   }).then((data) => {
-    Alert.alert('', 'تم حفظ التغييرات بنجاح، يرجى تحديث صفحة البلاغات',[{ text: 'حسناً'}])
+    Alert.alert('', 'تم حفظ التغييرات بنجاح.',[{ text: 'حسناً'}])
   });
   nearUsers();   
   navigation.navigate('البلاغات')

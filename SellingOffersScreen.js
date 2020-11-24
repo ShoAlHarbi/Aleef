@@ -48,11 +48,11 @@ export default class SellingOffersScreen extends Component {
           setTimeout(() => this.setState({ refreshing: false }), 1000);
         }
 
-        componentDidMount = ()=>{
-          this.render();
+        componentDidMount = async()=>{
+          await this._onRefresh();
         }
-        componentDidUpdate = () =>{
-          this.render();
+        componentDidUpdate = async () =>{
+          await this._onRefresh();
         }
 
 
@@ -220,7 +220,6 @@ CloseOffer = (postid) => {
               var postKeys = Object.keys(post);// to find the post keys and put them in an array
               postKeys2 = []
               var name;
-              console.log(post)
               //------------------------Closed AND Available offers case-------------------------------
               if((!available && !closed) || (available && closed)){
               // ------------City cases------------
@@ -484,7 +483,6 @@ CloseOffer = (postid) => {
                 }         
               } // end Makkah case
               console.log('Array length '+SellingPostsAfterCities.length)
-              console.log(postKeys2)
               // If no posts were found, we will assign null to AdoptionPostsAfterCities
               if(postKeys2.length==0){
                 SellingPostsAfterCities = null
@@ -683,7 +681,6 @@ CloseOffer = (postid) => {
               SellingPostsData = SellingPostsAfterType
             
               console.log('before Exist')
-              console.log(SellingPostsAfterType)
           } 
           // If the filter only by Animal type
           else if(fish || cat || rabbit || bird || dog){
@@ -1192,7 +1189,6 @@ CloseOffer = (postid) => {
                   }         
                 } // end Makkah case
                 console.log('Array length '+SellingPostsAfterCities.length)
-                console.log(postKeys2)
                 // If no posts were found, we will assign null to AdoptionPostsAfterCities
                 if(postKeys2.length==0){
                   SellingPostsAfterCities = null
@@ -1401,7 +1397,6 @@ CloseOffer = (postid) => {
                 SellingPostsData = SellingPostsAfterType
               
                 console.log('before Exist')
-                console.log(SellingPostsAfterType)
             } 
             // If the filter only by Animal type
             else if(fish || cat || rabbit || bird || dog){
@@ -1923,7 +1918,6 @@ CloseOffer = (postid) => {
                   }         
                 } // end Makkah case
                 console.log('Array length '+SellingPostsAfterCities.length)
-                console.log(postKeys2)
                 // If no posts were found, we will assign null to AdoptionPostsAfterCities
                 if(postKeys2.length==0){
                   SellingPostsAfterCities = null
@@ -2132,7 +2126,6 @@ CloseOffer = (postid) => {
                 SellingPostsData = SellingPostsAfterType
               
                 console.log('before Exist')
-                console.log(SellingPostsAfterType)
             } 
             // If the filter only by Animal type
             else if(fish || cat || rabbit || bird || dog){
