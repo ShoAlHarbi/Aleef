@@ -2510,7 +2510,7 @@ left:120
 },
 //--------------------------------------
 mandatoryTextStyle: { 
-color: 'red',
+color: '#FF7D4B',
 fontSize: 13,
 marginTop: 5,
 textAlign: 'center',
