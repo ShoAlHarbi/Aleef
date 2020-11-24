@@ -122,7 +122,7 @@ CloseOffer = (postid) => {
     offerStatus: 'مغلق'
   }).then((data) => {
     this.readPostData(); 
-    Alert.alert('', 'لقد تم إغلاق عرض البيع بنجاح, الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}])
+    Alert.alert('', 'لقد تم إغلاق عرض البيع بنجاح.',[{ text: 'حسناً'}])
   });
 }
 //------------------------------------------------------------
@@ -148,9 +148,10 @@ CloseOffer = (postid) => {
 
         onPressDelete = (postid) => { 
           SellingPostsData=SellingPostsData.filter(item => item.postid !== postid) //added 1
-          firebase.database().ref('/SellingPosts/'+postid).remove().then((data) => {
+          firebase.database().ref('/SellingPosts/'+postid).remove().then(async(data) => {
+            await this._onRefresh();
             this.readPostData(); 
-            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح. الرجاء تحديث صفحة عروض البيع',[{ text: 'حسناً'}]) //added 2
+            Alert.alert('', 'لقد تم حذف عرض البيع بنجاح.',[{ text: 'حسناً'}]) //added 2
           }); 
          } 
 

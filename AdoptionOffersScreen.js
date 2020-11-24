@@ -117,7 +117,7 @@ CloseOffer =   (postid) => {
     offerStatus: 'مغلق'
   }).then( (data) => {
     this.readPostData();
-    Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+    Alert.alert('', 'لقد تم إغلاق عرض التبني بنجاح.',[{ text: 'حسناً'}])
   });
 }
 //------------------------------------------------------------
@@ -152,9 +152,10 @@ CloseOffer =   (postid) => {
 
         onPressDelete = (postid) => {
           AdoptionPostsData=AdoptionPostsData.filter(item => item.postid !== postid)
-          firebase.database().ref('/AdoptionPosts/'+postid).remove().then((data) => {
+          firebase.database().ref('/AdoptionPosts/'+postid).remove().then(async(data) => {
+            await this._onRefresh();
             this.readPostData(); 
-            Alert.alert('', 'لقد تم حذف عرض التبني بنجاح, الرجاء تحديث صفحة عروض التبني',[{ text: 'حسناً'}])
+            Alert.alert('', 'لقد تم حذف عرض التبني بنجاح.',[{ text: 'حسناً'}])
           });
          }
 
